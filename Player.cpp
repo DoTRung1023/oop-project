@@ -97,6 +97,7 @@ Animal* Player:: getAnimal(string animalName){
             return animalList[i]; 
         }
     }
+    return nullptr; //If can not find the animal with "animalName" then return nullptr
 }
 
 //Setter:
