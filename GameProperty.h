@@ -23,7 +23,7 @@ private:
     ChessPiece** pieces;
     int width;
     int height;
-    Player** players;
+    Player* players;
     Animal** redAnimals;
     Animal** blueAnimals;
     Fortress* redFortress;
@@ -31,7 +31,7 @@ private:
     Soldier** redSoldiers;
     Soldier** blueSoldiers;
 public:
-    GameProperty(int width, int height, const char* imageFile[18], string name);
+    GameProperty(int width, int height, const char* imageFile[18], string gameName);
     void createPlayers();
     void createPiece(const char* imageFile[18]);
     void drawSquares();
