@@ -7,7 +7,7 @@ Player:: Player():Player(""){}
 Player::Player(string name): name(name){
     animalList = new Animal*[8];
     fortress = new Fortress;
-    soldierList = new Soldier*[2];
+    soldierList = new Soldier*[3];
 }
 Animal** Player::getAnimalList(){
     return animalList;

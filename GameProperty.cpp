@@ -66,8 +66,8 @@ void GameProperty::createPlayers(){
     redAnimals[7] = new AfricanElephant;
     for(int i = 0; i<8; i++){
         pieces[index] = redAnimals[i];
-        index++;
         pieces[index]->pieceID = i;
+        index++;
     }
     // fortress
     redFortress = players1->getFortress();
@@ -75,7 +75,7 @@ void GameProperty::createPlayers(){
     index++;
     // soldiers
     redSoldiers = players1->getSoldierList();
-    for(int i = 0; i<2; i++){
+    for(int i = 0; i<3; i++){
         pieces[index] = redSoldiers[i];
         index++;
     }
@@ -93,8 +93,8 @@ void GameProperty::createPlayers(){
     blueAnimals[7] = new AfricanElephant;
     for(int i = 0; i<8; i++){
         pieces[index] = blueAnimals[i];
-        index++;
         pieces[index]->pieceID = i+8;
+        index++;
     }
     // fortress
     blueFortress = players2->getFortress();
@@ -102,7 +102,7 @@ void GameProperty::createPlayers(){
     index++;
     // soldiers
     blueSoldiers = players2->getSoldierList();
-    for(int i = 0; i<2; i++){
+    for(int i = 0; i<3; i++){
         pieces[index] = blueSoldiers[i];
         index++;
     }
