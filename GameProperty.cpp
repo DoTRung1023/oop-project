@@ -52,11 +52,10 @@ GameProperty::GameProperty(int width, int height, const char* imageFile[18], str
 
 void GameProperty::createPlayers(){
     int index = 0;
-    players = new Player[2];
-    // set red player property
-    players[0].setName("red");
+    // set player 1
+    players1 = new Player("red");
     // animal
-    redAnimals = players[0].getAnimalList();
+    redAnimals = players1->getAnimalList();
     redAnimals[0] = new BullDog;
     redAnimals[1] = new Poodle;
     redAnimals[2] = new Shepherd;
@@ -71,19 +70,19 @@ void GameProperty::createPlayers(){
         pieces[index]->pieceID = i;
     }
     // fortress
-    redFortress = players[0].getFortress();
+    redFortress = players1->getFortress();
     pieces[index] = redFortress;
     index++;
     // soldiers
-    redSoldiers = players[0].getSoldierList();
+    redSoldiers = players1->getSoldierList();
     for(int i = 0; i<2; i++){
         pieces[index] = redSoldiers[i];
         index++;
     }
     // set blue player property
-    players[1].setName("blue");
+    players2 = new Player("blue");
     // animals
-    Animal** blueAnimals = players[1].getAnimalList();
+    Animal** blueAnimals = players2->getAnimalList();
     blueAnimals[0] = new BullDog;
     blueAnimals[1] = new Poodle;
     blueAnimals[2] = new Shepherd;
@@ -98,11 +97,11 @@ void GameProperty::createPlayers(){
         pieces[index]->pieceID = i+8;
     }
     // fortress
-    blueFortress = players[1].getFortress();
+    blueFortress = players2->getFortress();
     pieces[index] = blueFortress;
     index++;
     // soldiers
-    blueSoldiers = players[1].getSoldierList();
+    blueSoldiers = players2->getSoldierList();
     for(int i = 0; i<2; i++){
         pieces[index] = blueSoldiers[i];
         index++;

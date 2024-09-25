@@ -7,6 +7,9 @@
 #include <SFML/Graphics.hpp>
 #include "ChessPiece.h"
 #include "Player.h"
+#include "Animal.h"
+#include "Soldier.h"
+#include "Fortress.h"
 #include <iostream>
 #include <string>
 
@@ -23,7 +26,8 @@ private:
     ChessPiece** pieces;
     int width;
     int height;
-    Player* players;
+    Player* players1;
+    Player* players2;
     Animal** redAnimals;
     Animal** blueAnimals;
     Fortress* redFortress;
