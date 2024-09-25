@@ -2,12 +2,25 @@
 #include <SFML/Window.hpp>
 #include <SFML/Audio.hpp>
 #include <SFML/Graphics.hpp>
+#include "ChessPiece.h"
 #include "GameProperty.h"
+#include "Player.h"
+#include "Animal.h"
+#include "Fortress.h"
+#include "Soldier.h"
+#include "BullDog.h"
+#include "Poodle.h"
+#include "Shepherd.h"
+#include "Mickey.h"
+#include "Rat.h"
+#include "Cactus.h"
+#include "IndianElephant.h"
+#include "AfricanElephant.h"
 
 using namespace std;
 using namespace sf;
 
-GameProperty::GameProperty(int width, int height, const char *imageFile[18], string name){
+GameProperty::GameProperty(int width, int height, const char* imageFile[18], string name){
     // colorsNeed for board
     colorsNeed[0].r = 181; // wood color
     colorsNeed[0].g = 123; 
@@ -30,29 +43,86 @@ GameProperty::GameProperty(int width, int height, const char *imageFile[18], str
     this->width = width;
     this->height = height;
     setHolders();
-    // load image to texture
-    // IntRect blank;
-    for(int i = 0; i<18; i++){
-        // pieceTexture[i].loadFromFile(imageFile[i], blank);
-        pieceTexture[i].loadFromFile(imageFile[i]);
+    createPlayers();
+    createPiece(imageFile);
+    mapPieces();
+    pieces = new ChessPiece*[63];
+    win.create(VideoMode(width, height), name);
+}
+
+void GameProperty::createPlayers(){
+    int index = 0;
+    players = new Player*[2];
+    // set red player property
+    players[0]->setName("red");
+    // animal
+    redAnimals = players[0]->getAnimalList();
+    redAnimals[0] = new BullDog;
+    redAnimals[1] = new Poodle;
+    redAnimals[2] = new Shepherd;
+    redAnimals[3] = new Mickey;
+    redAnimals[4] = new Rat;
+    redAnimals[5] = new Cactus;
+    redAnimals[6] = new IndianElephant;
+    redAnimals[7] = new AfricanElephant;
+    for(int i = 0; i<8; i++){
+        pieces[index] = redAnimals[i];
+        index++;
+        pieces[index]->pieceID = i;
     }
-    // set texture to piece
+    // fortress
+    redFortress = players[0]->getFortress();
+    pieces[index] = redFortress;
+    index++;
+    // soldiers
+    redSoldiers = players[0]->getSoldierList();
+    for(int i = 0; i<2; i++){
+        pieces[index] = redSoldiers[i];
+        index++;
+    }
+    // set blue player property
+    players[1]->setName("blue");
+    // animals
+    Animal** blueAnimals = players[1]->getAnimalList();
+    blueAnimals[0] = new BullDog;
+    blueAnimals[1] = new Poodle;
+    blueAnimals[2] = new Shepherd;
+    blueAnimals[3] = new Mickey;
+    blueAnimals[4] = new Rat;
+    blueAnimals[5] = new Cactus;
+    blueAnimals[6] = new IndianElephant;
+    blueAnimals[7] = new AfricanElephant;
+    for(int i = 0; i<8; i++){
+        pieces[index] = blueAnimals[i];
+        index++;
+        pieces[index]->pieceID = i+8;
+    }
+    // fortress
+    blueFortress = players[1]->getFortress();
+    pieces[index] = blueFortress;
+    index++;
+    // soldiers
+    blueSoldiers = players[1]->getSoldierList();
+    for(int i = 0; i<2; i++){
+        pieces[index] = blueSoldiers[i];
+        index++;
+    }
+}
+void GameProperty::createPiece(const char* imageFile[18]){
     int index = 0;
     for(int i = 0; i<7; i++){
         for(int j = 0; j<9; j++){
-            pieces[index].pieceID = boardIndex.index[i][j];
-            pieces[index].x = i;
-            pieces[index].y = j;
-            if(pieces[index].pieceID != -1){
-                pieces[index].image.setTexture(pieceTexture[pieces[index].pieceID], true);
-                pieces[index].draw = 1;
+            pieces[index]->x = i;
+            pieces[index]->y = j;
+            if(pieces[index]->pieceID != -1){
+                pieces[index]->setImage(imageFile[pieces[index]->pieceID]);
+                pieces[index]->draw = 1;
             }
             index++;
         }
     }
-    mapPieces();
-    win.create(VideoMode(width, height), name);
 }
+
 void GameProperty::drawSquares(){
     for(int i = 0; i<7; i++){
         for(int j = 0; j<9; j++){
@@ -63,12 +133,11 @@ void GameProperty::drawSquares(){
 
 void GameProperty::drawImage(){
     for(int i = 0; i<63; i++){
-        if(pieces[i].draw == 1){
-            win.draw(pieces[i].image);
+        if(pieces[i]->draw == 1){
+            win.draw(pieces[i]->image);
         }
     }
 }
-
 void GameProperty::setHolders(){
     for(int i = 0; i<7; i++){
         for(int j = 0; j<9; j++){
@@ -81,9 +150,9 @@ void GameProperty::setHolders(){
 
 void GameProperty::mapPieces(){
     for(int i = 0; i<63; i++){
-        if(pieces[i].draw == 1){
-            pieces[i].image.setPosition(sf::Vector2f(holder.left + (pieces[i].x * holder.width / 7), holder.top + (pieces[i].y * holder.height / 9)));
-            pieces[i].image.setScale(holder.width / 1470.f, holder.height / 1890.f);
+        if(pieces[i]->draw == 1){
+            pieces[i]->image.setPosition(sf::Vector2f(holder.left + (pieces[i]->x * holder.width / 7), holder.top + (pieces[i]->y * holder.height / 9)));
+            pieces[i]->image.setScale(holder.width / 1470.f, holder.height / 1890.f);
         }
     }
 }
