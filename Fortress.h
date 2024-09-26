@@ -8,6 +8,7 @@ public:
     Fortress();
     string getName();
     void setName(string name); 
+    ~Fortress(); 
 
 };
 

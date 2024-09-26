@@ -14,6 +14,7 @@ class Soldier:public Character
 {
 public:
     Soldier();
+    ~Soldier(); 
 };
 
 #endif

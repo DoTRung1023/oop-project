@@ -26,6 +26,7 @@ public:
     virtual void setName(string name);
     void setEquipment(int equipmentID);
     string getEquipmentName(int weaponID);
+    virtual ~Character(); 
 };
 
 #endif

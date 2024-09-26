@@ -52,3 +52,6 @@ string Character::getEquipmentName(int weaponID){
     }   
     return result; 
 }
+Character::~Character(){
+
+}

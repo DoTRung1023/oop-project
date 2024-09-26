@@ -13,3 +13,4 @@ void Fortress::setName(string name){
     this->name = name;
 }
 
+Fortress::~Fortress(){}

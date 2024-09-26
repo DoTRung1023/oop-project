@@ -18,6 +18,7 @@ public:
     Animal(); 
     string getName() = 0;
     void setName(string name) = 0;
+    ~Animal(); 
 };
 
 #endif
