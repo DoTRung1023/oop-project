@@ -58,6 +58,7 @@ public:
     void setHolders();
     void mapPieces();
     void run();
+    ~GameProperty(); 
 };
 
 #endif

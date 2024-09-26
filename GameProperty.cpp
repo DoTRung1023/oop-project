@@ -51,34 +51,21 @@ GameProperty::GameProperty(int width, int height, const char* imageFile[18], str
 }
 
 void GameProperty::createPlayers(){
-    // set player 1
+    // set red player property (player 1):
     players1 = new Player("red");
-    // animal
+    // animal1
     redAnimals = players1->getAnimalList();
-    redAnimals[0] = new BullDog;
-    redAnimals[1] = new Poodle;
-    redAnimals[2] = new Shepherd;
-    redAnimals[3] = new Mickey;
-    redAnimals[4] = new Rat;
-    redAnimals[5] = new Cactus;
-    redAnimals[6] = new IndianElephant;
-    redAnimals[7] = new AfricanElephant;
-    // fortress
+    
+    // fortress1
     redFortress = players1->getFortress();
-    // soldiers
+    // soldiers1
     redSoldiers = players1->getSoldierList();
+
     // set blue player property (Player 2):
     players2 = new Player("blue");
     // animals
-    Animal** blueAnimals = players2->getAnimalList();
-    blueAnimals[0] = new BullDog;
-    blueAnimals[1] = new Poodle;
-    blueAnimals[2] = new Shepherd;
-    blueAnimals[3] = new Mickey;
-    blueAnimals[4] = new Rat;
-    blueAnimals[5] = new Cactus;
-    blueAnimals[6] = new IndianElephant;
-    blueAnimals[7] = new AfricanElephant;
+    blueAnimals = players2->getAnimalList();
+
     // fortress
     blueFortress = players2->getFortress();
     // soldiers
@@ -216,4 +203,25 @@ void GameProperty::run(){
         drawImage();
         win.display();
     }
+}
+
+GameProperty:: ~GameProperty(){
+    //Delete animal:
+    for(int i = 0; i<8; i++){
+        delete redAnimals[i];
+        delete blueAnimals[i]; 
+    }
+    delete[] redAnimals; 
+    delete[] blueAnimals; 
+
+    //Delete soldier:
+    for(int i = 0; i<3; i++){
+        delete redSoldiers[i]; 
+        delete blueSoldiers[i];
+    }
+    delete[] blueSoldiers; 
+    delete[] redSoldiers; 
+    delete blueFortress; 
+    delete redFortress; 
+
 }
