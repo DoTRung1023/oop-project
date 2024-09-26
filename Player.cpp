@@ -41,5 +41,6 @@ Player:: ~Player(){
     }
     delete[] animalList; 
     delete[] soldierList; 
+    delete fortress; 
 
 }
