@@ -21,6 +21,7 @@ class Player{
         Soldier** getSoldierList();
         void setName(string name);
         string getName();
+        ~Player(); 
 };
 
 #endif

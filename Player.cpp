@@ -31,3 +31,15 @@ void Player::setName(string name){
 string Player::getName(){
     return name;
 }
+
+Player:: ~Player(){
+    for(int i = 0; i<8; i++){
+        delete animalList[i]; 
+    }
+    for(int i = 0;i <3; i++){
+        delete soldierList[i];
+    }
+    delete[] animalList; 
+    delete[] soldierList; 
+
+}
