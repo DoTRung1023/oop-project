@@ -6,6 +6,7 @@
 #include <string>
 #include "GameProperty.h"
 #include "ChessPiece.h"
+#include "GameMove.h"
 
 const char* imageFile[18] = {"./Assets/Pieces/Default/rbulldog.png",
                             "./Assets/Pieces/Default/rpoodle.png",

@@ -17,6 +17,7 @@
 #include "IndianElephant.h"
 #include "AfricanElephant.h"
 #include "Character.h"
+#include "GameMove.h"
 
 using namespace std;
 using namespace sf;
@@ -72,7 +73,7 @@ void GameProperty::createPlayers(){
     blueSoldiers = players2->getSoldierList();
 }
 void GameProperty::createPiece(const char* imageFile[18]){
-    // Texture pieceTexture[18]; Add to gameProperty class:
+    Board currentBoard = moveAnimal.getBoard();
     // load image to texture
     // IntRect blank;
     for(int i = 0; i<18; i++){
@@ -83,7 +84,7 @@ void GameProperty::createPiece(const char* imageFile[18]){
     int index = 0;
     for(int i = 0; i<7; i++){
         for(int j = 0; j<9; j++){
-            pieces[index].pieceID = board.index[i][j];
+            pieces[index].pieceID = currentBoard.index[i][j];
             pieces[index].x = i;
             pieces[index].y = j;
             if(pieces[index].pieceID != -1){
@@ -171,7 +172,27 @@ void GameProperty::mapPieces(){
     }
 }
 
+void GameProperty::mapPieces(Move moving){
+    ChessPiece *current;
+    for (int i = 0; i < 63; ++i){
+        if (pieces[i].draw == 1){
+            if (pieces[i].x == moving.old_X && pieces[i].y == moving.old_Y){
+                current = &pieces[i];
+            }
+            if (pieces[i].x == moving.new_X && pieces[i].y == moving.new_Y){
+                pieces[i].draw = 0;
+            }
+        }
+    }
+    current->x = moving.new_X;
+    current->y = moving.new_Y;
+    current->image.setPosition(sf::Vector2f(holder.left + (current->x * holder.width / 8), holder.top + (current->y * holder.height / 8)));
+    current->image.setScale(holder.width / 1470.f, holder.height / 1890.f);
+}
+
+
 void GameProperty::run(){
+    Board currentBoard = moveAnimal.getBoard();
     while(win.isOpen()){
         Event event;
         while(win.pollEvent(event)){
@@ -196,6 +217,58 @@ void GameProperty::run(){
                 }
                 setHolders();
                 mapPieces();
+            }
+            else if(event.type == Event::MouseButtonPressed){
+                if (event.mouseButton.button == sf::Mouse::Button::Left){
+                    // get click position
+                    int click_X, click_Y;
+                    click_X = event.mouseButton.x;
+                    click_Y = event.mouseButton.y;
+                    // calculate click square
+                    int square_X, square_Y;
+                    square_X = ((click_X - holder.left) - ((click_X - holder.left) % (holder.width / 8))) / (holder.width / 8);
+                    square_Y = ((click_Y - holder.top) - ((click_Y - holder.top) % (holder.height / 8))) / (holder.height / 8);
+                    // not select -> highlight the selected square
+                    if (select == 0){
+                        if (click_X >= holder.left && click_X <= holder.left + holder.width && 
+                            click_Y > holder.top && click_Y < holder.top + holder.height &&
+                            currentBoard.index[selectAxis[0]][selectAxis[0]] != 16 &&
+                            currentBoard.index[selectAxis[0]][selectAxis[0]] != 17){
+                            selectAxis[0] = square_X;
+                            selectAxis[1] = square_Y;
+                            squares[selectAxis[0]][selectAxis[1]].setFillColor(colorsNeed[2]);
+                            squares[selectAxis[0]][selectAxis[1]].setOutlineColor(colorsNeed[1]);
+                            select = 1;
+                        }
+                    }
+                    // already select
+                    else{
+                        // change color of selected square to original color
+                        if (selectAxis[0] == square_X && selectAxis[1] == square_Y){
+                            squares[selectAxis[0]][selectAxis[1]].setFillColor(colorsNeed[0]);
+                            squares[selectAxis[0]][selectAxis[1]].setOutlineColor(colorsNeed[1]);
+                            select = 0;
+                        }
+                        // move the chess to new position
+                        else{
+                            Move newMove(selectAxis[0], selectAxis[1], square_X, square_Y);
+                            // if move is valid -> move
+                            if(moveAnimal.playMove(newMove)){
+                                mapPieces(newMove);
+                                moveAnimal.nextTurn();
+                            }
+                            // turn the highlighted square back to original color
+                            squares[selectAxis[0]][selectAxis[1]].setFillColor(colorsNeed[0]);
+                            squares[selectAxis[0]][selectAxis[1]].setOutlineColor(colorsNeed[1]);
+                            select = 0;
+                        }
+                    }
+                }
+                else if (event.mouseButton.button == sf::Mouse::Button::Right){
+                    squares[selectAxis[0]][selectAxis[1]].setFillColor(colorsNeed[0]);
+                    squares[selectAxis[0]][selectAxis[1]].setOutlineColor(colorsNeed[1]);
+                    select = 0;
+                }
             }
         }
         win.clear();
