@@ -48,6 +48,7 @@ private:
     Soldier** redSoldiers;
     Soldier** blueSoldiers;
     Board board;
+    Texture pieceTexture[18]; //Added from line 88 of gamePeoperty.cpp
 public:
     GameProperty(int width, int height, const char* imageFile[18], string gameName);
     void createPlayers();

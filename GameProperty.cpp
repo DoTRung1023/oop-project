@@ -45,7 +45,7 @@ GameProperty::GameProperty(int width, int height, const char* imageFile[18], str
     this->height = height;
     setHolders();
     createPlayers();
-    createPiece(imageFile);
+    createPiece(imageFile); //Possible error here
     mapPieces();
     win.create(VideoMode(width, height), gameName);
 }
@@ -67,7 +67,7 @@ void GameProperty::createPlayers(){
     redFortress = players1->getFortress();
     // soldiers
     redSoldiers = players1->getSoldierList();
-    // set blue player property
+    // set blue player property (Player 2):
     players2 = new Player("blue");
     // animals
     Animal** blueAnimals = players2->getAnimalList();
@@ -85,7 +85,7 @@ void GameProperty::createPlayers(){
     blueSoldiers = players2->getSoldierList();
 }
 void GameProperty::createPiece(const char* imageFile[18]){
-    Texture pieceTexture[18];
+    // Texture pieceTexture[18]; Add to gameProperty class:
     // load image to texture
     // IntRect blank;
     for(int i = 0; i<18; i++){

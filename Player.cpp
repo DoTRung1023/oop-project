@@ -6,8 +6,14 @@
 Player:: Player():Player(""){}
 Player::Player(string name): name(name){
     animalList = new Animal*[8];
+    for(int i = 0; i<8 ; i++){//Tempt fix for dynamic allocation error in createPlayer():
+        animalList[i] = nullptr; 
+    }
     fortress = new Fortress;
     soldierList = new Soldier*[3];
+    for(int i = 0; i<3 ;i++){//Tempt fix for dynamic allocation error in createPlayer():
+        soldierList[i] = nullptr; 
+    }
 }
 Animal** Player::getAnimalList(){
     return animalList;
