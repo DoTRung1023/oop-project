@@ -11,12 +11,18 @@
 #include "Soldier.h"
 #include "Fortress.h"
 #include "Character.h"
+#include "GameMove.h"
 #include <iostream>
 #include <string>
 
 using namespace std;
 using namespace sf;
 
+struct Move{
+    int old_X, old_Y, new_X, new_Y;
+    Move(){}
+    Move(int old_X, int old_Y, int new_X, int new_Y);
+};
 
 struct Board
 {
@@ -35,7 +41,7 @@ private:
     sf::RenderWindow win;
     sf::RectangleShape squares[7][9];
     sf::IntRect holder;
-    sf::Color colorsNeed[2];
+    sf::Color colorsNeed[3];
     ChessPiece pieces[63];
     int width;
     int height;
@@ -48,7 +54,10 @@ private:
     Soldier** redSoldiers;
     Soldier** blueSoldiers;
     Board board;
-    Texture pieceTexture[18]; //Added from line 88 of gamePeoperty.cpp
+    Texture pieceTexture[18]; 
+    int selectAxis[2];
+    bool select = 0;
+    int choose_X, choose_Y;
 public:
     GameProperty(int width, int height, const char* imageFile[18], string gameName);
     void createPlayers();

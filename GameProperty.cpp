@@ -17,6 +17,7 @@
 #include "IndianElephant.h"
 #include "AfricanElephant.h"
 #include "Character.h"
+#include "GameMove.h"
 
 using namespace std;
 using namespace sf;
@@ -29,6 +30,10 @@ GameProperty::GameProperty(int width, int height, const char* imageFile[18], str
     colorsNeed[1].r = 0; // black
     colorsNeed[1].g = 0;
     colorsNeed[1].b = 0;
+    colorsNeed[2].r = 191; // olive green
+    colorsNeed[2].g = 201;
+    colorsNeed[2].b = 154;
+
     // fill colour for square
     for(int i = 0; i<7; i++){
         for(int j = 0; j<9; j++){
@@ -209,6 +214,56 @@ void GameProperty::run(){
                 }
                 setHolders();
                 mapPieces();
+            }
+            else if(event.type == Event::MouseButtonPressed){
+                if (event.mouseButton.button == sf::Mouse::Button::Left){
+                    // get click position
+                    int click_X, click_Y;
+                    click_X = event.mouseButton.x;
+                    click_Y = event.mouseButton.y;
+                    // calculate click square
+                    int square_X, square_Y;
+                    square_X = ((click_X - holder.left) - ((click_X - holder.left) % (holder.width / 8))) / (holder.width / 8);
+                    square_Y = ((click_Y - holder.top) - ((click_Y - holder.top) % (holder.height / 8))) / (holder.height / 8);
+                    // not select -> highlight the selected square
+                    if (select == 0){
+                        if (click_X >= holder.left && click_X <= holder.left + holder.width && 
+                            click_Y > holder.top && click_Y < holder.top + holder.height &&
+                            board.index[selectAxis[0]][selectAxis[0]] != 16 &&
+                            board.index[selectAxis[0]][selectAxis[0]] != 17){
+                            selectAxis[0] = square_X;
+                            selectAxis[1] = square_Y;
+                            squares[selectAxis[0]][selectAxis[1]].setFillColor(colorsNeed[2]);
+                            squares[selectAxis[0]][selectAxis[1]].setOutlineColor(colorsNeed[1]);
+                            select = 1;
+                        }
+                    }
+                    // already select
+                    else{
+                        // change color of selected square to original color
+                        if (selectAxis[0] == square_X && selectAxis[1] == square_Y){
+                            squares[selectAxis[0]][selectAxis[1]].setFillColor(colorsNeed[0]);
+                            squares[selectAxis[0]][selectAxis[1]].setFillColor(colorsNeed[1]);
+                            select = 0;
+                        }
+                        // move the chess to new position
+                        else{
+                            Move newMove(selectAxis[0], selectAxis[1], square_X, square_Y);
+                            if (board.playMove(m))
+                            {
+                                mapPieces(m);
+                                cBoard.nextTurn();
+                            }
+                            Squares[selected[0]][selected[1]].setFillColor(sColors[1 - ((selected[0] + selected[1]) % 2)]);
+                            cSelect = 0;
+                        }
+                    }
+                }
+                else if (event.mouseButton.button == sf::Mouse::Button::Right)
+                {
+                    Squares[selected[0]][selected[1]].setFillColor(sColors[1 - ((selected[0] + selected[1]) % 2)]);
+                    cSelect = 0;
+                }
             }
         }
         win.clear();
