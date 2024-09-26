@@ -30,6 +30,9 @@ GameProperty::GameProperty(int width, int height, const char* imageFile[18], str
     colorsNeed[1].r = 0; // black
     colorsNeed[1].g = 0;
     colorsNeed[1].b = 0;
+    colorsNeed[2].r = 255; // olive green
+    colorsNeed[2].g = 252;
+    colorsNeed[2].b = 135;
     // fill colour for square
     for(int i = 0; i<7; i++){
         for(int j = 0; j<9; j++){
@@ -186,7 +189,7 @@ void GameProperty::mapPieces(Move moving){
     }
     current->x = moving.new_X;
     current->y = moving.new_Y;
-    current->image.setPosition(sf::Vector2f(holder.left + (current->x * holder.width / 8), holder.top + (current->y * holder.height / 8)));
+    current->image.setPosition(sf::Vector2f(holder.left + (current->x * holder.width / 7), holder.top + (current->y * holder.height / 9)));
     current->image.setScale(holder.width / 1470.f, holder.height / 1890.f);
 }
 
@@ -226,8 +229,8 @@ void GameProperty::run(){
                     click_Y = event.mouseButton.y;
                     // calculate click square
                     int square_X, square_Y;
-                    square_X = ((click_X - holder.left) - ((click_X - holder.left) % (holder.width / 8))) / (holder.width / 8);
-                    square_Y = ((click_Y - holder.top) - ((click_Y - holder.top) % (holder.height / 8))) / (holder.height / 8);
+                    square_X = ((click_X - holder.left) - ((click_X - holder.left) % (holder.width / 7))) / (holder.width / 7);
+                    square_Y = ((click_Y - holder.top) - ((click_Y - holder.top) % (holder.height / 9))) / (holder.height / 9);
                     // not select -> highlight the selected square
                     if (select == 0){
                         if (click_X >= holder.left && click_X <= holder.left + holder.width && 
@@ -236,6 +239,7 @@ void GameProperty::run(){
                             currentBoard.index[selectAxis[0]][selectAxis[0]] != 17){
                             selectAxis[0] = square_X;
                             selectAxis[1] = square_Y;
+                            // highlight
                             squares[selectAxis[0]][selectAxis[1]].setFillColor(colorsNeed[2]);
                             squares[selectAxis[0]][selectAxis[1]].setOutlineColor(colorsNeed[1]);
                             select = 1;
