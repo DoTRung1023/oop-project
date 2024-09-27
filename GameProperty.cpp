@@ -18,6 +18,8 @@
 #include "AfricanElephant.h"
 #include "Character.h"
 #include "GameMove.h"
+#include "Button.h"
+#include "GameIntro.h"
 
 using namespace std;
 using namespace sf;
@@ -311,6 +313,7 @@ void GameProperty::run(){
         drawImage();
         win.display();
     }
+    GameIntro newGame; 
 }
 
 
@@ -333,4 +336,8 @@ GameProperty:: ~GameProperty(){
     delete blueFortress; 
     delete redFortress; 
 
+}
+
+void GameProperty:: closeWindow(){
+    win.close(); 
 }
