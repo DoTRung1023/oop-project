@@ -78,9 +78,7 @@ void GameProperty::createPlayers(){
 void GameProperty::createPiece(const char* imageFile[18]){
     Board currentBoard = moveAnimal.getBoard();
     // load image to texture
-    // IntRect blank;
     for(int i = 0; i<18; i++){
-        // pieceTexture[i].loadFromFile(imageFile[i], blank);
         pieceTexture[i].loadFromFile(imageFile[i]);
     }
     // set texture to piece
@@ -97,41 +95,43 @@ void GameProperty::createPiece(const char* imageFile[18]){
                 else if(pieces[index].pieceID < 16){
                     pieces[index].character = blueAnimals[pieces[index].pieceID-8];
                 }
-                else if(pieces[index].pieceID == 17){
-                    if(j < 4){
-                        pieces[index].character = redFortress;
-                    }
-                    else{
-                        pieces[index].character = blueFortress;
-                    }
+                else if(pieces[index].pieceID == 22){
+                    pieces[index].character = redFortress;
                 }
-                else{
-                    if(j<4){
-                        if(i == 2){
-                            pieces[index].character = redSoldiers[0];  
-                        }
-                        else if(i == 3){
-                            pieces[index].character = redSoldiers[1];  
-                        }
-                        else {
-                            pieces[index].character = redSoldiers[2];  
-                        }
+                else if(pieces[index].pieceID == 23){
+                    pieces[index].character = blueFortress;
+                }
+                else if(pieces[index].pieceID <= 18){
+                    if(i == 2){
+                        pieces[index].character = redSoldiers[0];  
+                    }
+                    else if(i == 3){
+                        pieces[index].character = redSoldiers[1];  
                     }
                     else {
-                        if(j<4){
-                            if(i == 2){
-                                pieces[index].character = blueSoldiers[0];  
-                            }
-                            else if(i == 3){
-                                pieces[index].character = blueSoldiers[1];  
-                            }
-                            else {
-                                pieces[index].character = blueSoldiers[2];  
-                            }
-                        }
+                        pieces[index].character = redSoldiers[2];  
                     }
                 }
-                pieces[index].image.setTexture(pieceTexture[pieces[index].pieceID], true);
+                else {
+                    if(i == 2){
+                        pieces[index].character = blueSoldiers[0];  
+                    }
+                    else if(i == 3){
+                        pieces[index].character = blueSoldiers[1];  
+                    }
+                    else {
+                        pieces[index].character = blueSoldiers[2];  
+                    }
+                }
+                if(pieces[index].pieceID < 16){
+                    pieces[index].image.setTexture(pieceTexture[pieces[index].pieceID], true);
+                }
+                else if(pieces[index].pieceID < 22){
+                    pieces[index].image.setTexture(pieceTexture[16], true);
+                }
+                else{
+                    pieces[index].image.setTexture(pieceTexture[17], true);
+                }
                 pieces[index].draw = 1;
             }
             else {
@@ -192,7 +192,6 @@ void GameProperty::mapPieces(Move moving){
     current->image.setPosition(sf::Vector2f(holder.left + (current->x * holder.width / 7), holder.top + (current->y * holder.height / 9)));
     current->image.setScale(holder.width / 1470.f, holder.height / 1890.f);
 }
-
 
 void GameProperty::run(){
     Board currentBoard = moveAnimal.getBoard();
@@ -278,7 +277,8 @@ void GameProperty::run(){
                     }
                     // already select
                     else{
-                        // change color of selected square to original color
+                        // change color of selected square to original color 
+                        // when click the selected square again
                         if (selectAxis[0] == square_X && selectAxis[1] == square_Y){
                             squares[selectAxis[0]][selectAxis[1]].setFillColor(colorsNeed[0]);
                             squares[selectAxis[0]][selectAxis[1]].setOutlineColor(colorsNeed[1]);
@@ -288,9 +288,29 @@ void GameProperty::run(){
                         else{
                             Move newMove(selectAxis[0], selectAxis[1], square_X, square_Y);
                             // if move is valid -> move
-                            if(moveAnimal.playMove(newMove)){
+                            if(moveAnimal.playMove(newMove) && moveAnimal.attack == false){
                                 mapPieces(newMove);
                                 moveAnimal.nextTurn();
+                            }
+                            else if(moveAnimal.playMove(newMove) && moveAnimal.attack == true){
+                                int aimID = currentBoard.index[newMove.new_X][newMove.new_Y];
+                                int aimIndex;
+                                int causeID = currentBoard.index[newMove.old_X][newMove.old_Y];
+                                int causeIndex;
+                                for(int i = 0; i<63; i++){
+                                    if(pieces[i].pieceID == aimID){
+                                        aimIndex = i;
+                                    }
+                                    if(pieces[i].pieceID == causeID){
+                                        causeIndex = i;
+                                    }
+                                }
+                                pieces[aimIndex].character->hp -= pieces[causeIndex].character->atk;
+                                if(pieces[aimIndex].character->hp <= 0){
+                                    currentBoard.index[square_X][square_Y] = -1;
+                                    pieces[aimIndex].pieceID = -1;
+                                    pieces[aimIndex].draw = 0;
+                                }
                             }
                             // turn the highlighted square back to original color
                             squares[selectAxis[0]][selectAxis[1]].setFillColor(colorsNeed[0]);
@@ -305,6 +325,82 @@ void GameProperty::run(){
                     select = 0;
                 }
             }
+            // else if(Keyboard::isKeyPressed(Keyboard::I) && select == 1){
+            //     RenderWindow infoWin(sf::VideoMode(100, 300), "Information");
+            //     while(infoWin.isOpen()){
+            //         Event infoEvent;
+            //         while(infoWin.pollEvent(infoEvent)){
+            //             if(infoEvent.type == Event::Closed){
+            //                 infoWin.close();
+            //                 break;
+            //             }
+            //         }
+            //         Font font;
+            //         Text text;
+            //         infoWin.clear(Color::White);
+            //         string info;
+            //         currentBoard = moveAnimal.getBoard();
+            //         for(int i = 0; i<63; i++){
+            //             if(pieces[i].pieceID == currentBoard.index[selectAxis[0]][selectAxis[1]]){
+            //                 Character* temp = pieces[i].character;
+            //                 info = "Name: " + temp->getName() + "\n" +
+            //                        "Equipment: " + temp->equipment->getName() + "\n" +
+            //                        "Equipment attack: " + std::to_string(temp->equipment->getAtk()) + "\n"
+            //                        "Total attack: " + std::to_string(temp->atk) + "\n"
+            //                        "Current hp: " + std::to_string(temp->hp) + "\n";
+            //             }
+            //         }
+            //         text.setString(info);
+            //         font.loadFromFile("./Assets/Font/Times New Normal Regular.ttf");
+            //         text.setFont(font);
+            //         text.setFillColor(Color::Black);
+            //         text.setCharacterSize(20);
+            //         // Get the window height and the text's local bounds
+            //         sf::FloatRect textBounds = text.getLocalBounds();
+            //         float windowHeight = infoWin.getSize().y;
+
+            //         // Set horizontal position to 0 (left-aligned)
+            //         float xPos = 0.0f;  // Left-aligned horizontally
+
+            //         // Center the text vertically
+            //         float yPos = (windowHeight / 2.0f) - (textBounds.height / 2.0f);
+
+            //         // Set the text position
+            //         text.setPosition(xPos, yPos);
+            //         infoWin.draw(text);
+            //         infoWin.display();
+            //     }
+            // }
+            // else if(Keyboard::isKeyPressed(Keyboard::H)){
+            //     RenderWindow warningWin(sf::VideoMode(300, 80), "WARNING");
+            //     while(warningWin.isOpen()){
+            //         Event warningEvent;
+            //         while(warningWin.pollEvent(warningEvent)){
+            //             if(warningEvent.type == Event::Closed){
+            //                 warningWin.close();
+            //                 break;
+            //             }
+            //         }
+            //         Font font;
+            //         Text text;
+            //         warningWin.clear(Color::White);
+            //         string warning;
+            //         warning = "Choose an object!!!";
+            //         text.setString(warning);
+            //         font.loadFromFile("./Assets/Font/Times New Normal Regular.ttf");
+            //         text.setFont(font);
+            //         text.setFillColor(Color::Black);
+            //         text.setCharacterSize(30);
+            //         // Center the text in warning
+            //         FloatRect textBounds = text.getLocalBounds();
+            //         text.setOrigin(textBounds.left + textBounds.width / 2.0f,  // Horizontal center
+            //                         textBounds.top + textBounds.height / 2.0f); // Vertical center
+            //         text.setPosition(warningWin.getSize().x / 2.0f,  // Center horizontally
+            //                         warningWin.getSize().y / 2.0f); // Center vertically
+            //         warningWin.draw(text);
+            //         warningWin.display();
+            //     }
+            // }
         }
         win.clear();
         drawSquares();

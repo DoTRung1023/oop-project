@@ -13,13 +13,11 @@ using namespace std;
 
 class Character
 {
-private:
-    Equipment* equipment;
-protected:
+public:
     int atk;
     int hp;
-    int def;
     string name;
+    Equipment* equipment;
 public:
     Character();
     Character(int atk, int hp, string name);

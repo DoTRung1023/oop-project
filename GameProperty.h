@@ -25,7 +25,6 @@ private:
     sf::RectangleShape squares[7][9];
     sf::IntRect holder;
     sf::Color colorsNeed[3];
-    ChessPiece pieces[63];
     int width;
     int height;
     Player* players1;
@@ -41,6 +40,7 @@ private:
     int selectAxis[2];
     bool select = 0;
 public:
+    ChessPiece pieces[63];
     GameProperty(int width, int height, const char* imageFile[18], string gameName);
     void createPlayers();
     void createPiece(const char* imageFile[18]);

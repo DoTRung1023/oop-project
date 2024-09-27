@@ -18,7 +18,6 @@ struct ChessPiece
     int y;
     bool draw = 0;
     Sprite image;
-    int set_character = 0;
     Character* character; 
 };
 

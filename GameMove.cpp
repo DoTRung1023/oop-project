@@ -18,24 +18,16 @@ void GameMove::characterMove(vector<Move> &possibleMoves, int current_X, int cur
     // check 4 direction to get possible move
     if (currentBoard.index[current_X][current_Y] > -1 && currentBoard.index[current_X][current_Y] < 16 && validColor == turn){
         if(current_X>0){
-            if(currentBoard.index[current_X-1][current_Y] == -1){
-                possibleMoves.push_back(Move(current_X, current_Y, current_X-1, current_Y));
-            }
+            possibleMoves.push_back(Move(current_X, current_Y, current_X-1, current_Y));
         }
         if(current_X<7){
-            if(currentBoard.index[current_X+1][current_Y] == -1){
-                possibleMoves.push_back(Move(current_X, current_Y, current_X+1, current_Y));
-            }
+            possibleMoves.push_back(Move(current_X, current_Y, current_X+1, current_Y));
         }
         if(current_Y>0){
-            if(currentBoard.index[current_X][current_Y-1] == -1){
-                possibleMoves.push_back(Move(current_X, current_Y, current_X, current_Y-1));
-            }
+            possibleMoves.push_back(Move(current_X, current_Y, current_X, current_Y-1));
         }
         if(current_Y<9){
-            if(currentBoard.index[current_X][current_Y+1] == -1){
-                possibleMoves.push_back(Move(current_X, current_Y, current_X, current_Y+1));
-            }
+            possibleMoves.push_back(Move(current_X, current_Y, current_X, current_Y+1));
         }
     }
 }
@@ -58,9 +50,16 @@ bool GameMove::playMove(Move newMove){
     for (int i = 0; i < possibleMoves.size(); i++){
         temp = possibleMoves[i];
         // if the move matches a possible move -> move
-        if (temp.old_X == newMove.old_X && temp.old_Y == newMove.old_Y && temp.new_X == newMove.new_X && temp.new_Y == newMove.new_Y){
+        if (temp.old_X == newMove.old_X && temp.old_Y == newMove.old_Y && 
+            temp.new_X == newMove.new_X && temp.new_Y == newMove.new_Y &&
+            currentBoard.index[newMove.new_X][newMove.new_Y] == -1){
             currentBoard.index[newMove.new_X][newMove.new_Y] = currentBoard.index[newMove.old_X][newMove.old_Y];
             currentBoard.index[newMove.old_X][newMove.old_Y] = -1;
+            attack = false;
+            return true;
+        }
+        else{
+            attack = true;
             return true;
         }
     }
