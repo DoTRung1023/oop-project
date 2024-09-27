@@ -11,8 +11,9 @@ Move::Move(int oldX, int oldY, int newX, int newY){
     new_Y = newY;
 }
 
-void GameMove::characterMove(vector<Move> &possibleMoves, int current_X, int current_Y){
-    if (currentBoard.index[current_X][current_Y] > -1 && currentBoard.index[current_X][current_Y] < 16){
+void GameMove::characterMove(vector<Move> &possibleMoves, int current_X, int current_Y, bool turn){
+    bool validColor = currentBoard.index[current_X][current_Y] < 8;
+    if (currentBoard.index[current_X][current_Y] > -1 && currentBoard.index[current_X][current_Y] < 16 && validColor == turn){
         if(current_X>0){
             if(currentBoard.index[current_X-1][current_Y] == -1){
                 possibleMoves.push_back(Move(current_X, current_Y, current_X-1, current_Y));
@@ -36,24 +37,26 @@ void GameMove::characterMove(vector<Move> &possibleMoves, int current_X, int cur
     }
 }
 
-vector<Move> GameMove::getLegalMoves(Board currentBoard){
+vector<Move> GameMove::getLegalMoves(Board currentBoard, bool turn){
     vector<Move> possibleMoves;
     for (int i = 0; i < 7; ++i){
         for (int j = 0; j < 9; ++j){
-            characterMove(possibleMoves, i, j);
+            if(currentBoard.index[i][j] > -1 && currentBoard.index[i][j] < 16){
+                characterMove(possibleMoves, i, j, turn);
+            }
         }
     }
     return possibleMoves;
 }
 
 bool GameMove::playMove(Move newMove){
-    vector<Move> possibleMoves = getLegalMoves(currentBoard);
+    vector<Move> possibleMoves = getLegalMoves(currentBoard, turn);
     Move temp;
-    for (int i = 0; i < possibleMoves.size(); ++i){
+    for (int i = 0; i < possibleMoves.size(); i++){
         temp = possibleMoves[i];
         if (temp.old_X == newMove.old_X && temp.old_Y == newMove.old_Y && temp.new_X == newMove.new_X && temp.new_Y == newMove.new_Y){
-            currentBoard.index[newMove.new_X][newMove.new_Y] = currentBoard.index[temp.new_Y][temp.new_Y];
-            currentBoard.index[newMove.new_Y][newMove.new_Y] = -1;
+            currentBoard.index[newMove.new_X][newMove.new_Y] = currentBoard.index[newMove.old_X][newMove.old_Y];
+            currentBoard.index[newMove.old_X][newMove.old_Y] = -1;
             return true;
         }
     }

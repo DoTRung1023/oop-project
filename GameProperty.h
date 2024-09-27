@@ -40,7 +40,6 @@ private:
     Texture pieceTexture[18]; 
     int selectAxis[2];
     bool select = 0;
-    int choose_X, choose_Y;
 public:
     GameProperty(int width, int height, const char* imageFile[18], string gameName);
     void createPlayers();
