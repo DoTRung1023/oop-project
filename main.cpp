@@ -8,24 +8,24 @@
 #include "ChessPiece.h"
 #include "GameMove.h"
 
-const char* imageFile[18] = {"./Assets/Pieces/Default/rbulldog.png",
-                            "./Assets/Pieces/Default/rpoodle.png",
-                            "./Assets/Pieces/Default/rshepherd.png",
-                            "./Assets/Pieces/Default/rmickey.png",
-                            "./Assets/Pieces/Default/rrat.png",
-                            "./Assets/Pieces/Default/rcactus.png",
-                            "./Assets/Pieces/Default/rindian.png",
-                            "./Assets/Pieces/Default/rafrican.png",
-                            "./Assets/Pieces/Default/bbulldog.png",
-                            "./Assets/Pieces/Default/bpoodle.png",
-                            "./Assets/Pieces/Default/bshepherd.png",
-                            "./Assets/Pieces/Default/bmickey.png",
-                            "./Assets/Pieces/Default/brat.png",
-                            "./Assets/Pieces/Default/bcactus.png",
-                            "./Assets/Pieces/Default/bindian.png",
-                            "./Assets/Pieces/Default/bafrican.png",
-                            "./Assets/Pieces/Default/soldier.png",
-                            "./Assets/Pieces/Default/fortress.png"};
+const char* imageFile[18] = {"./Assets/Pieces/rbulldog.png",
+                            "./Assets/Pieces/rpoodle.png",
+                            "./Assets/Pieces/rshepherd.png",
+                            "./Assets/Pieces/rmickey.png",
+                            "./Assets/Pieces/rrat.png",
+                            "./Assets/Pieces/rcactus.png",
+                            "./Assets/Pieces/rindian.png",
+                            "./Assets/Pieces/rafrican.png",
+                            "./Assets/Pieces/bbulldog.png",
+                            "./Assets/Pieces/bpoodle.png",
+                            "./Assets/Pieces/bshepherd.png",
+                            "./Assets/Pieces/bmickey.png",
+                            "./Assets/Pieces/brat.png",
+                            "./Assets/Pieces/bcactus.png",
+                            "./Assets/Pieces/bindian.png",
+                            "./Assets/Pieces/bafrican.png",
+                            "./Assets/Pieces/soldier.png",
+                            "./Assets/Pieces/fortress.png"};
 
 int main(){
     GameProperty newgame(700, 900, imageFile, "Animal Chess");

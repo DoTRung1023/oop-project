@@ -234,9 +234,40 @@ void GameProperty::run(){
                     // not select -> highlight the selected square
                     if (select == 0){
                         if (click_X >= holder.left && click_X <= holder.left + holder.width && 
-                            click_Y > holder.top && click_Y < holder.top + holder.height &&
-                            currentBoard.index[selectAxis[0]][selectAxis[0]] != 16 &&
-                            currentBoard.index[selectAxis[0]][selectAxis[0]] != 17){
+                            click_Y > holder.top && click_Y < holder.top + holder.height){
+                        }
+                        currentBoard = moveAnimal.getBoard();
+                        if (currentBoard.index[square_X][square_Y] == -1){
+                            RenderWindow warningWin(sf::VideoMode(300, 80), "WARNING");
+                            while(warningWin.isOpen()){
+                                Event warningEvent;
+                                while(warningWin.pollEvent(warningEvent)){
+                                    if(warningEvent.type == Event::Closed){
+                                        warningWin.close();
+                                        break;
+                                    }
+                                }
+                                Font font;
+                                Text text;
+                                warningWin.clear(Color::White);
+                                string warning;
+                                warning = "Choose an object!!!";
+                                text.setString(warning);
+                                font.loadFromFile("./Assets/Font/Times New Normal Regular.ttf");
+                                text.setFont(font);
+                                text.setFillColor(Color::Black);
+                                text.setCharacterSize(30);
+                                // Center the text in warning
+                                FloatRect textBounds = text.getLocalBounds();
+                                text.setOrigin(textBounds.left + textBounds.width / 2.0f,  // Horizontal center
+                                                textBounds.top + textBounds.height / 2.0f); // Vertical center
+                                text.setPosition(warningWin.getSize().x / 2.0f,  // Center horizontally
+                                                warningWin.getSize().y / 2.0f); // Center vertically
+                                warningWin.draw(text);
+                                warningWin.display();
+                            }
+                        }
+                        else{
                             selectAxis[0] = square_X;
                             selectAxis[1] = square_Y;
                             // highlight
@@ -281,6 +312,7 @@ void GameProperty::run(){
         win.display();
     }
 }
+
 
 GameProperty:: ~GameProperty(){
     //Delete animal:
