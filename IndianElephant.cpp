@@ -2,7 +2,7 @@
 #include "IndianElephant.h"
 #include "Animal.h"
 
-IndianElephant:: IndianElephant():Animal(400, 2500, 0, "Indian Elephant"){}
+IndianElephant:: IndianElephant():Animal(400, 2500, "Indian Elephant"){}
 
 string IndianElephant::getName(){
     return name;

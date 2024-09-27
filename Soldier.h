@@ -14,6 +14,8 @@ class Soldier:public Character
 {
 public:
     Soldier();
+    string getName();
+    void setName(string name); 
     ~Soldier(); 
 };
 

@@ -14,7 +14,7 @@ using namespace sf;
 class Animal:public Character
 {
 public:
-    Animal(int atk, int hp, int def, string name); 
+    Animal(int atk, int hp, string name); 
     Animal(); 
     string getName() = 0;
     void setName(string name) = 0;

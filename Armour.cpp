@@ -5,4 +5,4 @@
 
 using namespace std;
 
-Armour::Armour(): Shield(5, "Armour", 0, 250){}
+Armour::Armour(): Shield("Armour", 0, 250){}

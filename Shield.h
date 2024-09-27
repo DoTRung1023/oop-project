@@ -9,12 +9,9 @@ using namespace std;
 
 class Shield: public Equipment
 {
-private:
-protected:
 public:
     Shield();
-    Shield(int ID, string name, int damage, int defence);
-    void showInfo();
+    Shield(string nameEquipment, int atk, int def);
 };
 
 #endif

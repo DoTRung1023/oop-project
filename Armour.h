@@ -9,8 +9,6 @@ using namespace std;
 
 class Armour: public Shield
 {
-private:
-protected:
 public:
     Armour();
 };

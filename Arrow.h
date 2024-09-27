@@ -10,8 +10,6 @@ using namespace std;
 
 class Arrow: public Weapon
 {
-private:
-protected:
 public:
     Arrow();
 };

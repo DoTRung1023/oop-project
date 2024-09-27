@@ -9,18 +9,14 @@ using namespace std;
 
 class Player{
     private:
-        string name;
         Animal** animalList; 
         Fortress* fortress;
         Soldier** soldierList;
     public:
         Player(); //Constructor; 
-        Player(string Name);
         Animal** getAnimalList();
         Fortress* getFortress();
         Soldier** getSoldierList();
-        void setName(string name);
-        string getName();
         ~Player(); 
 };
 

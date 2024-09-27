@@ -9,8 +9,6 @@ using namespace std;
 
 class RoundShield: public Shield
 {
-private:
-protected:
 public:
     RoundShield();
 };

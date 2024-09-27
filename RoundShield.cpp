@@ -5,4 +5,4 @@
 
 using namespace std;
 
-RoundShield::RoundShield(): Shield(6, "RoundShield", 0, 200){}
+RoundShield::RoundShield(): Shield("RoundShield", 0, 200){}

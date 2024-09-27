@@ -6,4 +6,4 @@
 
 using namespace std;
 
-Hammer::Hammer(): Weapon(3, "Hammer", 500, 0, 1){}
+Hammer::Hammer(): Weapon("Hammer", 500, 0){}

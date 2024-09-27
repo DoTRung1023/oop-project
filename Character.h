@@ -7,25 +7,26 @@
 #include <SFML/Graphics.hpp>
 #include <iostream>
 #include <string>
+#include "Equipment.h"
 
 using namespace std;
 
 class Character
 {
+private:
+    Equipment* equipment;
 protected:
     int atk;
     int hp;
     int def;
     string name;
-    int equipmentID = -1;
 public:
     Character();
-    Character(int atk, int hp, int def, string name);
+    Character(int atk, int hp, string name);
     void setImage(const char* filePath);
-    virtual string getName();
-    virtual void setName(string name);
+    virtual string getName() = 0;
+    virtual void setName(string name) = 0;
     void setEquipment(int equipmentID);
-    string getEquipmentName(int weaponID);
     virtual ~Character(); 
 };
 

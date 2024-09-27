@@ -5,7 +5,7 @@
 
 using namespace std;
 
-BullDog:: BullDog():Animal(250,1000, 0, "BullDog"){}
+BullDog:: BullDog():Animal(250,1000, "BullDog"){}
 string BullDog::getName(){
     return name;
 }

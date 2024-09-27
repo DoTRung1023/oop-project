@@ -6,4 +6,4 @@
 
 using namespace std;
 
-Knife::Knife(): Weapon(2, "Knife", 450, 0, 1){}
+Knife::Knife(): Weapon("Knife", 450, 0){}

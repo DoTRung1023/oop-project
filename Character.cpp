@@ -4,53 +4,43 @@
 #include <SFML/Graphics.hpp>
 #include <iostream>
 #include "Character.h"
+#include "Equipment.h"
+#include "Knife.h"
+#include "Hammer.h"
+#include "Arrow.h"
+#include "Armour.h"
+#include "RoundShield.h"
+#include "SpikeShield.h"
 
 using namespace std;
 using namespace sf;
 
-Character::Character():Character(0, 0, 0, ""){}
-Character::Character(int atk, int hp, int def, string name): atk(atk), hp(hp), def(def), name(name){}
-void Character::setEquipment(int equipmentID){
-    this->equipmentID = equipmentID;
-}
-string Character::getName(){
-    return name;
-}
-void Character::setName(string name){
-    this->name = name;
-}
-string Character::getEquipmentName(int weaponID){
-    string result = ""; 
+Character::Character():Character(0, 0, ""){}
+Character::Character(int atk, int hp, string name): atk(atk), hp(hp), name(name){}
+
+void Character::setEquipment(int weaponID){
     switch(weaponID){
         case 1:
-            result = "Staff"; 
+            equipment = new Knife;
             break;
         case 2:
-            result = "Knife"; 
+            equipment = new Hammer;
             break;
         case 3:
-            result = "Hammer"; 
+            equipment = new Arrow;
             break;
         case 4:
-            result = "Arrow"; 
+            equipment = new Armour;
             break;
         case 5:
-            result = "Armour"; 
+            equipment = new RoundShield;
             break;
         case 6:
-            result = "Round Shield"; 
-            break;
-        case 7:
-            result = "Spike Shield"; 
-            break;
-        case 8:
-            result = "Heater Shield"; 
-            break;
-        default:
-            result = "null"; 
+            equipment = new SpikeShield;
             break;
     }   
-    return result; 
+    atk += equipment->getAtk();
+    hp += equipment->getDef();
 }
 Character::~Character(){
 

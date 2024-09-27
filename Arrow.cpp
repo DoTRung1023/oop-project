@@ -6,4 +6,4 @@
 
 using namespace std;
 
-Arrow::Arrow(): Weapon(4, "Arrow", 400, 0, 2){}
+Arrow::Arrow(): Weapon("Arrow", 400, 0){}

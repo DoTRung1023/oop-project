@@ -9,13 +9,9 @@ using namespace std;
 
 class Weapon: public Equipment
 {
-private:
-protected:
-    int range;
 public:
     Weapon();
-    Weapon(int ID, string nameEquipment, int atk, int def, int range);
-    void showInfo();
+    Weapon(string nameEquipment, int atk, int def);
 };
 
 #endif

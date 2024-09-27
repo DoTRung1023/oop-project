@@ -5,4 +5,4 @@
 
 using namespace std;
 
-SpikeShield::SpikeShield(): Shield(7, "SpikeShield", 0, 350){}
+SpikeShield::SpikeShield(): Shield("SpikeShield", 0, 350){}

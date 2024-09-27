@@ -4,13 +4,6 @@
 
 using namespace std;
 
-Shield::Shield(): Shield(0, "", 0, 0){}
-Shield::Shield(int ID, string name, int damage, int defence): 
-                Equipment(ID, name, "Shield", damage, defence){}
-void Shield::showInfo(){
-    cout << "Name: " << name << "\n";
-    cout << "ID: " << ID << "\n";
-    cout << "Damage: " << damage << "\n";
-    cout << "Defence: " << defence << "\n";
-}
-
+Shield::Shield():Shield("", 0, 0){}
+Shield::Shield(string nameEquipment, int atk, int def):
+                                                Equipment(nameEquipment, "Shield", atk, def){}

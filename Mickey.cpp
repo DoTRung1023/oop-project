@@ -2,7 +2,7 @@
 #include "Mickey.h"
 #include "Animal.h"
 
-Mickey:: Mickey():Animal(50, 2000, 0, "Mickey"){}
+Mickey:: Mickey():Animal(50, 2000, "Mickey"){}
 
 string Mickey::getName(){
     return name;

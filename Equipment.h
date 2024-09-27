@@ -9,16 +9,17 @@ using namespace std;
 class Equipment
 {
 private:
-protected:
-    int ID;
     string nameEquipment;
     string typeEquipment;
     int atk;
     int def;
 public:
     Equipment();
-    Equipment(int ID, string nameEquipment, string typeEquipment, int atk, int def);
-    virtual void showInfo() = 0;
+    Equipment(string nameEquipment, string typeEquipment, int atk, int def);
+    string getName();
+    string getType();
+    int getAtk();
+    int getDef();
 };
 
 #endif

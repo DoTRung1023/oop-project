@@ -11,8 +11,7 @@
 #include "IndianElephant.h"
 #include "AfricanElephant.h"
 
-Player:: Player():Player(""){}
-Player::Player(string name): name(name){
+Player::Player(){
     //AnimalList:
     animalList = new Animal*[8];
     for(int i = 0; i<8 ; i++){//Tempt fix for dynamic allocation error in createPlayer():
@@ -33,7 +32,8 @@ Player::Player(string name): name(name){
     //SoldierList:
     soldierList = new Soldier*[3];
     for(int i = 0; i<3 ;i++){//Tempt fix for dynamic allocation error in createPlayer():
-        soldierList[i] = new Soldier(); 
+        soldierList[i] = new Soldier();
+        soldierList[i]->setEquipment(i+1); 
     }
 }
 Animal** Player::getAnimalList(){
@@ -44,13 +44,6 @@ Fortress* Player::getFortress(){
 }
 Soldier** Player::getSoldierList(){
     return soldierList;
-}
-
-void Player::setName(string name){
-    this->name = name;
-}
-string Player::getName(){
-    return name;
 }
 
 Player:: ~Player(){

@@ -3,7 +3,7 @@
 #include "Character.h"
 #include "Animal.h"
 
-Cactus::Cactus():Animal(50, 1500, 0, "Cactus"){}
+Cactus::Cactus():Animal(50, 1500, "Cactus"){}
 
 string Cactus::getName(){
     return name;

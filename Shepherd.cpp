@@ -2,7 +2,7 @@
 #include "Shepherd.h"
 #include "Animal.h"
 
-Shepherd:: Shepherd():Animal(200,800, 0, "Shepherd"){}
+Shepherd:: Shepherd():Animal(200,800, "Shepherd"){}
 string Shepherd::getName(){
     return name;
 }

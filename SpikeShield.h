@@ -9,8 +9,6 @@ using namespace std;
 
 class SpikeShield: public Shield
 {
-private:
-protected:
 public:
     SpikeShield();
 };

@@ -56,7 +56,7 @@ GameProperty::GameProperty(int width, int height, const char* imageFile[18], str
 
 void GameProperty::createPlayers(){
     // set red player property (player 1):
-    players1 = new Player("red");
+    players1 = new Player;
     // animal1
     redAnimals = players1->getAnimalList();
     
@@ -66,7 +66,7 @@ void GameProperty::createPlayers(){
     redSoldiers = players1->getSoldierList();
 
     // set blue player property (Player 2):
-    players2 = new Player("blue");
+    players2 = new Player;
     // animals
     blueAnimals = players2->getAnimalList();
 
