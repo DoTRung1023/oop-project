@@ -15,13 +15,13 @@ Player::Player(){
     // make 3 types of animal
     for(int i = 0; i<8; i++){
         if(i < 3){
-            animalList[i] = new Mice("mice" + to_string(i));
+            animalList[i] = new Mice();
         }
         else if(i<6){
-            animalList[i] = new Dog("dog" + to_string(i-3));
+            animalList[i] = new Dog();
         }
         else{
-            animalList[i] = new Elephant("elephant" + to_string(i-6));    
+            animalList[i] = new Elephant();    
         }
     }
     //Fortress:
@@ -30,7 +30,7 @@ Player::Player(){
     //SoldierList:
     soldierList = new Soldier*[3];
     for(int i = 0; i<3 ;i++){//Tempt fix for dynamic allocation error in createPlayer():
-        soldierList[i] = new Soldier("soldier" + to_string(i));
+        soldierList[i] = new Soldier();
     }
 }
 Animal** Player::getAnimalList(){

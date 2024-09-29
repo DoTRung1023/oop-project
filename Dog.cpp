@@ -2,17 +2,7 @@
 #include "Dog.h"
 using namespace std; 
 
-Dog:: Dog(string name): Animal(name){}
-
-string Dog:: getName(){
-    return this->name; 
-}
-
-
-
-void Dog:: setName(string name){
-   this->name = name;  
-}
+Dog:: Dog(): Animal("dog"){}
 
 bool Dog::attack(int pieceID){
     return 0; 

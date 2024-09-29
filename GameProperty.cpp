@@ -88,23 +88,33 @@ void GameProperty::createPiece(const char* imageFile[8]){
             pieces[index].y = j;
             // assign character to piece
             if(pieces[index].pieceID != -1){
+                int insert = -1;
                 if(pieces[index].pieceID < 8){
                     pieces[index].character = redAnimals[pieces[index].pieceID];
-                    
+                    string type = pieces[index].character->getName();
+                    pieces[index].character->setName("r" + type);
                 }
                 else if(pieces[index].pieceID < 16){
                     pieces[index].character = blueAnimals[pieces[index].pieceID-8];
+                    string type = pieces[index].character->getName();
+                    pieces[index].character->setName("b" + type);
                 }
                 else if(pieces[index].pieceID == 22){
                     pieces[index].character = redFortress;
+                    string type = pieces[index].character->getName();
+                    pieces[index].character->setName("r" + type);
+                    insert = 7;
                 }
                 else if(pieces[index].pieceID == 23){
                     pieces[index].character = blueFortress;
+                    string type = pieces[index].character->getName();
+                    pieces[index].character->setName("b" + type);
+                    insert = 7;
                 }
                 else{
                     if(j<4){
                         if(i == 2){
-                            pieces[index].character = redSoldiers[0];  
+                            pieces[index].character = redSoldiers[0];
                         }
                         else if(i == 3){
                             pieces[index].character = redSoldiers[1];  
@@ -112,6 +122,8 @@ void GameProperty::createPiece(const char* imageFile[8]){
                         else {
                             pieces[index].character = redSoldiers[2];  
                         }
+                        string type = pieces[index].character->getName();
+                        pieces[index].character->setName("r" + type);
                     }
                     else {
                         if(i == 2){
@@ -123,9 +135,30 @@ void GameProperty::createPiece(const char* imageFile[8]){
                         else {
                             pieces[index].character = blueSoldiers[2];  
                         }
+                        string type = pieces[index].character->getName();
+                        pieces[index].character->setName("b" + type);
                     }
+                    insert = 6;
                 }
-                pieces[index].image.setTexture(pieceTexture[pieces[index].pieceID], true);
+                if(pieces[index].character->getName() == "rdog"){
+                    insert = 0;  
+                }
+                else if(pieces[index].character->getName() == "rmice"){
+                    insert = 1;
+                }
+                else if(pieces[index].character->getName() == "relephant"){
+                    insert = 2;
+                }
+                else if(pieces[index].character->getName() == "bdog"){
+                    insert = 3;
+                }
+                else if(pieces[index].character->getName() == "bmice"){
+                    insert = 4;
+                }
+                else if(pieces[index].character->getName() == "belephant"){
+                    insert = 5;
+                }
+                pieces[index].image.setTexture(pieceTexture[insert], true);  
                 pieces[index].draw = 1;
             }
             else {

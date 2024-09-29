@@ -5,9 +5,7 @@ using namespace std;
 
 class Mice: public Animal{
     public:
-        Mice(string name); 
-        string getName();
-        void setName(string name); 
+        Mice(); 
         bool attack(int pieceID); 
 };
 

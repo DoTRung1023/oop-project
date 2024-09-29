@@ -4,11 +4,8 @@
 
 class Dog: public Animal{
 public: 
-    Dog(string dog); 
-    string getName();
-    void setName(string name); 
+    Dog(); 
     bool attack(int pieceID);
-    void setAnimalType(string animalType);
 };
 
 #endif

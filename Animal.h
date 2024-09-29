@@ -13,14 +13,10 @@ using namespace sf;
 
 class Animal:public Character
 {
-private:
-    string animalType;
 public:
     Animal(string name); 
     Animal(); 
     virtual bool attack(int pieceID) = 0; 
-    string getAnimalType();
-    virtual void setAnimalType(string animalType) = 0;
     ~Animal(); 
 };
 

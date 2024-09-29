@@ -10,8 +10,4 @@ Animal:: Animal(){
     this->name = ""; 
 }//Default Constructor
 
-string Animal::getAnimalType(){
-    return animalType;
-}
-
 Animal:: ~Animal(){}

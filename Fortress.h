@@ -6,8 +6,6 @@ class Fortress: public Character
 {
 public:
     Fortress();
-    string getName();
-    void setName(string name); 
     ~Fortress(); 
 };
 

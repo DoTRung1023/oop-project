@@ -5,9 +5,7 @@
 
 class Elephant: public Animal{
     public:
-        Elephant(string name); 
-        string getName();
-        void setName(string name); 
+        Elephant(); 
         bool attack(int pieceID);
 };
 

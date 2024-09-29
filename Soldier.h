@@ -13,7 +13,7 @@ using namespace std;
 class Soldier:public Character
 {
 public:
-    Soldier(string name);
+    Soldier();
     ~Soldier(); 
 };
 

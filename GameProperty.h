@@ -51,6 +51,7 @@ public:
     void mapPieces();
     void mapPieces(Move moving);
     void run();
+    void closeWindow(); 
     ~GameProperty(); 
 };
 

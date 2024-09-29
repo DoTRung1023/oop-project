@@ -4,6 +4,6 @@
 
 using namespace std;
 
-Soldier::Soldier(string name) : Character(name) {}
+Soldier::Soldier() : Character("soldier") {}
 
 Soldier:: ~Soldier(){}

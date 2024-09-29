@@ -3,14 +3,6 @@
 
 using namespace std;
 
-Fortress::Fortress(): Character("Fortress") {}
-
-string Fortress::getName(){
-    return name;
-}
-
-void Fortress::setName(string name){
-    this->name = name;
-}
+Fortress::Fortress(): Character("fortress") {}
 
 Fortress::~Fortress(){}

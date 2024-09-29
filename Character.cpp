@@ -15,7 +15,7 @@ string Character::getName(){
     return name;
 }
 void Character::setName(string name){
-    name = name;
+    this->name = name;
 }
 
 Character::~Character(){
