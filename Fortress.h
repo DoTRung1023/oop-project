@@ -6,6 +6,7 @@ class Fortress: public Character
 {
 public:
     Fortress();
+    bool attack(Character* piece);
     ~Fortress(); 
 };
 

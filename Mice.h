@@ -6,7 +6,7 @@ using namespace std;
 class Mice: public Animal{
     public:
         Mice(); 
-        bool attack(int pieceID); 
+        bool attack(Character* piece); 
 };
 
 

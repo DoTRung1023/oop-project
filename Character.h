@@ -7,6 +7,7 @@
 #include <SFML/Graphics.hpp>
 #include <iostream>
 #include <string>
+#include "ChessPiece.h"
 
 using namespace std;
 
@@ -15,10 +16,12 @@ class Character
 protected:
     string name;
 public:
+    string color = "";
     Character();
     Character(string name);
     string getName();
     void setName(string name);
+    virtual bool attack(Character* piece);
     virtual ~Character(); 
 };
 

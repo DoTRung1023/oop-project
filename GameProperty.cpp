@@ -91,24 +91,20 @@ void GameProperty::createPiece(const char* imageFile[8]){
                 int insert = -1;
                 if(pieces[index].pieceID < 8){
                     pieces[index].character = redAnimals[pieces[index].pieceID];
-                    string type = pieces[index].character->getName();
-                    pieces[index].character->setName("r" + type);
+                    pieces[index].character->color = "red";
                 }
                 else if(pieces[index].pieceID < 16){
                     pieces[index].character = blueAnimals[pieces[index].pieceID-8];
-                    string type = pieces[index].character->getName();
-                    pieces[index].character->setName("b" + type);
+                    pieces[index].character->color = "blue";
                 }
                 else if(pieces[index].pieceID == 22){
                     pieces[index].character = redFortress;
-                    string type = pieces[index].character->getName();
-                    pieces[index].character->setName("r" + type);
+                    pieces[index].character->color = "red";
                     insert = 7;
                 }
                 else if(pieces[index].pieceID == 23){
                     pieces[index].character = blueFortress;
-                    string type = pieces[index].character->getName();
-                    pieces[index].character->setName("b" + type);
+                    pieces[index].character->color = "blue";
                     insert = 7;
                 }
                 else{
@@ -122,8 +118,7 @@ void GameProperty::createPiece(const char* imageFile[8]){
                         else {
                             pieces[index].character = redSoldiers[2];  
                         }
-                        string type = pieces[index].character->getName();
-                        pieces[index].character->setName("r" + type);
+                        pieces[index].character->color = "red";
                     }
                     else {
                         if(i == 2){
@@ -135,28 +130,23 @@ void GameProperty::createPiece(const char* imageFile[8]){
                         else {
                             pieces[index].character = blueSoldiers[2];  
                         }
-                        string type = pieces[index].character->getName();
-                        pieces[index].character->setName("b" + type);
+                        pieces[index].character->color = "red";
                     }
                     insert = 6;
                 }
-                if(pieces[index].character->getName() == "rdog"){
-                    insert = 0;  
-                }
-                else if(pieces[index].character->getName() == "rmice"){
-                    insert = 1;
-                }
-                else if(pieces[index].character->getName() == "relephant"){
-                    insert = 2;
-                }
-                else if(pieces[index].character->getName() == "bdog"){
-                    insert = 3;
-                }
-                else if(pieces[index].character->getName() == "bmice"){
-                    insert = 4;
-                }
-                else if(pieces[index].character->getName() == "belephant"){
-                    insert = 5;
+                if(insert == -1){
+                    if(pieces[index].character->getName() == "dog"){
+                        insert = 0;
+                    }
+                    else if(pieces[index].character->getName() == "mice"){
+                        insert = 1;
+                    }
+                    else if(pieces[index].character->getName() == "elephant"){
+                        insert = 2;
+                    }
+                    if(pieces[index].character->color == "blue"){
+                        insert +=3;
+                    }
                 }
                 pieces[index].image.setTexture(pieceTexture[insert], true);  
                 pieces[index].draw = 1;
@@ -260,40 +250,19 @@ void GameProperty::run(){
                     square_X = ((click_X - holder.left) - ((click_X - holder.left) % (holder.width / 7))) / (holder.width / 7);
                     square_Y = ((click_Y - holder.top) - ((click_Y - holder.top) % (holder.height / 9))) / (holder.height / 9);
                     // not select -> highlight the selected square
+                    bool turn  = moveAnimal.getTurn();
                     if (select == 0){
                         if (click_X >= holder.left && click_X <= holder.left + holder.width && 
                             click_Y > holder.top && click_Y < holder.top + holder.height){
                         }
                         currentBoard = moveAnimal.getBoard();
-                        if (currentBoard.index[square_X][square_Y] == -1){
-                            RenderWindow warningWin(sf::VideoMode(300, 80), "WARNING");
-                            while(warningWin.isOpen()){
-                                Event warningEvent;
-                                while(warningWin.pollEvent(warningEvent)){
-                                    if(warningEvent.type == Event::Closed){
-                                        warningWin.close();
-                                        break;
-                                    }
-                                }
-                                Font font;
-                                Text text;
-                                warningWin.clear(Color::White);
-                                string warning;
-                                warning = "Choose an object!!!\nYou chose a valid animal";
-                                text.setString(warning);
-                                font.loadFromFile("./Assets/Font/Times New Normal Regular.ttf");
-                                text.setFont(font);
-                                text.setFillColor(Color::Black);
-                                text.setCharacterSize(30);
-                                // Center the text in warning
-                                FloatRect textBounds = text.getLocalBounds();
-                                text.setOrigin(textBounds.left + textBounds.width / 2.0f,  // Horizontal center
-                                                textBounds.top + textBounds.height / 2.0f); // Vertical center
-                                text.setPosition(warningWin.getSize().x / 2.0f,  // Center horizontally
-                                                warningWin.getSize().y / 2.0f); // Center vertically
-                                warningWin.draw(text);
-                                warningWin.display();
-                            }
+                        if(!((currentBoard.index[square_X][square_Y] >= 0 && 
+                             currentBoard.index[square_X][square_Y] <= 7 &&
+                             turn == true) || 
+                            (currentBoard.index[square_X][square_Y] >= 8 && 
+                             currentBoard.index[square_X][square_Y] <= 15 &&
+                             turn == false))){
+                                warning(square_X, square_Y);
                         }
                         else{
                             selectAxis[0] = square_X;
@@ -316,7 +285,22 @@ void GameProperty::run(){
                         else{
                             Move newMove(selectAxis[0], selectAxis[1], square_X, square_Y);
                             // if move is valid -> move
-                            if(moveAnimal.playMove(newMove)){
+                            currentBoard = moveAnimal.getBoard();
+                            // ChessPiece aimPiece;
+                            // ChessPiece choosePiece;
+                            Character* aimPiece;
+                            Character* choosePiece;
+                            for(int i = 0; i<63; i++){
+                                if(pieces[i].pieceID == currentBoard.index[square_X][square_Y]){
+                                    // aimPiece = pieces[i];
+                                    aimPiece = pieces[i].character;
+                                }
+                                if(pieces[i].pieceID == currentBoard.index[selectAxis[0]][selectAxis[1]]){
+                                    choosePiece = pieces[i].character;
+                                }
+                            }
+                            if(moveAnimal.playMove(newMove, aimPiece, choosePiece)){
+                            // if(moveAnimal.playMove(newMove, &aimPiece, &choosePiece)){
                                 mapPieces(newMove);
                                 moveAnimal.nextTurn();
                             }
@@ -337,10 +321,62 @@ void GameProperty::run(){
         win.clear();
         drawSquares();
         drawImage();
+        displayTurn();
         win.display();
     }
 }
+void GameProperty::displayTurn(){
+    bool turn  = moveAnimal.getTurn();
+    std::string msg = "BLUE";
+    if(turn == true){
+        msg = "RED";
+    }
+    Text info;
+    Font font;
+    font.loadFromFile("./Assets/Font/Times New Normal Regular.ttf");
+    info.setFont(font);
+    info.setString(msg);
+    info.setCharacterSize(100);
+    info.setFillColor(sf::Color(255, 255, 255, 204));
+    // Get the bounds of the text to center it
+    sf::FloatRect textBounds = info.getGlobalBounds();
+    // Calculate the position to center the text
+    float xPosition = (win.getSize().x / 2) - (textBounds.width / 2);
+    float yPosition = (win.getSize().y / 2) - (textBounds.height / 2);
+    info.setPosition(xPosition, yPosition);
+    win.draw(info);
+}
 
+void GameProperty::warning(int square_X, int square_Y){
+    RenderWindow warningWin(sf::VideoMode(500, 100), "WARNING");
+    while(warningWin.isOpen()){
+        Event warningEvent;
+        while(warningWin.pollEvent(warningEvent)){
+            if(warningEvent.type == Event::Closed){
+                warningWin.close();
+                break;
+            }
+        }
+        Font font;
+        Text text;
+        warningWin.clear(Color::White);
+        string warning;
+        warning = "Choose an object!!!\nYou chose a valid animal";
+        text.setString(warning);
+        font.loadFromFile("./Assets/Font/Times New Normal Regular.ttf");
+        text.setFont(font);
+        text.setFillColor(Color::Black);
+        text.setCharacterSize(30);
+        // Center the text in warning
+        FloatRect textBounds = text.getLocalBounds();
+        text.setOrigin(textBounds.left + textBounds.width / 2.0f,  // Horizontal center
+                        textBounds.top + textBounds.height / 2.0f); // Vertical center
+        text.setPosition(warningWin.getSize().x / 2.0f,  // Center horizontally
+                        warningWin.getSize().y / 2.0f); // Center vertically
+        warningWin.draw(text);
+        warningWin.display();
+    }
+}
 
 GameProperty:: ~GameProperty(){
     //Delete animal:

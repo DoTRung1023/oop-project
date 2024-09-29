@@ -6,7 +6,7 @@
 class Elephant: public Animal{
     public:
         Elephant(); 
-        bool attack(int pieceID);
+        bool attack(Character* piece);
 };
 
 #endif

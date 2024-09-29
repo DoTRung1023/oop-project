@@ -4,6 +4,7 @@
 #include <SFML/Graphics.hpp>
 #include <iostream>
 #include "Character.h"
+#include "ChessPiece.h"
 
 using namespace std;
 using namespace sf;
@@ -17,7 +18,9 @@ string Character::getName(){
 void Character::setName(string name){
     this->name = name;
 }
-
+bool Character::attack(Character* piece){
+    return false;
+}
 Character::~Character(){
 
 }

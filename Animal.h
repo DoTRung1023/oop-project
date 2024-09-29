@@ -7,6 +7,7 @@
 #include <iostream>
 #include <string.h>
 #include "Character.h"
+#include "ChessPiece.h"
 
 using namespace std; 
 using namespace sf;
@@ -16,7 +17,7 @@ class Animal:public Character
 public:
     Animal(string name); 
     Animal(); 
-    virtual bool attack(int pieceID) = 0; 
+    bool attack(Character* piece) = 0; 
     ~Animal(); 
 };
 

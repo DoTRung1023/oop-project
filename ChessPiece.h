@@ -11,6 +11,8 @@
 using namespace std;
 using namespace sf;
 
+class Character;
+
 struct ChessPiece
 {
     int pieceID;

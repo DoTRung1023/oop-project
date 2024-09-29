@@ -10,21 +10,11 @@ using namespace std;
 //Instruction button 
 //Quit button
 
-const char* imageFile[18] = {"./Assets/Pieces/rbulldog.png",
-                            "./Assets/Pieces/rpoodle.png",
-                            "./Assets/Pieces/rshepherd.png",
-                            "./Assets/Pieces/rmickey.png",
+const char* imageFile[8] = {"./Assets/Pieces/rpoodle.png",
                             "./Assets/Pieces/rrat.png",
-                            "./Assets/Pieces/rcactus.png",
-                            "./Assets/Pieces/rindian.png",
                             "./Assets/Pieces/rafrican.png",
-                            "./Assets/Pieces/bbulldog.png",
                             "./Assets/Pieces/bpoodle.png",
-                            "./Assets/Pieces/bshepherd.png",
-                            "./Assets/Pieces/bmickey.png",
                             "./Assets/Pieces/brat.png",
-                            "./Assets/Pieces/bcactus.png",
-                            "./Assets/Pieces/bindian.png",
                             "./Assets/Pieces/bafrican.png",
                             "./Assets/Pieces/soldier.png",
                             "./Assets/Pieces/fortress.png"};
@@ -36,7 +26,7 @@ GameIntro:: GameIntro(){
 
     //Load the font;
     
-    if (!font.loadFromFile("Assets/GameFont/Times New Roman.ttf")) { // Make sure to specify the correct path
+    if (!font.loadFromFile("Assets/Font/Times New Normal Regular.ttf")) { // Make sure to specify the correct path
         cout << "Error loading font!" << endl;
         return;
     }
@@ -60,10 +50,6 @@ GameIntro:: GameIntro(){
     title.setPosition(rectangle.getPosition().x + rectangle.getSize().x / 2, 
                       rectangle.getPosition().y + rectangle.getSize().y / 2); // Center the text in the rectangle
     
-    
-
-    
-
     //Create the Texture object:
     Texture introImageTexture;
 
@@ -107,9 +93,6 @@ GameIntro:: GameIntro(){
 
         quitButton.update(mousePos);
 
-
-
-
         Event event;
         while (introWindow.pollEvent(event)) {
             if (event.type == Event::Closed)
@@ -128,9 +111,6 @@ GameIntro:: GameIntro(){
                 }
             }
         }
-
-
-
         // Clear the window
         introWindow.clear(sf::Color::Black);
 
