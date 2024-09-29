@@ -11,7 +11,7 @@
 using namespace std;
 using namespace sf;
 
-class Character;
+class Character; // avoid error
 
 struct ChessPiece
 {
