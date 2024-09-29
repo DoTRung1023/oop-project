@@ -78,10 +78,10 @@ bool GameMove::playMove(Move newMove, Character* aimPiece, Character* choosePiec
         // if the move matches a possible move -> move
         if (temp.old_X == newMove.old_X && temp.old_Y == newMove.old_Y && temp.new_X == newMove.new_X && temp.new_Y == newMove.new_Y){
             if(choosePiece->attack(aimPiece) || currentBoard.index[newMove.new_X][newMove.new_Y]==-1){
-                if(choosePiece->attack(aimPiece)){
-                    // killMessage(*aimPiece);
-                    killMessage(aimPiece);
-                }
+                // if(choosePiece->attack(aimPiece)){
+                //     // killMessage(*aimPiece);
+                //     killMessage(aimPiece);
+                // }
                 currentBoard.index[newMove.new_X][newMove.new_Y] = currentBoard.index[newMove.old_X][newMove.old_Y];
                 currentBoard.index[newMove.old_X][newMove.old_Y] = -1;
                 return true;
