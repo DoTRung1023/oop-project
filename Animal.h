@@ -18,6 +18,10 @@ public:
     Animal(); 
     string getName() = 0;
     void setName(string name) = 0;
+    int getAtk() = 0;
+    void setAtk(int atk) = 0;
+    int getHp() = 0;
+    void setHp(int hp) = 0;
     ~Animal(); 
 };
 
