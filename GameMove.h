@@ -3,22 +3,8 @@
 
 #include <vector>
 #include <iostream>
-
-struct Board{            // red                 blue 
-    int index[7][9] = { {5, -1, 0, -1, -1, -1, 8, -1, 13},
-                        {-1, 6, -1, -1, -1, -1, -1, 14, -1},
-                        {16, -1, 3, -1, -1, -1, 11, -1, 19},
-                        {22, 17, -1, -1, -1, -1, -1, 20, 23},
-                        {18, -1, 1, -1, -1, -1, 9, -1, 21},
-                        {-1, 7, -1, -1, -1, -1, -1, 15, -1},
-                        {2, -1, 4, -1, -1, -1, 12, -1, 10}};
-};
-
-struct Move{
-    int old_X, old_Y, new_X, new_Y;
-    Move(){}
-    Move(int old_X, int old_Y, int new_X, int new_Y);
-};
+#include "Board.h"
+#include "Move.h"
 
 using namespace std;
 
@@ -35,6 +21,7 @@ public:
     // getter
     bool getTurn();
     Board getBoard();
+    // bool checkAttack();
 };
 
 #endif

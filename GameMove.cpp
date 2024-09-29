@@ -43,6 +43,11 @@ vector<Move> GameMove::getLegalMoves(Board currentBoard, bool turn){
     }
     return possibleMoves;
 }
+
+// bool GameMove::checkAttack(){
+
+// }
+
 // move the animals
 bool GameMove::playMove(Move newMove){
     vector<Move> possibleMoves = getLegalMoves(currentBoard, turn);
@@ -51,21 +56,22 @@ bool GameMove::playMove(Move newMove){
         temp = possibleMoves[i];
         // if the move matches a possible move -> move
         if (temp.old_X == newMove.old_X && temp.old_Y == newMove.old_Y && 
-            temp.new_X == newMove.new_X && temp.new_Y == newMove.new_Y &&
-            currentBoard.index[newMove.new_X][newMove.new_Y] == -1){
-            currentBoard.index[newMove.new_X][newMove.new_Y] = currentBoard.index[newMove.old_X][newMove.old_Y];
-            currentBoard.index[newMove.old_X][newMove.old_Y] = -1;
-            attack = false;
-            return true;
-        }
-        else{
-            attack = true;
-            return true;
+            temp.new_X == newMove.new_X && temp.new_Y == newMove.new_Y){
+            if(currentBoard.index[newMove.new_X][newMove.new_Y] == -1){
+                currentBoard.index[newMove.new_X][newMove.new_Y] = currentBoard.index[newMove.old_X][newMove.old_Y];
+                currentBoard.index[newMove.old_X][newMove.old_Y] = -1;
+                attack = false;
+                return true;
+            }
+            else{
+                attack = true;
+                return true;
+            }
         }
     }
     return false;
 }
-// switch turn
+//// switch turn
 bool GameMove::nextTurn()
 {
     turn = !turn;

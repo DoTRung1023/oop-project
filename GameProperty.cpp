@@ -290,7 +290,6 @@ void GameProperty::run(){
                             // if move is valid -> move
                             if(moveAnimal.playMove(newMove) && moveAnimal.attack == false){
                                 mapPieces(newMove);
-                                moveAnimal.nextTurn();
                             }
                             else if(moveAnimal.playMove(newMove) && moveAnimal.attack == true){
                                 int aimID = currentBoard.index[newMove.new_X][newMove.new_Y];
@@ -307,11 +306,12 @@ void GameProperty::run(){
                                 }
                                 pieces[aimIndex].character->hp -= pieces[causeIndex].character->atk;
                                 if(pieces[aimIndex].character->hp <= 0){
-                                    currentBoard.index[square_X][square_Y] = -1;
-                                    pieces[aimIndex].pieceID = -1;
+                                    // currentBoard.index[square_X][square_Y] = -1;
+                                    // pieces[aimIndex].pieceID = -1;
                                     pieces[aimIndex].draw = 0;
                                 }
                             }
+                            moveAnimal.nextTurn();
                             // turn the highlighted square back to original color
                             squares[selectAxis[0]][selectAxis[1]].setFillColor(colorsNeed[0]);
                             squares[selectAxis[0]][selectAxis[1]].setOutlineColor(colorsNeed[1]);
@@ -325,52 +325,54 @@ void GameProperty::run(){
                     select = 0;
                 }
             }
-            // else if(Keyboard::isKeyPressed(Keyboard::I) && select == 1){
-            //     RenderWindow infoWin(sf::VideoMode(100, 300), "Information");
-            //     while(infoWin.isOpen()){
-            //         Event infoEvent;
-            //         while(infoWin.pollEvent(infoEvent)){
-            //             if(infoEvent.type == Event::Closed){
-            //                 infoWin.close();
-            //                 break;
-            //             }
-            //         }
-            //         Font font;
-            //         Text text;
-            //         infoWin.clear(Color::White);
-            //         string info;
-            //         currentBoard = moveAnimal.getBoard();
-            //         for(int i = 0; i<63; i++){
-            //             if(pieces[i].pieceID == currentBoard.index[selectAxis[0]][selectAxis[1]]){
-            //                 Character* temp = pieces[i].character;
-            //                 info = "Name: " + temp->getName() + "\n" +
-            //                        "Equipment: " + temp->equipment->getName() + "\n" +
-            //                        "Equipment attack: " + std::to_string(temp->equipment->getAtk()) + "\n"
-            //                        "Total attack: " + std::to_string(temp->atk) + "\n"
-            //                        "Current hp: " + std::to_string(temp->hp) + "\n";
-            //             }
-            //         }
-            //         text.setString(info);
-            //         font.loadFromFile("./Assets/Font/Times New Normal Regular.ttf");
-            //         text.setFont(font);
-            //         text.setFillColor(Color::Black);
-            //         text.setCharacterSize(20);
-            //         // Get the window height and the text's local bounds
-            //         sf::FloatRect textBounds = text.getLocalBounds();
-            //         float windowHeight = infoWin.getSize().y;
+            else if(event.type == sf::Event::KeyPressed){
+                if(event.key.code == sf::Keyboard::I && select == 1){
+                    RenderWindow infoWin(sf::VideoMode(100, 300), "Information");
+                    Font font;
+                    Text text;
+                    string info;
+                    currentBoard = moveAnimal.getBoard();
+                    for(int i = 0; i<63; i++){
+                        if(pieces[i].pieceID == currentBoard.index[selectAxis[0]][selectAxis[1]]){
+                            Character* temp = pieces[i].character;
+                            info = "Name: " + temp->getName() + "\n" +
+                                "Equipment: " + temp->equipment->getName() + "\n" +
+                                "Equipment attack: " + std::to_string(temp->equipment->getAtk()) + "\n"
+                                "Total attack: " + std::to_string(temp->atk) + "\n"
+                                "Current hp: " + std::to_string(temp->hp) + "\n";
+                        }
+                    }
+                    text.setString(info);
+                    font.loadFromFile("./Assets/Font/Times New Normal Regular.ttf");
+                    text.setFont(font);
+                    text.setFillColor(Color::Black);
+                    text.setCharacterSize(20);
+                    // Get the window height and the text's local bounds
+                    sf::FloatRect textBounds = text.getLocalBounds();
+                    float windowHeight = infoWin.getSize().y;
 
-            //         // Set horizontal position to 0 (left-aligned)
-            //         float xPos = 0.0f;  // Left-aligned horizontally
+                    // Set horizontal position to 0 (left-aligned)
+                    float xPos = 0.0f;  // Left-aligned horizontally
 
-            //         // Center the text vertically
-            //         float yPos = (windowHeight / 2.0f) - (textBounds.height / 2.0f);
+                    // Center the text vertically
+                    float yPos = (windowHeight / 2.0f) - (textBounds.height / 2.0f);
 
-            //         // Set the text position
-            //         text.setPosition(xPos, yPos);
-            //         infoWin.draw(text);
-            //         infoWin.display();
-            //     }
-            // }
+                    // Set the text position
+                    text.setPosition(xPos, yPos);
+                    while(infoWin.isOpen()){
+                        Event infoEvent;
+                        while(infoWin.pollEvent(infoEvent)){
+                            if(infoEvent.type == Event::Closed){
+                                infoWin.close();
+                                break;
+                            }
+                        }
+                        infoWin.clear(Color::White);
+                        infoWin.draw(text);
+                        infoWin.display();
+                    }
+                }
+            }
             // else if(Keyboard::isKeyPressed(Keyboard::H)){
             //     RenderWindow warningWin(sf::VideoMode(300, 80), "WARNING");
             //     while(warningWin.isOpen()){
