@@ -8,14 +8,9 @@
 #include "Animal.h"
 #include "Fortress.h"
 #include "Soldier.h"
-#include "BullDog.h"
-#include "Poodle.h"
-#include "Shepherd.h"
-#include "Mickey.h"
-#include "Rat.h"
-#include "Cactus.h"
-#include "IndianElephant.h"
-#include "AfricanElephant.h"
+#include "Dog.h"
+#include "Elephant.h"
+#include "Mice.h"
 #include "Character.h"
 #include "GameMove.h"
 
@@ -75,11 +70,11 @@ void GameProperty::createPlayers(){
     // soldiers
     blueSoldiers = players2->getSoldierList();
 }
-void GameProperty::createPiece(const char* imageFile[18]){
+void GameProperty::createPiece(const char* imageFile[8]){
     Board currentBoard = moveAnimal.getBoard();
     // load image to texture
     // IntRect blank;
-    for(int i = 0; i<18; i++){
+    for(int i = 0; i<8; i++){
         // pieceTexture[i].loadFromFile(imageFile[i], blank);
         pieceTexture[i].loadFromFile(imageFile[i]);
     }
@@ -87,23 +82,24 @@ void GameProperty::createPiece(const char* imageFile[18]){
     int index = 0;
     for(int i = 0; i<7; i++){
         for(int j = 0; j<9; j++){
+            // get piece ID 
             pieces[index].pieceID = currentBoard.index[i][j];
             pieces[index].x = i;
             pieces[index].y = j;
+            // assign character to piece
             if(pieces[index].pieceID != -1){
                 if(pieces[index].pieceID < 8){
                     pieces[index].character = redAnimals[pieces[index].pieceID];
+                    
                 }
                 else if(pieces[index].pieceID < 16){
                     pieces[index].character = blueAnimals[pieces[index].pieceID-8];
                 }
-                else if(pieces[index].pieceID == 17){
-                    if(j < 4){
-                        pieces[index].character = redFortress;
-                    }
-                    else{
-                        pieces[index].character = blueFortress;
-                    }
+                else if(pieces[index].pieceID == 22){
+                    pieces[index].character = redFortress;
+                }
+                else if(pieces[index].pieceID == 23){
+                    pieces[index].character = blueFortress;
                 }
                 else{
                     if(j<4){
@@ -118,16 +114,14 @@ void GameProperty::createPiece(const char* imageFile[18]){
                         }
                     }
                     else {
-                        if(j<4){
-                            if(i == 2){
-                                pieces[index].character = blueSoldiers[0];  
-                            }
-                            else if(i == 3){
-                                pieces[index].character = blueSoldiers[1];  
-                            }
-                            else {
-                                pieces[index].character = blueSoldiers[2];  
-                            }
+                        if(i == 2){
+                            pieces[index].character = blueSoldiers[0];  
+                        }
+                        else if(i == 3){
+                            pieces[index].character = blueSoldiers[1];  
+                        }
+                        else {
+                            pieces[index].character = blueSoldiers[2];  
                         }
                     }
                 }
@@ -139,7 +133,8 @@ void GameProperty::createPiece(const char* imageFile[18]){
             }
             index++;
         }
-    }}
+    }
+}
 
 void GameProperty::drawSquares(){
     for(int i = 0; i<7; i++){
@@ -251,7 +246,7 @@ void GameProperty::run(){
                                 Text text;
                                 warningWin.clear(Color::White);
                                 string warning;
-                                warning = "Choose an object!!!";
+                                warning = "Choose an object!!!\nYou chose a valid animal";
                                 text.setString(warning);
                                 font.loadFromFile("./Assets/Font/Times New Normal Regular.ttf");
                                 text.setFont(font);

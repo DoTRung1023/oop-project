@@ -1,16 +1,10 @@
 #include <iostream>
+#include <vector>
 #include "GameMove.h"
 #include "GameProperty.h"
 
 using namespace std;
 
-// define struct move
-Move::Move(int oldX, int oldY, int newX, int newY){
-    old_X = oldX;
-    old_Y = oldY;
-    new_X = newX;
-    new_Y = newY;
-}
 // get possible move and push in the vector
 void GameMove::characterMove(vector<Move> &possibleMoves, int current_X, int current_Y, bool turn){
     // true = red, false = blue

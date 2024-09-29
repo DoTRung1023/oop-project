@@ -1,9 +1,9 @@
-main: main.cpp AfricanElephant.cpp Animal.cpp BullDog.cpp Cactus.cpp Character.cpp Fortress.cpp GameProperty.cpp IndianElephant.cpp Mickey.cpp Player.cpp Poodle.cpp Rat.cpp Shepherd.cpp Sodier.cpp GameMove.cpp Equipment.cpp Knife.cpp Hammer.cpp Arrow.cpp Armour.cpp RoundShield.cpp SpikeShield.cpp Weapon.cpp Shield.cpp
-	@g++ -std=c++17 main.cpp AfricanElephant.cpp Animal.cpp BullDog.cpp Cactus.cpp Character.cpp Fortress.cpp GameProperty.cpp IndianElephant.cpp Mickey.cpp Player.cpp Poodle.cpp Rat.cpp Shepherd.cpp Sodier.cpp GameMove.cpp Equipment.cpp Knife.cpp Hammer.cpp Arrow.cpp Armour.cpp RoundShield.cpp SpikeShield.cpp Weapon.cpp Shield.cpp -I/opt/homebrew/Cellar/sfml/2.6.1/include/ -o main -L/opt/homebrew/Cellar/sfml/2.6.1/lib -lsfml-graphics -lsfml-window -lsfml-system -lsfml-audio -lsfml-network
+main: main.cpp Animal.cpp Character.cpp Fortress.cpp GameProperty.cpp Player.cpp Sodier.cpp GameMove.cpp Dog.cpp Elephant.cpp Mice.cpp Move.cpp
+	@g++ -std=c++17 main.cpp Animal.cpp Character.cpp Fortress.cpp GameProperty.cpp Player.cpp Sodier.cpp GameMove.cpp Dog.cpp Elephant.cpp Mice.cpp Move.cpp -I/opt/homebrew/Cellar/sfml/2.6.1/include/ -o main -L/opt/homebrew/Cellar/sfml/2.6.1/lib -lsfml-graphics -lsfml-window -lsfml-system -lsfml-audio -lsfml-network
 	@./main
 
-debug: main.cpp AfricanElephant.cpp Animal.cpp BullDog.cpp Cactus.cpp Character.cpp Fortress.cpp GameProperty.cpp IndianElephant.cpp Mickey.cpp Player.cpp Poodle.cpp Rat.cpp Shepherd.cpp Sodier.cpp GameMove.cpp Equipment.cpp Knife.cpp Hammer.cpp Arrow.cpp Armour.cpp RoundShield.cpp SpikeShield.cpp Weapon.cpp Shield.cpp
-	@g++ -std=c++17 -Wall -Wextra -fsanitize=address main.cpp AfricanElephant.cpp Animal.cpp BullDog.cpp Cactus.cpp Character.cpp Fortress.cpp GameProperty.cpp IndianElephant.cpp Mickey.cpp Player.cpp Poodle.cpp Rat.cpp Shepherd.cpp Sodier.cpp GameMove.cpp Equipment.cpp Knife.cpp Hammer.cpp Arrow.cpp Armour.cpp RoundShield.cpp SpikeShield.cpp Weapon.cpp Shield.cpp -I/opt/homebrew/Cellar/sfml/2.6.1/include/ -o main -L/opt/homebrew/Cellar/sfml/2.6.1/lib -lsfml-graphics -lsfml-window -lsfml-system -lsfml-audio -lsfml-network
+debug: main.cpp Animal.cpp Character.cpp Fortress.cpp GameProperty.cpp Player.cpp Sodier.cpp GameMove.cpp Dog.cpp Elephant.cpp Mice.cpp
+	@g++ -std=c++17 -Wall -Wextra -fsanitize=address main.cpp Animal.cpp Character.cpp Fortress.cpp GameProperty.cpp Player.cpp Sodier.cpp GameMove.cpp Dog.cpp Elephant.cpp Mice.cpp -I/opt/homebrew/Cellar/sfml/2.6.1/include/ -o main -L/opt/homebrew/Cellar/sfml/2.6.1/lib -lsfml-graphics -lsfml-window -lsfml-system -lsfml-audio -lsfml-network
 	@./main
 
 

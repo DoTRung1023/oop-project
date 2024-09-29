@@ -1,12 +1,17 @@
 #include <iostream>
-#include <string.h>
 #include "Animal.h"
 #include "Character.h"
+using namespace std; 
 
 //Optional Constructor
-Animal::Animal(int atk, int hp, string name):
-                Character(atk, hp, name){}
+Animal::Animal(string name):Character(name){}
 
-Animal:: Animal(): Animal(0, 0, ""){}//Default Constructor
+Animal:: Animal(){
+    this->name = ""; 
+}//Default Constructor
+
+string Animal::getAnimalType(){
+    return animalType;
+}
 
 Animal:: ~Animal(){}

@@ -3,7 +3,7 @@
 
 using namespace std;
 
-Fortress::Fortress(): Character(0, 1000, "Fortress") {}
+Fortress::Fortress(): Character("Fortress") {}
 
 string Fortress::getName(){
     return name;

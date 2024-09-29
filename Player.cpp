@@ -2,14 +2,9 @@
 #include "Animal.h"
 #include "Fortress.h"
 #include "Soldier.h"
-#include "BullDog.h"
-#include "Poodle.h"
-#include "Shepherd.h"
-#include "Mickey.h"
-#include "Rat.h"
-#include "Cactus.h"
-#include "IndianElephant.h"
-#include "AfricanElephant.h"
+#include "Dog.h"
+#include "Mice.h"
+#include "Elephant.h"
 
 Player::Player(){
     //AnimalList:
@@ -17,23 +12,25 @@ Player::Player(){
     for(int i = 0; i<8 ; i++){//Tempt fix for dynamic allocation error in createPlayer():
         animalList[i] = nullptr; 
     }
-    animalList[0] = new BullDog;
-    animalList[1] = new Poodle;
-    animalList[2] = new Shepherd;
-    animalList[3] = new Mickey;
-    animalList[4] = new Rat;
-    animalList[5] = new Cactus;
-    animalList[6] = new IndianElephant;
-    animalList[7] = new AfricanElephant;
-
+    // make 3 types of animal
+    for(int i = 0; i<8; i++){
+        if(i < 3){
+            animalList[i] = new Mice("mice" + to_string(i));
+        }
+        else if(i<6){
+            animalList[i] = new Dog("dog" + to_string(i-3));
+        }
+        else{
+            animalList[i] = new Elephant("elephant" + to_string(i-6));    
+        }
+    }
     //Fortress:
     fortress = new Fortress;
 
     //SoldierList:
     soldierList = new Soldier*[3];
     for(int i = 0; i<3 ;i++){//Tempt fix for dynamic allocation error in createPlayer():
-        soldierList[i] = new Soldier();
-        soldierList[i]->setEquipment(i+1); 
+        soldierList[i] = new Soldier("soldier" + to_string(i));
     }
 }
 Animal** Player::getAnimalList(){

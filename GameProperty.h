@@ -1,6 +1,8 @@
 #ifndef __GAMEPROPERTY_H__
 #define __GAMEPROPERTY_H__
 
+#include <iostream>
+#include <string>
 #include <SFML/System.hpp>
 #include <SFML/Window.hpp>
 #include <SFML/Audio.hpp>
@@ -11,9 +13,8 @@
 #include "Soldier.h"
 #include "Fortress.h"
 #include "Character.h"
-#include <iostream>
-#include <string>
 #include "GameMove.h"
+#include "Board.h"
 
 using namespace std;
 using namespace sf;
@@ -37,13 +38,13 @@ private:
     Soldier** redSoldiers;
     Soldier** blueSoldiers;
     GameMove moveAnimal;
-    Texture pieceTexture[18]; 
+    Texture pieceTexture[8]; 
     int selectAxis[2];
     bool select = 0;
 public:
-    GameProperty(int width, int height, const char* imageFile[18], string gameName);
+    GameProperty(int width, int height, const char* imageFile[8], string gameName);
     void createPlayers();
-    void createPiece(const char* imageFile[18]);
+    void createPiece(const char* imageFile[8]);
     void drawSquares();
     void drawImage();
     void setHolders();
