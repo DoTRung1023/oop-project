@@ -1,6 +1,7 @@
 #include "GameIntro.h"
 #include "GameProperty.h"
 #include <iostream>
+#include<fstream> 
 
 using namespace sf; 
 using namespace std; 
@@ -53,9 +54,9 @@ GameIntro:: GameIntro(){
     //Create the Texture object:
     Texture introImageTexture;
 
-    //Load the logo texture into introImageTexture object:
+    //Load the image texture into introImageTexture object:
     if(!introImageTexture.loadFromFile("Assets/IntroImages/AnimalChessProjectImage.jpg")){
-        cerr << "Error loading logo!" << std::endl; //Print out announcement if can not find the photo
+        cerr << "Error loading image!" << std::endl; //Print out announcement if can not find the photo
         return; 
     }
 
@@ -77,8 +78,9 @@ GameIntro:: GameIntro(){
 
     //Define 3 button in the intro menu: 
     Button startGameButton(windowSize.x/2 - 100, windowSize.y/2 - 100, 200.0, 50.0, "Start", &font,Color:: White, Color:: White, Color:: Blue);
-    Button ruleInstructionButton(windowSize.x/2 - 100, windowSize.y/2 , 200.0, 50.0, "Instruction", &font,Color:: White, Color:: White, Color:: Blue); 
-    Button quitButton(windowSize.x/2 - 100, windowSize.y/2 + 100, 200.0, 50.0, "Quit", &font,Color:: White, Color:: White, Color:: Blue); 
+    Button loadGameButton(windowSize.x/2 - 100, windowSize.y/2, 200.0, 50.0, "Load Game", &font,Color:: White, Color:: White, Color:: Blue);
+    Button ruleInstructionButton(windowSize.x/2 - 100, windowSize.y/2 + 100 , 200.0, 50.0, "Instruction", &font,Color:: White, Color:: White, Color:: Blue); 
+    Button quitButton(windowSize.x/2 - 100, windowSize.y/2 + 200, 200.0, 50.0, "Quit", &font,Color:: White, Color:: White, Color:: Blue); 
 
 
     // Main loop
@@ -103,8 +105,12 @@ GameIntro:: GameIntro(){
                     GameProperty newgame(700, 900, imageFile, "Animal Chess");
                     newgame.run(); 
                 }
+                else if(loadGameButton.getButtonStates() == BTN_ACTIVE){
+                    //Trung: to do
+                }
                 else if(ruleInstructionButton.getButtonStates() == BTN_ACTIVE){
-                    cout << "Instruction" << endl; 
+                    openRuleWindow(font); 
+
                 }
                 else if(quitButton.getButtonStates() == BTN_ACTIVE){
                     introWindow.close(); 
@@ -119,8 +125,10 @@ GameIntro:: GameIntro(){
 
         //Draw the button
         startGameButton.render(&introWindow);
+        loadGameButton.render(&introWindow); 
         ruleInstructionButton.render(&introWindow);
         quitButton.render(&introWindow);
+        
 
         //Draw the rectangle and the title
         introWindow.draw(rectangle);
@@ -139,3 +147,104 @@ void GameIntro:: closeWindow(){
 
 
 
+void GameIntro:: openRuleWindow(Font font){
+    //Create the window for the menu
+    RenderWindow ruleWindow; 
+    ruleWindow.create(VideoMode(1000, 700), "Animal Chess Rule"); 
+
+    
+
+    //Load text from txtFile: 
+    ifstream input("Assets/GameInstruction/gameRule.txt"); 
+
+    if(!input.is_open()){//Check if can open the txt file or not 
+        cout << "Can not open File. Exit"; 
+        exit(-1);  
+    }
+
+    string rule; 
+    string tempt; 
+    while(!input.eof()){ // if not end of file then continue to read
+        //input >> tempt
+        getline(input, tempt); //Read each line of text file into the rule
+        rule = rule + '\n' + tempt; 
+    }
+
+    //Close the file after reading. 
+    input.close(); 
+
+    //Create Text object for the title:
+    Text content;
+    content.setFont(font);
+    content.setString(rule); // Set the title text
+
+    content.setCharacterSize(26); // Set text size
+    content.setFillColor(Color::Black); // Set text color
+
+
+     // Get the bounding box of the text (width and height)
+    FloatRect textRect = content.getLocalBounds();
+
+    // Center the origin of the text (so it can be centered on the window)
+    content.setOrigin(textRect.left + textRect.width / 2.0f, // Set origin horizontally to the center of text
+                      textRect.top + textRect.height / 2.0f); // Set origin vertically to the center of text
+
+    // Get window size to calculate the center
+    Vector2u ruleWindowSize = ruleWindow.getSize();
+
+    // Set the position of the text to the center of the window
+    content.setPosition(static_cast<float>(ruleWindowSize.x) / 2.0f,  // Set x-position to half of window width
+                        static_cast<float>(ruleWindowSize.y) / 2.0f); // Set y-position to half of window height
+
+
+   
+    //Create the Texture object:
+    Texture introImageTexture;
+
+    //Load the image texture into introImageTexture object:
+    if(!introImageTexture.loadFromFile("Assets/GameInstruction/whiteBackGrounds.png")){
+        cerr << "Error loading image!" << std::endl; //Print out announcement if can not find the photo
+        return; 
+    }
+
+    //Create a sprite for the introInamge:
+    Sprite introImageSprite;
+    introImageSprite.setTexture(introImageTexture); 
+
+    //Set the size of the image 
+
+    //Make the introImage in the middle of the screen: 
+    sf::Vector2u windowSize = ruleWindow.getSize();
+    sf::Vector2u introSize = introImageTexture.getSize();
+    
+    float scaleX = static_cast<float>(windowSize.x) / introSize.x; // Divide the width of window by the width of introTexture to get the scale of width
+    float scaleY = static_cast<float>(windowSize.y) / introSize.y; // Divide the width of window by the width of introTexture to get the scale of height
+
+    introImageSprite.setScale(scaleX,scaleY); //Scale the sprite
+
+    // Main loop
+    while (ruleWindow.isOpen()) {
+
+        Vector2f mousePos = ruleWindow.mapPixelToCoords(sf::Mouse::getPosition(ruleWindow));
+
+        // Update the button state based on mouse position
+
+        Event event;
+        while (ruleWindow.pollEvent(event)) {
+            if (event.type == Event::Closed)
+                ruleWindow.close();
+        }
+        // Clear the window
+        ruleWindow.clear(sf::Color::Black);
+
+        // Draw the IntroImage
+        ruleWindow.draw(introImageSprite);
+
+        //Draw the rectangle and the title
+        // ruleWindow.draw(rectangle);
+        ruleWindow.draw(content);
+
+        // Display the contents of the window
+        ruleWindow.display();
+    }
+}

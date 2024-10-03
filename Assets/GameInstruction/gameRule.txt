@@ -1,0 +1,22 @@
+In Animal Chess, players control a team of eight animals, playing to occupy the
+opponent's fortress. Victory is achieved either by successfully taking over the opponent's
+fortress or by eliminating all enemy animals. Each player has 3 types of animals and 2
+animals each type including Mice, elephant and dog.
+
+Each animal that a player controls holds a unique attack rule:
++ Only Mice can attack and eliminate Elephant
++ Only Elephant can attack and eliminate Dog
++ Only Dog can attack and eliminate Mice
++ 2 animals of the same type cannot attack each other.
+
+
+Each turn, a player needs to move 1 animal in his team, the animal can only move 1
+square forward, backward, to the left or to the right. It is illegal to move diagonally.
+
+Animals can only attack enemy’s animals which are in the square that is next to it, after
+an offensive movement, that animal cannot continue moving.
+
+Each side has 3 soldiers who are protecting their fortress. When an animal
+attacks the fortress, both the fortress and the animal are eliminated. This is also the only
+way to kill the opponent’s soldiers. In this game, soldiers cannot move, their only
+mission is protecting the fortress.
