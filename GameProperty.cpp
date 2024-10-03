@@ -16,6 +16,8 @@
 #include "Mice.h"
 #include "Character.h"
 #include "GameMove.h"
+#include "GameIntro.h"
+
 
 using namespace std;
 using namespace sf;
@@ -367,6 +369,7 @@ void GameProperty::run(){
         displayTurn();
         win.display();
     }
+    GameIntro newGame; 
 }
 void GameProperty::displayTurn(){
     bool turn  = moveAnimal.getTurn();

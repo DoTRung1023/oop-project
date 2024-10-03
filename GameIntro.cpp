@@ -114,6 +114,7 @@ GameIntro:: GameIntro(){
                 }
                 else if(quitButton.getButtonStates() == BTN_ACTIVE){
                     introWindow.close(); 
+                    finalMessage(); 
                 }
             }
         }
@@ -246,5 +247,36 @@ void GameIntro:: openRuleWindow(Font font){
 
         // Display the contents of the window
         ruleWindow.display();
+    }
+}
+
+void GameIntro:: finalMessage(){
+    RenderWindow finalWin(sf::VideoMode(500, 100), "END GAME");
+    while(finalWin.isOpen()){
+        Event finalEvent;
+        while(finalWin.pollEvent(finalEvent)){
+            if(finalEvent.type == Event::Closed){
+                finalWin.close();
+                break;
+            }
+        }
+        Font font;
+        Text text;
+        finalWin.clear(Color::White);
+        string final;
+        final = "Thank You for Playing Animal Chess!!!";
+        text.setString(final);
+        font.loadFromFile("./Assets/Font/Times New Normal Regular.ttf");
+        text.setFont(font);
+        text.setFillColor(Color::Black);
+        text.setCharacterSize(30);
+        // Center the text in warning
+        FloatRect textBounds = text.getLocalBounds();
+        text.setOrigin(textBounds.left + textBounds.width / 2.0f,  // Horizontal center
+                        textBounds.top + textBounds.height / 2.0f); // Vertical center
+        text.setPosition(finalWin.getSize().x / 2.0f,  // Center horizontally
+                        finalWin.getSize().y / 2.0f); // Center vertically
+        finalWin.draw(text);
+        finalWin.display();
     }
 }
