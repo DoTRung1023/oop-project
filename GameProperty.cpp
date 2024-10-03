@@ -1,3 +1,6 @@
+#include <iostream>
+#include <fstream>
+#include <string>
 #include <SFML/System.hpp>
 #include <SFML/Window.hpp>
 #include <SFML/Audio.hpp>
@@ -131,7 +134,7 @@ void GameProperty::createPiece(const char* imageFile[8]){//Error here:
                         else {
                             pieces[index].character = blueSoldiers[2];  
                         }
-                        pieces[index].character->color = "red";
+                        pieces[index].character->color = "blue";
                     }
                     insert = 6;
                 }
@@ -218,13 +221,17 @@ void GameProperty::run(){
     while(win.isOpen()){
         Event event;
         while(win.pollEvent(event)){
+            // close main window
             if(event.type == Event::Closed){
                 win.close();
+                break;
             }
+            // resize window
             else if(event.type == Event::Resized){
                 width = win.getSize().x;
                 height = win.getSize().y;
                 win.setView(View(FloatRect(0, 0, width, height)));
+                // calculate to keep game window ratio
                 if(width > height){
                     holder.height = height;
                     holder.width = height;
@@ -240,6 +247,7 @@ void GameProperty::run(){
                 setHolders();
                 mapPieces();
             }
+            // mouse click event
             else if(event.type == Event::MouseButtonPressed){
                 if (event.mouseButton.button == sf::Mouse::Button::Left){
                     // get click position
@@ -256,6 +264,7 @@ void GameProperty::run(){
                         if (click_X >= holder.left && click_X <= holder.left + holder.width && 
                             click_Y > holder.top && click_Y < holder.top + holder.height){
                             currentBoard = moveAnimal.getBoard();
+                            // warning if choose a wrong square
                             if(!(((*currentBoard).index[square_X][square_Y] >= 0 && 
                                 (*currentBoard).index[square_X][square_Y] <= 7 &&
                                 turn == true) || 
@@ -264,6 +273,7 @@ void GameProperty::run(){
                                 turn == false))){
                                     warning();
                             }
+                            // store selected square axes
                             else{
                                 selectAxis[0] = square_X;
                                 selectAxis[1] = square_Y;
@@ -289,17 +299,38 @@ void GameProperty::run(){
                             currentBoard = moveAnimal.getBoard();
                             Character* aimPiece;
                             Character* choosePiece;
+                            int aimID;
+                            int chooseID;
                             for(int i = 0; i<63; i++){
                                 if(pieces[i].pieceID == (*currentBoard).index[square_X][square_Y]){
                                     aimPiece = pieces[i].character;
+                                    aimID = i;
                                 }
                                 if(pieces[i].pieceID == (*currentBoard).index[selectAxis[0]][selectAxis[1]]){
                                     choosePiece = pieces[i].character;
+                                    chooseID = i;
                                 }
                             }
                             if(moveAnimal.playMove(newMove, aimPiece, choosePiece)){
                                 mapPieces(newMove);
                                 moveAnimal.nextTurn();
+                                if(moveAnimal.disappear == true){
+                                    pieces[aimID].draw = 0;
+                                    pieces[chooseID].draw = 0;
+                                }
+                                if(checkWinner() != winner){
+                                    winner = checkWinner();
+                                    squares[selectAxis[0]][selectAxis[1]].setFillColor(colorsNeed[0]);
+                                    squares[selectAxis[0]][selectAxis[1]].setOutlineColor(colorsNeed[1]);
+                                    select = 0;
+                                    win.clear();
+                                    drawSquares();
+                                    drawImage();
+                                    win.display();
+                                    showWinner();
+                                    win.close();
+                                    break;
+                                }
                             }
                             // turn the highlighted square back to original color
                             squares[selectAxis[0]][selectAxis[1]].setFillColor(colorsNeed[0]);
@@ -312,6 +343,21 @@ void GameProperty::run(){
                     squares[selectAxis[0]][selectAxis[1]].setFillColor(colorsNeed[0]);
                     squares[selectAxis[0]][selectAxis[1]].setOutlineColor(colorsNeed[1]);
                     select = 0;
+                }
+            }
+            // help window
+            else if(event.type == Event::KeyPressed){
+                if(event.key.code == sf::Keyboard::H){
+                    RenderWindow helpWin(sf::VideoMode(500, 100), "HELP");
+                    while(helpWin.isOpen()){
+                        Event helpEvent;
+                        while(helpWin.pollEvent(helpEvent)){
+                            if(helpEvent.type == Event::Closed){
+                                helpWin.close();
+                                break;
+                            }
+                        }
+                    }
                 }
             }
         }
@@ -334,7 +380,7 @@ void GameProperty::displayTurn(){
     info.setFont(font);
     info.setString(msg);
     info.setCharacterSize(100);
-    info.setFillColor(sf::Color(255, 255, 255, 204));
+    info.setFillColor(sf::Color(255, 255, 255, 100));
     // Get the bounds of the text to center it
     sf::FloatRect textBounds = info.getGlobalBounds();
     // Calculate the position to center the text
@@ -372,6 +418,98 @@ void GameProperty::warning(){
                         warningWin.getSize().y / 2.0f); // Center vertically
         warningWin.draw(text);
         warningWin.display();
+    }
+}
+
+string GameProperty::checkWinner(){
+    Board* currentBoard = moveAnimal.getBoard();
+    // check red fortress
+    if(currentBoard->index[3][0] != 22){
+        reason = 1;
+        return "blue";
+    }
+    // check blue fortress
+    else if(currentBoard->index[3][8] != 23){
+        reason = 1;
+        return "red";
+    }
+    // check red animals
+    int countRed = 0;
+    for(int i = 0; i<7; i++){
+        for(int j = 0; j<9; j++){
+            if(currentBoard->index[i][j] > -1 && currentBoard->index[i][j] < 8){
+                countRed++;
+                break;
+            }
+        }
+    }
+    // check blue animals
+    int countBlue = 0;
+    for(int i = 0; i<7; i++){
+        for(int j = 0; j<9; j++){
+            if(currentBoard->index[i][j] >= 8 && currentBoard->index[i][j] <= 15){
+                countBlue++;
+                break;
+            }
+        }
+    }
+    if(countBlue == 0){
+        reason = 2;
+        return "blue";
+    }
+    else if(countRed == 0){
+        reason = 2;
+        return "red";
+    }
+    return " ";
+}
+
+void GameProperty::showWinner(){
+    std::ifstream file;
+    // load reason
+    if(reason == 1){
+        // open the file
+        file.open("./Assets/Text/reason1.txt");
+    }
+    else if(reason == 2){
+        // open the file
+        file.open("./Assets/Text/reason2.txt");
+    }
+    // String to store the file content
+    std::string fileContent;
+    std::string line;
+    // Read the file line by line and append to the string
+    while (std::getline(file, line)) {
+        fileContent += line + "\n";  // Add each line followed by a newline
+    }
+    // Close the file when done
+    file.close();
+    RenderWindow winnerWin(sf::VideoMode(730, 80), "WINNER");
+    while(winnerWin.isOpen()){
+        Event winnerEvent;
+        while(winnerWin.pollEvent(winnerEvent)){
+            if(winnerEvent.type == Event::Closed){
+                winnerWin.close();
+                break;
+            }
+        }
+        Font font;
+        Text text;
+        winnerWin.clear(Color::White);
+        string msg = winner + line;
+        text.setString(msg);
+        font.loadFromFile("./Assets/Font/Times New Normal Regular.ttf");
+        text.setFont(font);
+        text.setFillColor(Color::Black);
+        text.setCharacterSize(30);
+        // Center the text in warning
+        FloatRect textBounds = text.getLocalBounds();
+        text.setOrigin(textBounds.left + textBounds.width / 2.0f,  // Horizontal center
+                        textBounds.top + textBounds.height / 2.0f); // Vertical center
+        text.setPosition(winnerWin.getSize().x / 2.0f,  // Center horizontally
+                        winnerWin.getSize().y / 2.0f); // Center vertically
+        winnerWin.draw(text);
+        winnerWin.display();
     }
 }
 

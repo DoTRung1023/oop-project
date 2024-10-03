@@ -41,7 +41,9 @@ private:
     Texture pieceTexture[8]; 
     int selectAxis[2];
     bool select = 0;
+    int reason = -1;
 public:
+    string winner = " ";
     GameProperty(int width, int height, const char* imageFile[8], string gameName);
     void createPlayers();
     void createPiece(const char* imageFile[8]);
@@ -53,6 +55,8 @@ public:
     void run();
     void displayTurn();
     void warning();
+    string checkWinner();
+    void showWinner();
     ~GameProperty(); 
 };
 

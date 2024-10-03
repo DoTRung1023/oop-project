@@ -107,6 +107,8 @@
     "tuple": "cpp",
     "unordered_map": "cpp",
     "vector": "cpp",
-    "algorithm": "cpp"
+    "algorithm": "cpp",
+    "fstream": "cpp",
+    "iomanip": "cpp"
   }
 }

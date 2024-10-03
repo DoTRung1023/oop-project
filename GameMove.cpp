@@ -14,7 +14,7 @@ void GameMove::characterMove(vector<Move> &possibleMoves, int current_X, int cur
     // true = red, false = blue
     bool validColor = currentBoard.index[current_X][current_Y] < 8;
     // check 4 direction to get possible move
-    if (currentBoard.index[current_X][current_Y] > -1 && currentBoard.index[current_X][current_Y] < 16){
+    if (currentBoard.index[current_X][current_Y] > -1 && currentBoard.index[current_X][current_Y] < 16 && validColor == turn){
         if(current_X>0){
             possibleMoves.push_back(Move(current_X, current_Y, current_X-1, current_Y));
         }
@@ -49,17 +49,30 @@ bool GameMove::playMove(Move newMove, Character* aimPiece, Character* choosePiec
         temp = possibleMoves[i];
         // if the move matches a possible move -> move
         if (temp.old_X == newMove.old_X && temp.old_Y == newMove.old_Y && temp.new_X == newMove.new_X && temp.new_Y == newMove.new_Y){
-            if((choosePiece->attack(aimPiece) && choosePiece->color != aimPiece->color) || currentBoard.index[newMove.new_X][newMove.new_Y] == -1){
-                if(choosePiece->attack(aimPiece)){
-                    killMessage(aimPiece);
+            if(choosePiece->attack(aimPiece) && choosePiece->color != aimPiece->color){
+                killMessage(aimPiece);
+                if(aimPiece->getName() == "fortress" || aimPiece->getName() == "soldier"){
+                    currentBoard.index[newMove.new_X][newMove.new_Y] = -1;
+                    currentBoard.index[newMove.old_X][newMove.old_Y] = -1;
+                    disappear = true;
                 }
+                else{
+                    currentBoard.index[newMove.new_X][newMove.new_Y] = currentBoard.index[newMove.old_X][newMove.old_Y];
+                    currentBoard.index[newMove.old_X][newMove.old_Y] = -1;
+                    disappear = false;
+                }
+                return true;
+            }
+            else if(currentBoard.index[newMove.new_X][newMove.new_Y] == -1){
                 currentBoard.index[newMove.new_X][newMove.new_Y] = currentBoard.index[newMove.old_X][newMove.old_Y];
                 currentBoard.index[newMove.old_X][newMove.old_Y] = -1;
+                disappear = false;
                 return true;
             }
         }
     }
     wrongMoveMessage();
+    disappear = false;
     return false;
 }
 
