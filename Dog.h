@@ -6,6 +6,7 @@ class Dog: public Animal{
 public: 
     Dog(); 
     bool attack(Character* piece);
+    ~Dog();
 };
 
 #endif

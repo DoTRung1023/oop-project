@@ -24,7 +24,7 @@ public:
     // void killMessage(ChessPiece killPiece);
     void killMessage(Character* killPiece);
 
-    Board getBoard();
+    Board* getBoard();
 };
 
 #endif

@@ -51,7 +51,6 @@ public:
     void mapPieces();
     void mapPieces(Move moving);
     void run();
-    // void closeWindow(); 
     void displayTurn();
     void warning(int square_X, int square_Y);
     ~GameProperty(); 

@@ -1,6 +1,4 @@
 #include "Button.h"
-#include "GameProperty.h"
-
 
 Button:: Button(float x, float y, float width, float height, string text, Font* font, Color idleColor,Color hoverColor,Color activeColor){
     this->shape.setPosition(Vector2f(x,y)); 

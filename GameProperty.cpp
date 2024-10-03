@@ -70,8 +70,9 @@ void GameProperty::createPlayers(){
     // soldiers
     blueSoldiers = players2->getSoldierList();
 }
-void GameProperty::createPiece(const char* imageFile[8]){
-    Board currentBoard = moveAnimal.getBoard();
+void GameProperty::createPiece(const char* imageFile[8]){//Error here: 
+    Board* currentBoard = moveAnimal.getBoard();
+
     // load image to texture
     // IntRect blank;
     for(int i = 0; i<8; i++){
@@ -83,7 +84,7 @@ void GameProperty::createPiece(const char* imageFile[8]){
     for(int i = 0; i<7; i++){
         for(int j = 0; j<9; j++){
             // get piece ID 
-            pieces[index].pieceID = currentBoard.index[i][j];
+            pieces[index].pieceID = (*currentBoard).index[i][j];
             pieces[index].x = i;
             pieces[index].y = j;
             // assign character to piece
@@ -145,7 +146,7 @@ void GameProperty::createPiece(const char* imageFile[8]){
                         insert = 2;
                     }
                     if(pieces[index].character->color == "blue"){
-                        insert +=3;
+                        insert += 3;
                     }
                 }
                 pieces[index].image.setTexture(pieceTexture[insert], true);  
@@ -213,7 +214,7 @@ void GameProperty::mapPieces(Move moving){
 
 
 void GameProperty::run(){
-    Board currentBoard = moveAnimal.getBoard();
+    Board* currentBoard = moveAnimal.getBoard();
     while(win.isOpen()){
         Event event;
         while(win.pollEvent(event)){
@@ -254,23 +255,23 @@ void GameProperty::run(){
                     if (select == 0){
                         if (click_X >= holder.left && click_X <= holder.left + holder.width && 
                             click_Y > holder.top && click_Y < holder.top + holder.height){
-                        }
-                        currentBoard = moveAnimal.getBoard();
-                        if(!((currentBoard.index[square_X][square_Y] >= 0 && 
-                             currentBoard.index[square_X][square_Y] <= 7 &&
-                             turn == true) || 
-                            (currentBoard.index[square_X][square_Y] >= 8 && 
-                             currentBoard.index[square_X][square_Y] <= 15 &&
-                             turn == false))){
-                                warning(square_X, square_Y);
-                        }
-                        else{
-                            selectAxis[0] = square_X;
-                            selectAxis[1] = square_Y;
-                            // highlight
-                            squares[selectAxis[0]][selectAxis[1]].setFillColor(colorsNeed[2]);
-                            squares[selectAxis[0]][selectAxis[1]].setOutlineColor(colorsNeed[1]);
-                            select = 1;
+                            currentBoard = moveAnimal.getBoard();
+                            if(!(((*currentBoard).index[square_X][square_Y] >= 0 && 
+                                (*currentBoard).index[square_X][square_Y] <= 7 &&
+                                turn == true) || 
+                                ((*currentBoard).index[square_X][square_Y] >= 8 && 
+                                (*currentBoard).index[square_X][square_Y] <= 15 &&
+                                turn == false))){
+                                    warning(square_X, square_Y);
+                            }
+                            else{
+                                selectAxis[0] = square_X;
+                                selectAxis[1] = square_Y;
+                                // highlight
+                                squares[selectAxis[0]][selectAxis[1]].setFillColor(colorsNeed[2]);
+                                squares[selectAxis[0]][selectAxis[1]].setOutlineColor(colorsNeed[1]);
+                                select = 1;
+                            }
                         }
                     }
                     // already select
@@ -291,11 +292,11 @@ void GameProperty::run(){
                             Character* aimPiece;
                             Character* choosePiece;
                             for(int i = 0; i<63; i++){
-                                if(pieces[i].pieceID == currentBoard.index[square_X][square_Y]){
+                                if(pieces[i].pieceID == (*currentBoard).index[square_X][square_Y]){
                                     // aimPiece = pieces[i];
                                     aimPiece = pieces[i].character;
                                 }
-                                if(pieces[i].pieceID == currentBoard.index[selectAxis[0]][selectAxis[1]]){
+                                if(pieces[i].pieceID == (*currentBoard).index[selectAxis[0]][selectAxis[1]]){
                                     choosePiece = pieces[i].character;
                                 }
                             }

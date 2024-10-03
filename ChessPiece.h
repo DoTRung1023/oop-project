@@ -11,8 +11,6 @@
 using namespace std;
 using namespace sf;
 
-class Character; // avoid error
-
 struct ChessPiece
 {
     int pieceID;
@@ -20,7 +18,6 @@ struct ChessPiece
     int y;
     bool draw = 0;
     Sprite image;
-    int set_character = 0;
     Character* character; 
 };
 

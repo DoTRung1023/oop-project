@@ -24,3 +24,6 @@ bool Mice::attack(Character* piece){
     return false;
 }
 
+Mice::~Mice(){
+    
+}

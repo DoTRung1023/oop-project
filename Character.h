@@ -7,7 +7,6 @@
 #include <SFML/Graphics.hpp>
 #include <iostream>
 #include <string>
-#include "ChessPiece.h"
 
 using namespace std;
 

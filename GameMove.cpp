@@ -49,6 +49,7 @@ vector<Move> GameMove::getLegalMoves(Board currentBoard, bool turn){
     }
     return possibleMoves;
 }
+
 // move the animals
 // bool GameMove::playMove(Move newMove, ChessPiece* aimPiece, ChessPiece* choosePiece){
 //     vector<Move> possibleMoves = getLegalMoves(currentBoard, turn);
@@ -90,6 +91,27 @@ bool GameMove::playMove(Move newMove, Character* aimPiece, Character* choosePiec
     }
     return false;
 }
+
+// bool GameMove::playMove(Move newMove, Character* aimPiece, Character* choosePiece){
+//     vector<Move> possibleMoves = getLegalMoves(currentBoard, turn);
+//     Move temp;
+//     for (int i = 0; i < possibleMoves.size(); i++){
+//         temp = possibleMoves[i];
+//         // if the move matches a possible move -> move
+//         if (temp.old_X == newMove.old_X && temp.old_Y == newMove.old_Y && temp.new_X == newMove.new_X && temp.new_Y == newMove.new_Y){
+//             if(choosePiece->attack(aimPiece) || currentBoard[newMove.new_X][newMove.new_Y]==-1){
+//                 // if(choosePiece->attack(aimPiece)){
+//                 //     // killMessage(*aimPiece);
+//                 //     killMessage(aimPiece);
+//                 // }
+//                 currentBoard[newMove.new_X][newMove.new_Y] = currentBoard[newMove.old_X][newMove.old_Y];
+//                 currentBoard[newMove.old_X][newMove.old_Y] = -1;
+//                 return true;
+//             }
+//         }
+//     }
+//     return false;
+// }
 
 
 // void GameMove::killMessage(ChessPiece killPiece){
@@ -167,6 +189,6 @@ bool GameMove::getTurn(){
     return turn;
 }
 
-Board GameMove::getBoard(){
-    return currentBoard;
+Board* GameMove::getBoard(){
+    return &currentBoard;
 }

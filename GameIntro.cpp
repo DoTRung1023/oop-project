@@ -1,6 +1,6 @@
 #include "GameIntro.h"
 #include "GameProperty.h"
-#include<iostream>
+#include <iostream>
 
 using namespace sf; 
 using namespace std; 

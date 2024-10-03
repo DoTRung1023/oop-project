@@ -6,7 +6,8 @@ using namespace std;
 class Mice: public Animal{
     public:
         Mice(); 
-        bool attack(Character* piece); 
+        bool attack(Character* piece);
+        ~Mice(); 
 };
 
 

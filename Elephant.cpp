@@ -25,3 +25,7 @@ bool Elephant::attack(Character* piece){
     return false;
 }
 
+Elephant::~Elephant(){
+    
+}
+

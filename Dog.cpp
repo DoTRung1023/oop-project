@@ -25,3 +25,6 @@ bool Dog::attack(Character* piece){
     return false;
 }
 
+Dog::~Dog(){
+    
+}
