@@ -262,7 +262,7 @@ void GameProperty::run(){
                                 ((*currentBoard).index[square_X][square_Y] >= 8 && 
                                 (*currentBoard).index[square_X][square_Y] <= 15 &&
                                 turn == false))){
-                                    warning(square_X, square_Y);
+                                    warning();
                             }
                             else{
                                 selectAxis[0] = square_X;
@@ -287,8 +287,6 @@ void GameProperty::run(){
                             Move newMove(selectAxis[0], selectAxis[1], square_X, square_Y);
                             // if move is valid -> move
                             currentBoard = moveAnimal.getBoard();
-                            // ChessPiece aimPiece;
-                            // ChessPiece choosePiece;
                             Character* aimPiece;
                             Character* choosePiece;
                             for(int i = 0; i<63; i++){
@@ -348,7 +346,7 @@ void GameProperty::displayTurn(){
     win.draw(info);
 }
 
-void GameProperty::warning(int square_X, int square_Y){
+void GameProperty::warning(){
     RenderWindow warningWin(sf::VideoMode(500, 100), "WARNING");
     while(warningWin.isOpen()){
         Event warningEvent;

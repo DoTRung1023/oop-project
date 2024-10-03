@@ -52,7 +52,7 @@ public:
     void mapPieces(Move moving);
     void run();
     void displayTurn();
-    void warning(int square_X, int square_Y);
+    void warning();
     ~GameProperty(); 
 };
 
