@@ -14,7 +14,7 @@ void GameMove::characterMove(vector<Move> &possibleMoves, int current_X, int cur
     // true = red, false = blue
     bool validColor = currentBoard.index[current_X][current_Y] < 8;
     // check 4 direction to get possible move
-    if (currentBoard.index[current_X][current_Y] > -1 && currentBoard.index[current_X][current_Y] < 16 && validColor == turn){
+    if (currentBoard.index[current_X][current_Y] > -1 && currentBoard.index[current_X][current_Y] < 16){
         if(current_X>0){
             possibleMoves.push_back(Move(current_X, current_Y, current_X-1, current_Y));
         }
@@ -49,9 +49,8 @@ bool GameMove::playMove(Move newMove, Character* aimPiece, Character* choosePiec
         temp = possibleMoves[i];
         // if the move matches a possible move -> move
         if (temp.old_X == newMove.old_X && temp.old_Y == newMove.old_Y && temp.new_X == newMove.new_X && temp.new_Y == newMove.new_Y){
-            if(choosePiece->attack(aimPiece) || currentBoard.index[newMove.new_X][newMove.new_Y]==-1){
+            if((choosePiece->attack(aimPiece) && choosePiece->color != aimPiece->color) || currentBoard.index[newMove.new_X][newMove.new_Y] == -1){
                 if(choosePiece->attack(aimPiece)){
-                    // killMessage(*aimPiece);
                     killMessage(aimPiece);
                 }
                 currentBoard.index[newMove.new_X][newMove.new_Y] = currentBoard.index[newMove.old_X][newMove.old_Y];
@@ -60,6 +59,7 @@ bool GameMove::playMove(Move newMove, Character* aimPiece, Character* choosePiec
             }
         }
     }
+    wrongMoveMessage();
     return false;
 }
 
@@ -77,7 +77,7 @@ void GameMove::killMessage(Character* killPiece){
         Text text;
         killWin.clear(Color::White);
         string kill;
-        kill = killPiece->color + killPiece->getName() + " is killed🔥🔥🔥";
+        kill = killPiece->color + " " + killPiece->getName() + " is killed!";
         text.setString(kill);
         font.loadFromFile("./Assets/Font/Times New Normal Regular.ttf");
         text.setFont(font);
@@ -93,13 +93,40 @@ void GameMove::killMessage(Character* killPiece){
         killWin.display();
     }
 }
-
+// message for wrong move
+void GameMove::wrongMoveMessage(){
+    RenderWindow wrongWin(sf::VideoMode(500, 100), "WRONG MOVE");
+    while(wrongWin.isOpen()){
+        Event wrongEvent;
+        while(wrongWin.pollEvent(wrongEvent)){
+            if(wrongEvent.type == Event::Closed){
+                wrongWin.close();
+                break;
+            }
+        }
+        Font font;
+        Text text;
+        wrongWin.clear(Color::White);
+        string msg = "Choose a valid move!";
+        text.setString(msg);
+        font.loadFromFile("./Assets/Font/Times New Normal Regular.ttf");
+        text.setFont(font);
+        text.setFillColor(Color::Black);
+        text.setCharacterSize(30);
+        // Center the text in warning
+        FloatRect textBounds = text.getLocalBounds();
+        text.setOrigin(textBounds.left + textBounds.width / 2.0f,  // Horizontal center
+                        textBounds.top + textBounds.height / 2.0f); // Vertical center
+        text.setPosition(wrongWin.getSize().x / 2.0f,  // Center horizontally
+                        wrongWin.getSize().y / 2.0f); // Center vertically
+        wrongWin.draw(text);
+        wrongWin.display();
+    }
+}
 
 // switch turn
-bool GameMove::nextTurn()
-{
+bool GameMove::nextTurn(){
     turn = !turn;
-
     return turn;
 }
 // getter

@@ -291,7 +291,6 @@ void GameProperty::run(){
                             Character* choosePiece;
                             for(int i = 0; i<63; i++){
                                 if(pieces[i].pieceID == (*currentBoard).index[square_X][square_Y]){
-                                    // aimPiece = pieces[i];
                                     aimPiece = pieces[i].character;
                                 }
                                 if(pieces[i].pieceID == (*currentBoard).index[selectAxis[0]][selectAxis[1]]){
@@ -299,7 +298,6 @@ void GameProperty::run(){
                                 }
                             }
                             if(moveAnimal.playMove(newMove, aimPiece, choosePiece)){
-                            // if(moveAnimal.playMove(newMove, &aimPiece, &choosePiece)){
                                 mapPieces(newMove);
                                 moveAnimal.nextTurn();
                             }
@@ -360,7 +358,7 @@ void GameProperty::warning(){
         Text text;
         warningWin.clear(Color::White);
         string warning;
-        warning = "Choose an object!!!\nYou chose a valid animal";
+        warning = "You chose a valid animal!";
         text.setString(warning);
         font.loadFromFile("./Assets/Font/Times New Normal Regular.ttf");
         text.setFont(font);
