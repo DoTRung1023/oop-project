@@ -99,7 +99,7 @@ GameIntro:: GameIntro(){
         while (introWindow.pollEvent(event)) {
             if (event.type == Event::Closed)
                 introWindow.close();
-            if(event.type == sf::Event::MouseButtonPressed){
+            else if(event.type == sf::Event::MouseButtonPressed){
                 if(startGameButton.getButtonStates() == BTN_ACTIVE){
                     introWindow.close();
                     GameProperty newgame(700, 900, imageFile, "Animal Chess");
