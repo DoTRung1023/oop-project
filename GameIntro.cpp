@@ -1,7 +1,8 @@
 #include "GameIntro.h"
 #include "GameProperty.h"
 #include <iostream>
-#include<fstream> 
+#include <fstream> 
+#include "Board.h"
 
 using namespace sf; 
 using namespace std; 
@@ -76,7 +77,7 @@ GameIntro:: GameIntro(){
     introImageSprite.setScale(scaleX,scaleY); //Scale the sprite
 
 
-    //Define 3 button in the intro menu: 
+    //Define 4 button in the intro menu: 
     Button startGameButton(windowSize.x/2 - 100, windowSize.y/2 - 100, 200.0, 50.0, "Start", &font,Color:: White, Color:: White, Color:: Blue);
     Button loadGameButton(windowSize.x/2 - 100, windowSize.y/2, 200.0, 50.0, "Load Game", &font,Color:: White, Color:: White, Color:: Blue);
     Button ruleInstructionButton(windowSize.x/2 - 100, windowSize.y/2 + 100 , 200.0, 50.0, "Instruction", &font,Color:: White, Color:: White, Color:: Blue); 
@@ -91,22 +92,39 @@ GameIntro:: GameIntro(){
         // Update the button state based on mouse position
         startGameButton.update(mousePos);
         
+        loadGameButton.update(mousePos);
+
         ruleInstructionButton.update(mousePos);
 
         quitButton.update(mousePos);
 
         Event event;
         while (introWindow.pollEvent(event)) {
-            if (event.type == Event::Closed)
+            if (event.type == Event::Closed){
                 introWindow.close();
+            }
             else if(event.type == sf::Event::MouseButtonPressed){
                 if(startGameButton.getButtonStates() == BTN_ACTIVE){
                     introWindow.close();
+                    Board::makeNewBoard();
+                    Board::loadIndex();
                     GameProperty newgame(700, 900, imageFile, "Animal Chess");
                     newgame.run(); 
                 }
                 else if(loadGameButton.getButtonStates() == BTN_ACTIVE){
-                    //Trung: to do
+                    if(Board::checkEmpty() == true){
+                        introWindow.close();
+                        Board::makeNewBoard();
+                        Board::loadIndex();
+                        GameProperty newgame(700, 900, imageFile, "Animal Chess");
+                        newgame.run(); 
+                    }
+                    else{
+                        introWindow.close();
+                        Board::loadIndex();
+                        GameProperty newgame(700, 900, imageFile, "Animal Chess");
+                        newgame.run(); 
+                    }
                 }
                 else if(ruleInstructionButton.getButtonStates() == BTN_ACTIVE){
                     openRuleWindow(font); 
@@ -145,15 +163,10 @@ void GameIntro:: closeWindow(){
     introWindow.close(); 
 }
 
-
-
-
 void GameIntro:: openRuleWindow(Font font){
     //Create the window for the menu
     RenderWindow ruleWindow; 
     ruleWindow.create(VideoMode(1000, 700), "Animal Chess Rule"); 
-
-    
 
     //Load text from txtFile: 
     ifstream input("Assets/GameInstruction/gameRule.txt"); 

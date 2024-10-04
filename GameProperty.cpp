@@ -17,7 +17,7 @@
 #include "Character.h"
 #include "GameMove.h"
 #include "GameIntro.h"
-
+#include "Button.h"
 
 using namespace std;
 using namespace sf;
@@ -75,8 +75,8 @@ void GameProperty::createPlayers(){
     // soldiers
     blueSoldiers = players2->getSoldierList();
 }
-void GameProperty::createPiece(const char* imageFile[8]){//Error here: 
-    Board* currentBoard = moveAnimal.getBoard();
+void GameProperty::createPiece(const char* imageFile[8]){
+    // Board* currentBoard = moveAnimal.getBoard();
 
     // load image to texture
     // IntRect blank;
@@ -89,7 +89,7 @@ void GameProperty::createPiece(const char* imageFile[8]){//Error here:
     for(int i = 0; i<7; i++){
         for(int j = 0; j<9; j++){
             // get piece ID 
-            pieces[index].pieceID = (*currentBoard).index[i][j];
+            pieces[index].pieceID = Board::index[i][j];
             pieces[index].x = i;
             pieces[index].y = j;
             // assign character to piece
@@ -113,31 +113,34 @@ void GameProperty::createPiece(const char* imageFile[8]){//Error here:
                     pieces[index].character->color = "blue";
                     insert = 7;
                 }
-                else{
-                    if(j<4){
-                        if(i == 2){
-                            pieces[index].character = redSoldiers[0];
-                        }
-                        else if(i == 3){
-                            pieces[index].character = redSoldiers[1];  
-                        }
-                        else {
-                            pieces[index].character = redSoldiers[2];  
-                        }
-                        pieces[index].character->color = "red";
-                    }
-                    else {
-                        if(i == 2){
-                            pieces[index].character = blueSoldiers[0];  
-                        }
-                        else if(i == 3){
-                            pieces[index].character = blueSoldiers[1];  
-                        }
-                        else {
-                            pieces[index].character = blueSoldiers[2];  
-                        }
-                        pieces[index].character->color = "blue";
-                    }
+                else if(pieces[index].pieceID == 16){
+                    pieces[index].character = redSoldiers[0];
+                    pieces[index].character->color = "red";
+                    insert = 6;
+                }
+                else if(pieces[index].pieceID == 17){
+                    pieces[index].character = redSoldiers[1];
+                    pieces[index].character->color = "red";
+                    insert = 6;
+                }
+                else if(pieces[index].pieceID == 18){
+                    pieces[index].character = redSoldiers[2];
+                    pieces[index].character->color = "red";
+                    insert = 6;
+                }
+                else if(pieces[index].pieceID == 19){
+                    pieces[index].character = blueSoldiers[0];
+                    pieces[index].character->color = "blue";
+                    insert = 6;
+                }
+                else if(pieces[index].pieceID == 20){
+                    pieces[index].character = blueSoldiers[1];
+                    pieces[index].character->color = "blue";
+                    insert = 6;
+                }
+                else if(pieces[index].pieceID == 21){
+                    pieces[index].character = blueSoldiers[2];
+                    pieces[index].character->color = "blue";
                     insert = 6;
                 }
                 if(insert == -1){
@@ -219,7 +222,7 @@ void GameProperty::mapPieces(Move moving){
 
 
 void GameProperty::run(){
-    Board* currentBoard = moveAnimal.getBoard();
+    // Board* currentBoard = moveAnimal.getBoard();
     while(win.isOpen()){
         Event event;
         while(win.pollEvent(event)){
@@ -265,13 +268,13 @@ void GameProperty::run(){
                     if (select == 0){
                         if (click_X >= holder.left && click_X <= holder.left + holder.width && 
                             click_Y > holder.top && click_Y < holder.top + holder.height){
-                            currentBoard = moveAnimal.getBoard();
+                            // currentBoard = moveAnimal.getBoard();
                             // warning if choose a wrong square
-                            if(!(((*currentBoard).index[square_X][square_Y] >= 0 && 
-                                (*currentBoard).index[square_X][square_Y] <= 7 &&
+                            if(!((Board::index[square_X][square_Y] >= 0 && 
+                                Board::index[square_X][square_Y] <= 7 &&
                                 turn == true) || 
-                                ((*currentBoard).index[square_X][square_Y] >= 8 && 
-                                (*currentBoard).index[square_X][square_Y] <= 15 &&
+                                (Board::index[square_X][square_Y] >= 8 && 
+                                Board::index[square_X][square_Y] <= 15 &&
                                 turn == false))){
                                     warning();
                             }
@@ -298,17 +301,17 @@ void GameProperty::run(){
                         else{
                             Move newMove(selectAxis[0], selectAxis[1], square_X, square_Y);
                             // if move is valid -> move
-                            currentBoard = moveAnimal.getBoard();
+                            // currentBoard = moveAnimal.getBoard();
                             Character* aimPiece;
                             Character* choosePiece;
                             int aimID;
                             int chooseID;
                             for(int i = 0; i<63; i++){
-                                if(pieces[i].pieceID == (*currentBoard).index[square_X][square_Y]){
+                                if(pieces[i].pieceID == Board::index[square_X][square_Y]){
                                     aimPiece = pieces[i].character;
                                     aimID = i;
                                 }
-                                if(pieces[i].pieceID == (*currentBoard).index[selectAxis[0]][selectAxis[1]]){
+                                if(pieces[i].pieceID == Board::index[selectAxis[0]][selectAxis[1]]){
                                     choosePiece = pieces[i].character;
                                     chooseID = i;
                                 }
@@ -350,16 +353,17 @@ void GameProperty::run(){
             // help window
             else if(event.type == Event::KeyPressed){
                 if(event.key.code == sf::Keyboard::H){
-                    RenderWindow helpWin(sf::VideoMode(500, 100), "HELP");
-                    while(helpWin.isOpen()){
-                        Event helpEvent;
-                        while(helpWin.pollEvent(helpEvent)){
-                            if(helpEvent.type == Event::Closed){
-                                helpWin.close();
-                                break;
-                            }
-                        }
-                    }
+                    helpWindow();
+                    // RenderWindow helpWin(sf::VideoMode(500, 100), "HELP");
+                    // while(helpWin.isOpen()){
+                    //     Event helpEvent;
+                    //     while(helpWin.pollEvent(helpEvent)){
+                    //         if(helpEvent.type == Event::Closed){
+                    //             helpWin.close();
+                    //             break;
+                    //         }
+                    //     }
+                    // }
                 }
             }
         }
@@ -425,14 +429,14 @@ void GameProperty::warning(){
 }
 
 string GameProperty::checkWinner(){
-    Board* currentBoard = moveAnimal.getBoard();
+    // Board* currentBoard = moveAnimal.getBoard();
     // check red fortress
-    if(currentBoard->index[3][0] != 22){
+    if(Board::index[3][0] != 22){
         reason = 1;
         return "blue";
     }
     // check blue fortress
-    else if(currentBoard->index[3][8] != 23){
+    else if(Board::index[3][8] != 23){
         reason = 1;
         return "red";
     }
@@ -440,7 +444,7 @@ string GameProperty::checkWinner(){
     int countRed = 0;
     for(int i = 0; i<7; i++){
         for(int j = 0; j<9; j++){
-            if(currentBoard->index[i][j] > -1 && currentBoard->index[i][j] < 8){
+            if(Board::index[i][j] > -1 && Board::index[i][j] < 8){
                 countRed++;
                 break;
             }
@@ -450,7 +454,7 @@ string GameProperty::checkWinner(){
     int countBlue = 0;
     for(int i = 0; i<7; i++){
         for(int j = 0; j<9; j++){
-            if(currentBoard->index[i][j] >= 8 && currentBoard->index[i][j] <= 15){
+            if(Board::index[i][j] >= 8 && Board::index[i][j] <= 15){
                 countBlue++;
                 break;
             }
@@ -513,6 +517,91 @@ void GameProperty::showWinner(){
                         winnerWin.getSize().y / 2.0f); // Center vertically
         winnerWin.draw(text);
         winnerWin.display();
+    }
+}
+
+void GameProperty::helpWindow(){
+    RenderWindow helpWin(sf::VideoMode(500, 650), "HELP");
+    Font font;
+    //Load the font;
+    if (!font.loadFromFile("Assets/Font/Times New Normal Regular.ttf")) { // Make sure to specify the correct path
+        cout << "Error loading font!" << endl;
+        return;
+    }
+
+    //Create the title of the game:
+    RectangleShape rectangle(Vector2f(400.0f, 100.0f)); // Width x Height
+    rectangle.setFillColor(Color::White); // Set rectangle color
+    rectangle.setPosition((helpWin.getSize().x / 2) - (rectangle.getSize().x / 2), 20.0f); // Center it at the top
+
+    //Create Text object for the title:
+    Text title;
+    title.setFont(font);
+    title.setString("Help"); // Set the title text
+    title.setCharacterSize(36); // Set text size
+    title.setFillColor(Color::Black); // Set text color
+
+    // Center the text in the rectangle
+    FloatRect textRect = title.getLocalBounds();
+    title.setOrigin(textRect.width / 2, textRect.height / 2); // Set origin to center of text
+    title.setPosition(rectangle.getPosition().x + rectangle.getSize().x / 2, 
+                      rectangle.getPosition().y + rectangle.getSize().y / 2); // Center the text in the rectangle
+    
+    sf::Vector2u windowSize = helpWin.getSize();
+
+    //Define 4 button in the intro menu: 
+    Button restartGameButton(windowSize.x/2 - 100, windowSize.y/2 - 100, 200.0, 50.0, "Restart", &font,Color:: White, Color:: White, Color:: Blue);
+    Button ruleInstructionButton(windowSize.x/2 - 100, windowSize.y/2, 200.0, 50.0, "Instruction", &font,Color:: White, Color:: White, Color:: Blue);
+    Button saveGameButton(windowSize.x/2 - 100, windowSize.y/2 + 100 , 200.0, 50.0, "Save & Quit", &font,Color:: White, Color:: White, Color:: Blue); 
+    Button quitButton(windowSize.x/2 - 100, windowSize.y/2 + 200, 200.0, 50.0, "Quit without save", &font,Color:: White, Color:: White, Color:: Blue); 
+
+
+    // Main loop
+    while (helpWin.isOpen()) {
+
+        Vector2f mousePos = helpWin.mapPixelToCoords(sf::Mouse::getPosition(helpWin));
+
+        // Update the button state based on mouse position
+        restartGameButton.update(mousePos);
+        
+        ruleInstructionButton.update(mousePos);
+
+        saveGameButton.update(mousePos);
+
+        quitButton.update(mousePos);
+
+        Event event;
+        while (helpWin.pollEvent(event)) {
+            if (event.type == Event::Closed){
+                helpWin.close();
+            }
+            else if(event.type == sf::Event::MouseButtonPressed){
+                if(restartGameButton.getButtonStates() == BTN_ACTIVE){
+                }
+                else if(ruleInstructionButton.getButtonStates() == BTN_ACTIVE){
+                }
+                else if(saveGameButton.getButtonStates() == BTN_ACTIVE){
+                }
+                else if(quitButton.getButtonStates() == BTN_ACTIVE){
+                }
+            }
+        }
+        // Clear the window
+        helpWin.clear(sf::Color::White);
+
+        //Draw the button
+        restartGameButton.render(&helpWin);
+        ruleInstructionButton.render(&helpWin);
+        saveGameButton.render(&helpWin); 
+        quitButton.render(&helpWin);
+        
+
+        //Draw the rectangle and the title
+        helpWin.draw(rectangle);
+        helpWin.draw(title);
+
+        // Display the contents of the window
+        helpWin.display();
     }
 }
 

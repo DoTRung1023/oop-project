@@ -57,6 +57,7 @@ public:
     void warning();
     string checkWinner();
     void showWinner();
+    void helpWindow();
     ~GameProperty(); 
 };
 

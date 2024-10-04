@@ -23,7 +23,7 @@ public:
     bool getTurn();
     void killMessage(Character* killPiece);
     void wrongMoveMessage();
-    Board* getBoard();
+    // Board* getBoard();
 };
 
 #endif

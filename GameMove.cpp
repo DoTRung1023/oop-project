@@ -147,6 +147,6 @@ bool GameMove::getTurn(){
     return turn;
 }
 
-Board* GameMove::getBoard(){
-    return &currentBoard;
-}
+// Board* GameMove::getBoard(){
+//     return &currentBoard;
+// }

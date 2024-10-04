@@ -1,14 +1,14 @@
 #ifndef __BOARD_H__
 #define __BOARD_H__
 
-struct Board{            // red                 blue 
-    int index[7][9] = { {5, -1, 0, -1, -1, -1, 8, -1, 13},
-                        {-1, 6, -1, -1, -1, -1, -1, 14, -1},
-                        {16, -1, 3, -1, -1, -1, 11, -1, 19},
-                        {22, 17, -1, -1, -1, -1, -1, 20, 23},
-                        {18, -1, 1, -1, -1, -1, 9, -1, 21},
-                        {-1, 7, -1, -1, -1, -1, -1, 15, -1},
-                        {2, -1, 4, -1, -1, -1, 12, -1, 10}};
+struct Board{
+    static int index[7][9];
+
+    static void loadIndex();
+    static void saveIndex();
+    static void makeNewBoard();
+    static bool checkEmpty();
+    static void clearIndex();
 };
 
 #endif
