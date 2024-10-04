@@ -7,6 +7,14 @@
 
 using namespace std;
 
+int Board:: index[7][9] = { {5, -1, 0, -1, -1, -1, 8, -1, 13},
+                    {-1, 6, -1, -1, -1, -1, -1, 14, -1},
+                    {16, -1, 3, -1, -1, -1, 11, -1, 19},
+                    {22, 17, -1, -1, -1, -1, -1, 20, 23},
+                    {18, -1, 1, -1, -1, -1, 9, -1, 21},
+                    {-1, 7, -1, -1, -1, -1, -1, 15, -1},
+                    {2, -1, 4, -1, -1, -1, 12, -1, 10}};
+
 void Board::loadIndex(){
     // Open the input file stream
     std::ifstream inFile("./Assets/Text/board.txt");
@@ -69,13 +77,7 @@ void Board::saveIndex(){
 }
 
 void Board::makeNewBoard(){
-    int index[7][9] = { {5, -1, 0, -1, -1, -1, 8, -1, 13},
-                        {-1, 6, -1, -1, -1, -1, -1, 14, -1},
-                        {16, -1, 3, -1, -1, -1, 11, -1, 19},
-                        {22, 17, -1, -1, -1, -1, -1, 20, 23},
-                        {18, -1, 1, -1, -1, -1, 9, -1, 21},
-                        {-1, 7, -1, -1, -1, -1, -1, 15, -1},
-                        {2, -1, 4, -1, -1, -1, 12, -1, 10}};
+
     // Create a 2D vector to represent the matrix
     std::vector<std::vector<int>> matrix;
     for(int i = 0; i<7; i++){
@@ -108,13 +110,14 @@ bool Board::checkEmpty(){
     // Check if the file is empty
     inFile.seekg(0, std::ios::end);  // Move the cursor to the end of the file
     if (inFile.tellg() == 0) {       // If the position is 0, the file is empty
+        // Close the file
+        inFile.close();
         return true;
     } else {
+        // Close the file
+        inFile.close();
         return false;
     }
-
-    // Close the file
-    inFile.close();
 }
 
 void Board::clearIndex(){

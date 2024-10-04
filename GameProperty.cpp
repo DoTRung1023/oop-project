@@ -18,6 +18,7 @@
 #include "GameMove.h"
 #include "GameIntro.h"
 #include "Button.h"
+#include "Board.h"
 
 using namespace std;
 using namespace sf;
