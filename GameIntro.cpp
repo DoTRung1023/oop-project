@@ -23,19 +23,7 @@ const char* imageFile[8] = {"./Assets/Pieces/rpoodle.png",
 
 //float x, float y, float width, float height, string text, Font* font, Color idleColor, Color hoverColor, Color activeColor
 GameIntro:: GameIntro(){
-    //Create an Music object:
-    Music introMusic; 
-
-    if(!introMusic.openFromFile("Assets/Sounds/Default/introMusic.wav")){
-        cout << "Error, can not open introMusic.wav" << endl; 
-        exit(-1); 
-    }
-
-    //Play the music:
-    introMusic.play();
-
-    //Set the volume:
-    introMusic.setVolume(60.0f); 
+    
 
 
     //Create the window for the menu
@@ -179,6 +167,8 @@ void GameIntro:: closeWindow(){
 }
 
 void GameIntro:: openRuleWindow(Font font){
+    //Play the music: 
+    playeIntroMusic(); 
     //Create the window for the menu
     RenderWindow ruleWindow; 
     ruleWindow.create(VideoMode(1000, 700), "Animal Chess Rule"); 
@@ -307,4 +297,20 @@ void GameIntro:: finalMessage(){
         finalWin.draw(text);
         finalWin.display();
     }
+}
+
+void GameIntro:: playeIntroMusic(){
+    //Create an Music object:
+    Music introMusic; 
+
+    if(!introMusic.openFromFile("Assets/Sounds/Default/introMusic.wav")){
+        cout << "Error, can not open introMusic.wav" << endl; 
+        exit(-1); 
+    }
+
+    //Play the music:
+    introMusic.play();
+
+    //Set the volume:
+    introMusic.setVolume(60.0f); 
 }

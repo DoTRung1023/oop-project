@@ -23,6 +23,8 @@ class GameIntro{
         void closeWindow();  //Getter for introWindow. 
         void openRuleWindow(Font font); 
         void finalMessage(); 
+        void playeIntroMusic(); 
+
 }; 
 
 #endif
