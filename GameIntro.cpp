@@ -23,7 +23,22 @@ const char* imageFile[8] = {"./Assets/Pieces/rpoodle.png",
 
 //float x, float y, float width, float height, string text, Font* font, Color idleColor, Color hoverColor, Color activeColor
 GameIntro:: GameIntro(){
-    
+    //Create an Music object:
+    Music introMusic; 
+
+
+
+    if(!introMusic.openFromFile("Assets/Sounds/Default/introMusic.wav")){
+        cout << "Error" << endl;
+        cout << "Error, can not open introMusic.wav" << endl; 
+        exit(-1); 
+    }
+
+    //Play the music:
+    introMusic.play();
+
+    //Set the volume:
+    introMusic.setVolume(60.0f); 
 
 
     //Create the window for the menu
@@ -81,7 +96,7 @@ GameIntro:: GameIntro(){
 
 
     //Define 4 button in the intro menu: 
-    Button startGameButton(windowSize.x/2 - 100, windowSize.y/2 - 100, 200.0, 50.0, "Start", &font,Color:: White, Color:: White, Color:: Blue);
+    Button startGameButton(windowSize.x/2 - 100, windowSize.y/2 - 100, 200.0, 50.0, "New Game", &font,Color:: White, Color:: White, Color:: Blue);
     Button loadGameButton(windowSize.x/2 - 100, windowSize.y/2, 200.0, 50.0, "Load Game", &font,Color:: White, Color:: White, Color:: Blue);
     Button ruleInstructionButton(windowSize.x/2 - 100, windowSize.y/2 + 100 , 200.0, 50.0, "Instruction", &font,Color:: White, Color:: White, Color:: Blue); 
     Button quitButton(windowSize.x/2 - 100, windowSize.y/2 + 200, 200.0, 50.0, "Quit", &font,Color:: White, Color:: White, Color:: Blue); 
@@ -167,8 +182,6 @@ void GameIntro:: closeWindow(){
 }
 
 void GameIntro:: openRuleWindow(Font font){
-    //Play the music: 
-    playeIntroMusic(); 
     //Create the window for the menu
     RenderWindow ruleWindow; 
     ruleWindow.create(VideoMode(1000, 700), "Animal Chess Rule"); 
@@ -297,20 +310,4 @@ void GameIntro:: finalMessage(){
         finalWin.draw(text);
         finalWin.display();
     }
-}
-
-void GameIntro:: playeIntroMusic(){
-    //Create an Music object:
-    Music introMusic; 
-
-    if(!introMusic.openFromFile("Assets/Sounds/Default/introMusic.wav")){
-        cout << "Error, can not open introMusic.wav" << endl; 
-        exit(-1); 
-    }
-
-    //Play the music:
-    introMusic.play();
-
-    //Set the volume:
-    introMusic.setVolume(60.0f); 
 }

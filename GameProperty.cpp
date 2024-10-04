@@ -374,7 +374,6 @@ void GameProperty::run(){
         displayTurn();
         win.display();
     }
-    GameIntro newGame; 
 }
 void GameProperty::displayTurn(){
     bool turn  = moveAnimal.getTurn();
@@ -551,10 +550,9 @@ void GameProperty::helpWindow(){
     sf::Vector2u windowSize = helpWin.getSize();
 
     //Define 4 button in the intro menu: 
-    Button restartGameButton(windowSize.x/2 - 100, windowSize.y/2 - 100, 200.0, 50.0, "Restart", &font,Color:: White, Color:: White, Color:: Blue);
-    Button ruleInstructionButton(windowSize.x/2 - 100, windowSize.y/2, 200.0, 50.0, "Instruction", &font,Color:: White, Color:: White, Color:: Blue);
-    Button saveGameButton(windowSize.x/2 - 100, windowSize.y/2 + 100 , 200.0, 50.0, "Save & Quit", &font,Color:: White, Color:: White, Color:: Blue); 
-    Button quitButton(windowSize.x/2 - 100, windowSize.y/2 + 200, 200.0, 50.0, "Quit without save", &font,Color:: White, Color:: White, Color:: Blue); 
+    Button ruleInstructionButton(windowSize.x/2 - 100, windowSize.y/2 - 100, 200.0, 50.0, "Instruction", &font,Color:: White, Color:: White, Color:: Blue);
+    Button saveGameButton(windowSize.x/2 - 100, windowSize.y/2, 200.0, 50.0, "Save & Quit", &font,Color:: White, Color:: White, Color:: Blue); //Quit and Save
+    Button quitButton(windowSize.x/2 - 100, windowSize.y/2 + 100, 200.0, 50.0, "Quit without save", &font,Color:: White, Color:: White, Color:: Blue); //Quit without Save
 
 
     // Main loop
@@ -563,7 +561,6 @@ void GameProperty::helpWindow(){
         Vector2f mousePos = helpWin.mapPixelToCoords(sf::Mouse::getPosition(helpWin));
 
         // Update the button state based on mouse position
-        restartGameButton.update(mousePos);
         
         ruleInstructionButton.update(mousePos);
 
@@ -577,13 +574,25 @@ void GameProperty::helpWindow(){
                 helpWin.close();
             }
             else if(event.type == sf::Event::MouseButtonPressed){
-                if(restartGameButton.getButtonStates() == BTN_ACTIVE){
-                }
-                else if(ruleInstructionButton.getButtonStates() == BTN_ACTIVE){
+                
+                if(ruleInstructionButton.getButtonStates() == BTN_ACTIVE){
+                    //To do
+                    Font textFont; 
+                    if (!textFont.loadFromFile("Assets/Font/Times New Normal Regular.ttf")) { // Make sure to specify the correct path
+                        cout << "Error loading font!" << endl;
+                        return;
+                    }
+                    GameIntro:: openRuleWindow(textFont); 
                 }
                 else if(saveGameButton.getButtonStates() == BTN_ACTIVE){
+                    //to do: 
+                    Board:: saveIndex(); 
+                    helpWin.close(); 
+                    win.close(); 
                 }
                 else if(quitButton.getButtonStates() == BTN_ACTIVE){
+                    helpWin.close();
+                    win.close(); 
                 }
             }
         }
@@ -591,7 +600,6 @@ void GameProperty::helpWindow(){
         helpWin.clear(sf::Color::White);
 
         //Draw the button
-        restartGameButton.render(&helpWin);
         ruleInstructionButton.render(&helpWin);
         saveGameButton.render(&helpWin); 
         quitButton.render(&helpWin);
@@ -625,4 +633,19 @@ GameProperty:: ~GameProperty(){
     delete blueFortress; 
     delete redFortress; 
 
+}
+
+void GameProperty:: callNewGame(){
+    const char* imageFile[8] = {"./Assets/Pieces/rpoodle.png",
+                            "./Assets/Pieces/rrat.png",
+                            "./Assets/Pieces/rafrican.png",
+                            "./Assets/Pieces/bpoodle.png",
+                            "./Assets/Pieces/brat.png",
+                            "./Assets/Pieces/bafrican.png",
+                            "./Assets/Pieces/soldier.png",
+                            "./Assets/Pieces/fortress.png"};
+
+    win.close(); 
+    GameProperty newgame(700, 900,imageFile, "Animal Chess");
+    newgame.run(); 
 }

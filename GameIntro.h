@@ -21,9 +21,9 @@ class GameIntro{
     public:
         GameIntro(); //Constructor for the Intro. 
         void closeWindow();  //Getter for introWindow. 
-        void openRuleWindow(Font font); 
+        static void openRuleWindow(Font font); 
         void finalMessage(); 
-        void playeIntroMusic(); 
+        static void playIntroMusic(); 
 
 }; 
 
