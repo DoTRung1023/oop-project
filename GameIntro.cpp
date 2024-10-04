@@ -1,7 +1,8 @@
-#include "GameIntro.h"
-#include "GameProperty.h"
 #include <iostream>
 #include <fstream> 
+#include "GameMove.h"
+#include "GameIntro.h"
+#include "GameProperty.h"
 #include "Board.h"
 
 using namespace sf; 
@@ -26,8 +27,6 @@ GameIntro:: GameIntro(){
     //Create an Music object:
     Music introMusic; 
 
-
-
     if(!introMusic.openFromFile("Assets/Sounds/Default/introMusic.wav")){
         cout << "Error" << endl;
         cout << "Error, can not open introMusic.wav" << endl; 
@@ -38,8 +37,7 @@ GameIntro:: GameIntro(){
     introMusic.play();
 
     //Set the volume:
-    introMusic.setVolume(60.0f); 
-
+    introMusic.setVolume(20.0f); 
 
     //Create the window for the menu
     introWindow.create(VideoMode(700, 900), "Animal Chess"); 
@@ -54,15 +52,16 @@ GameIntro:: GameIntro(){
 
     //Create the title of the game:
     RectangleShape rectangle(Vector2f(400.0f, 100.0f)); // Width x Height
-    rectangle.setFillColor(Color::White); // Set rectangle color
+    rectangle.setFillColor(sf::Color(102,178,255,100)); // Set rectangle color
     rectangle.setPosition((introWindow.getSize().x / 2) - (rectangle.getSize().x / 2), 20.0f); // Center it at the top
 
     //Create Text object for the title:
     Text title;
     title.setFont(font);
     title.setString("Animal Chess"); // Set the title text
-    title.setCharacterSize(36); // Set text size
+    title.setCharacterSize(50); // Set text size
     title.setFillColor(Color::Black); // Set text color
+    title.setOutlineThickness(1.3);
 
     // Center the text in the rectangle
     FloatRect textRect = title.getLocalBounds();
@@ -96,10 +95,10 @@ GameIntro:: GameIntro(){
 
 
     //Define 4 button in the intro menu: 
-    Button startGameButton(windowSize.x/2 - 100, windowSize.y/2 - 100, 200.0, 50.0, "New Game", &font,Color:: White, Color:: White, Color:: Blue);
-    Button loadGameButton(windowSize.x/2 - 100, windowSize.y/2, 200.0, 50.0, "Load Game", &font,Color:: White, Color:: White, Color:: Blue);
-    Button ruleInstructionButton(windowSize.x/2 - 100, windowSize.y/2 + 100 , 200.0, 50.0, "Instruction", &font,Color:: White, Color:: White, Color:: Blue); 
-    Button quitButton(windowSize.x/2 - 100, windowSize.y/2 + 200, 200.0, 50.0, "Quit", &font,Color:: White, Color:: White, Color:: Blue); 
+    Button startGameButton(windowSize.x/2 - 100, windowSize.y/2 - 100, 200.0, 50.0, "New Game", &font,sf::Color(102,178,255,170), sf::Color(102,178,255,170), Color:: Blue);
+    Button loadGameButton(windowSize.x/2 - 100, windowSize.y/2, 200.0, 50.0, "Load Game", &font,sf::Color(102,178,255,170), sf::Color(102,178,255,170), Color:: Blue);
+    Button ruleInstructionButton(windowSize.x/2 - 100, windowSize.y/2 + 100 , 200.0, 50.0, "Instruction", &font,sf::Color(102,178,255,170), sf::Color(102,178,255,170), Color:: Blue); 
+    Button quitButton(windowSize.x/2 - 100, windowSize.y/2 + 200, 200.0, 50.0, "Quit", &font,sf::Color(102,178,255,170), sf::Color(102,178,255,170), Color:: Blue); 
 
 
     // Main loop
@@ -119,37 +118,47 @@ GameIntro:: GameIntro(){
         Event event;
         while (introWindow.pollEvent(event)) {
             if (event.type == Event::Closed){
+                introMusic.stop();
                 introWindow.close();
             }
             else if(event.type == sf::Event::MouseButtonPressed){
                 if(startGameButton.getButtonStates() == BTN_ACTIVE){
+                    introMusic.stop();
                     introWindow.close();
                     Board::makeNewBoard();
                     Board::loadIndex();
+                    GameMove::resetTurn();
+                    GameMove::loadTurn();
                     GameProperty newgame(700, 900, imageFile, "Animal Chess");
                     newgame.run(); 
                 }
                 else if(loadGameButton.getButtonStates() == BTN_ACTIVE){
                     if(Board::checkEmpty() == true){
+                        introMusic.stop();
                         introWindow.close();
                         Board::makeNewBoard();
                         Board::loadIndex();
+                        GameMove::resetTurn();
+                        GameMove::loadTurn();
                         GameProperty newgame(700, 900, imageFile, "Animal Chess");
                         newgame.run(); 
                     }
                     else{
+                        introMusic.stop();
                         introWindow.close();
                         Board::loadIndex();
+                        GameMove::loadTurn();
                         GameProperty newgame(700, 900, imageFile, "Animal Chess");
                         newgame.run(); 
                     }
                 }
                 else if(ruleInstructionButton.getButtonStates() == BTN_ACTIVE){
                     openRuleWindow(font); 
-
                 }
                 else if(quitButton.getButtonStates() == BTN_ACTIVE){
+                    introMusic.stop();
                     introWindow.close(); 
+                    Board::clearIndex();
                     finalMessage(); 
                 }
             }
@@ -184,7 +193,7 @@ void GameIntro:: closeWindow(){
 void GameIntro:: openRuleWindow(Font font){
     //Create the window for the menu
     RenderWindow ruleWindow; 
-    ruleWindow.create(VideoMode(1000, 700), "Animal Chess Rule"); 
+    ruleWindow.create(VideoMode(1000, 850), "Animal Chess Rule"); 
 
     //Load text from txtFile: 
     ifstream input("Assets/GameInstruction/gameRule.txt"); 
@@ -282,7 +291,8 @@ void GameIntro:: openRuleWindow(Font font){
 }
 
 void GameIntro:: finalMessage(){
-    RenderWindow finalWin(sf::VideoMode(500, 100), "END GAME");
+    GameProperty::sounds[6].play();
+    RenderWindow finalWin(sf::VideoMode(560, 100), "END GAME");
     while(finalWin.isOpen()){
         Event finalEvent;
         while(finalWin.pollEvent(finalEvent)){

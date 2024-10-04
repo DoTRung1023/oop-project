@@ -43,6 +43,7 @@ private:
     bool select = 0;
     int reason = -1;
 public:
+    static Music sounds[7]; // move - capture - up - start - end - boom - cheer
     string winner = " ";
     GameProperty(int width, int height, const char* imageFile[8], string gameName);
     void createPlayers();

@@ -23,6 +23,8 @@
 using namespace std;
 using namespace sf;
 
+sf::Music GameProperty::sounds[7]; // move - capture - up - down - start - end - boom
+
 GameProperty::GameProperty(int width, int height, const char* imageFile[18], string gameName){
     // colorsNeed for board
     colorsNeed[0].r = 181; // wood color
@@ -50,9 +52,30 @@ GameProperty::GameProperty(int width, int height, const char* imageFile[18], str
     this->height = height;
     setHolders();
     createPlayers();
-    createPiece(imageFile); //Possible error here
+    createPiece(imageFile);
     mapPieces();
     win.create(VideoMode(width, height), gameName);
+    // move sound
+    sounds[0].openFromFile("./Assets/Sounds/Default/move.wav");
+    sounds[0].setVolume(100.0f);
+    // capture sound
+    sounds[1].openFromFile("./Assets/Sounds/Default/capture.wav");
+    sounds[1].setVolume(80.0f);
+    // up
+    sounds[2].openFromFile("./Assets/Sounds/Default/up.wav");
+    sounds[2].setVolume(20.0f);
+    // start
+    sounds[3].openFromFile("./Assets/Sounds/Default/start.wav");
+    sounds[3].setVolume(30.0f);
+    // end
+    sounds[4].openFromFile("./Assets/Sounds/Default/end.wav");
+    sounds[4].setVolume(30.0f);
+    // boom
+    sounds[5].openFromFile("./Assets/Sounds/Default/boom.wav");
+    sounds[5].setVolume(40.0f);
+    // cheering
+    sounds[6].openFromFile("./Assets/Sounds/Default/cheering.wav");
+    sounds[6].setVolume(40.0f);
 }
 
 void GameProperty::createPlayers(){
@@ -77,8 +100,6 @@ void GameProperty::createPlayers(){
     blueSoldiers = players2->getSoldierList();
 }
 void GameProperty::createPiece(const char* imageFile[8]){
-    // Board* currentBoard = moveAnimal.getBoard();
-
     // load image to texture
     // IntRect blank;
     for(int i = 0; i<8; i++){
@@ -223,7 +244,7 @@ void GameProperty::mapPieces(Move moving){
 
 
 void GameProperty::run(){
-    // Board* currentBoard = moveAnimal.getBoard();
+    sounds[3].play();
     while(win.isOpen()){
         Event event;
         while(win.pollEvent(event)){
@@ -302,7 +323,6 @@ void GameProperty::run(){
                         else{
                             Move newMove(selectAxis[0], selectAxis[1], square_X, square_Y);
                             // if move is valid -> move
-                            // currentBoard = moveAnimal.getBoard();
                             Character* aimPiece;
                             Character* choosePiece;
                             int aimID;
@@ -319,7 +339,7 @@ void GameProperty::run(){
                             }
                             if(moveAnimal.playMove(newMove, aimPiece, choosePiece)){
                                 mapPieces(newMove);
-                                moveAnimal.nextTurn();
+                                GameMove::nextTurn();
                                 if(moveAnimal.disappear == true){
                                     pieces[aimID].draw = 0;
                                     pieces[chooseID].draw = 0;
@@ -333,8 +353,10 @@ void GameProperty::run(){
                                     drawSquares();
                                     drawImage();
                                     win.display();
+                                    Board::clearIndex();
                                     showWinner();
                                     win.close();
+                                    GameIntro::finalMessage();
                                     break;
                                 }
                             }
@@ -355,16 +377,6 @@ void GameProperty::run(){
             else if(event.type == Event::KeyPressed){
                 if(event.key.code == sf::Keyboard::H){
                     helpWindow();
-                    // RenderWindow helpWin(sf::VideoMode(500, 100), "HELP");
-                    // while(helpWin.isOpen()){
-                    //     Event helpEvent;
-                    //     while(helpWin.pollEvent(helpEvent)){
-                    //         if(helpEvent.type == Event::Closed){
-                    //             helpWin.close();
-                    //             break;
-                    //         }
-                    //     }
-                    // }
                 }
             }
         }
@@ -398,7 +410,8 @@ void GameProperty::displayTurn(){
 }
 
 void GameProperty::warning(){
-    RenderWindow warningWin(sf::VideoMode(500, 100), "WARNING");
+    RenderWindow warningWin(sf::VideoMode(380, 80), "WARNING");
+    sounds[2].play();
     while(warningWin.isOpen()){
         Event warningEvent;
         while(warningWin.pollEvent(warningEvent)){
@@ -411,7 +424,7 @@ void GameProperty::warning(){
         Text text;
         warningWin.clear(Color::White);
         string warning;
-        warning = "You chose a valid animal!";
+        warning = "Chose a valid animal!";
         text.setString(warning);
         font.loadFromFile("./Assets/Font/Times New Normal Regular.ttf");
         text.setFont(font);
@@ -429,7 +442,6 @@ void GameProperty::warning(){
 }
 
 string GameProperty::checkWinner(){
-    // Board* currentBoard = moveAnimal.getBoard();
     // check red fortress
     if(Board::index[3][0] != 22){
         reason = 1;
@@ -460,13 +472,17 @@ string GameProperty::checkWinner(){
             }
         }
     }
-    if(countBlue == 0){
+    if(countBlue == 0 && countRed == 0){
+        reason = 3;
+        return "draw";
+    }
+    else if(countBlue == 0){
         reason = 2;
-        return "blue";
+        return "red";
     }
     else if(countRed == 0){
         reason = 2;
-        return "red";
+        return "blue";
     }
     return " ";
 }
@@ -482,6 +498,9 @@ void GameProperty::showWinner(){
         // open the file
         file.open("./Assets/Text/reason2.txt");
     }
+    else if(reason == 3){
+        file.open("./Assets/Text/reason3.txt");
+    }
     // String to store the file content
     std::string fileContent;
     std::string line;
@@ -492,10 +511,12 @@ void GameProperty::showWinner(){
     // Close the file when done
     file.close();
     RenderWindow winnerWin(sf::VideoMode(730, 80), "WINNER");
+    sounds[4].play();
     while(winnerWin.isOpen()){
         Event winnerEvent;
         while(winnerWin.pollEvent(winnerEvent)){
             if(winnerEvent.type == Event::Closed){
+                sounds[4].stop();
                 winnerWin.close();
                 break;
             }
@@ -521,7 +542,8 @@ void GameProperty::showWinner(){
 }
 
 void GameProperty::helpWindow(){
-    RenderWindow helpWin(sf::VideoMode(500, 650), "HELP");
+    sounds[2].play();
+    RenderWindow helpWin(sf::VideoMode(300, 400), "HELP");
     Font font;
     //Load the font;
     if (!font.loadFromFile("Assets/Font/Times New Normal Regular.ttf")) { // Make sure to specify the correct path
@@ -531,16 +553,17 @@ void GameProperty::helpWindow(){
 
     //Create the title of the game:
     RectangleShape rectangle(Vector2f(400.0f, 100.0f)); // Width x Height
-    rectangle.setFillColor(Color::White); // Set rectangle color
-    rectangle.setPosition((helpWin.getSize().x / 2) - (rectangle.getSize().x / 2), 20.0f); // Center it at the top
+    rectangle.setFillColor(sf::Color(0,0,0,0)); // Set rectangle color
+    rectangle.setPosition((helpWin.getSize().x / 2) - (rectangle.getSize().x / 2), 10.0f); // Center it at the top
 
     //Create Text object for the title:
     Text title;
     title.setFont(font);
-    title.setString("Help"); // Set the title text
-    title.setCharacterSize(36); // Set text size
+    title.setString("HELP"); // Set the title text
+    title.setCharacterSize(45); // Set text size
     title.setFillColor(Color::Black); // Set text color
-
+    title.setOutlineThickness(1.3);
+    
     // Center the text in the rectangle
     FloatRect textRect = title.getLocalBounds();
     title.setOrigin(textRect.width / 2, textRect.height / 2); // Set origin to center of text
@@ -550,10 +573,9 @@ void GameProperty::helpWindow(){
     sf::Vector2u windowSize = helpWin.getSize();
 
     //Define 4 button in the intro menu: 
-    Button ruleInstructionButton(windowSize.x/2 - 100, windowSize.y/2 - 100, 200.0, 50.0, "Instruction", &font,Color:: White, Color:: White, Color:: Blue);
-    Button saveGameButton(windowSize.x/2 - 100, windowSize.y/2, 200.0, 50.0, "Save & Quit", &font,Color:: White, Color:: White, Color:: Blue); //Quit and Save
-    Button quitButton(windowSize.x/2 - 100, windowSize.y/2 + 100, 200.0, 50.0, "Quit without save", &font,Color:: White, Color:: White, Color:: Blue); //Quit without Save
-
+    Button ruleInstructionButton(windowSize.x/2 - 100, windowSize.y/2 - 80, 200.0, 50.0, "Instruction", &font,sf::Color(0,0,0,0), sf::Color(0,0,0,0), Color:: Blue);
+    Button saveGameButton(windowSize.x/2 - 100, windowSize.y/2, 200.0, 50.0, "Save & Quit", &font,sf::Color(0,0,0,0), sf::Color(0,0,0,0), Color:: Blue); //Quit and Save
+    Button quitButton(windowSize.x/2 - 100, windowSize.y/2 + 80, 200.0, 50.0, "Quit without save", &font,sf::Color(0,0,0,0), sf::Color(0,0,0,0), Color:: Blue); //Quit without Save
 
     // Main loop
     while (helpWin.isOpen()) {
@@ -574,7 +596,6 @@ void GameProperty::helpWindow(){
                 helpWin.close();
             }
             else if(event.type == sf::Event::MouseButtonPressed){
-                
                 if(ruleInstructionButton.getButtonStates() == BTN_ACTIVE){
                     //To do
                     Font textFont; 
@@ -582,22 +603,24 @@ void GameProperty::helpWindow(){
                         cout << "Error loading font!" << endl;
                         return;
                     }
-                    GameIntro:: openRuleWindow(textFont); 
+                    GameIntro::openRuleWindow(textFont); 
                 }
                 else if(saveGameButton.getButtonStates() == BTN_ACTIVE){
                     //to do: 
-                    Board:: saveIndex(); 
+                    Board::saveIndex(); 
+                    GameMove::saveTurn();
                     helpWin.close(); 
                     win.close(); 
                 }
                 else if(quitButton.getButtonStates() == BTN_ACTIVE){
                     helpWin.close();
+                    Board::clearIndex();
                     win.close(); 
                 }
             }
         }
         // Clear the window
-        helpWin.clear(sf::Color::White);
+        helpWin.clear(sf::Color(255, 178, 102, 255));
 
         //Draw the button
         ruleInstructionButton.render(&helpWin);

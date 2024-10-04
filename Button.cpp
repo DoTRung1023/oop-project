@@ -7,7 +7,8 @@ Button:: Button(float x, float y, float width, float height, string text, Font* 
     this->text.setFont(*this->font);
     this->text.setString(text);
     this->text.setFillColor(Color::Black);  
-    this->text.setCharacterSize(20); 
+    this->text.setCharacterSize(25); 
+    this->text.setOutlineThickness(0.7);
 
     this->text.setPosition(
     this->shape.getPosition().x + (this->shape.getSize().x / 2.f) - (this->text.getGlobalBounds().width / 2.f), 

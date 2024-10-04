@@ -22,7 +22,7 @@ class GameIntro{
         GameIntro(); //Constructor for the Intro. 
         void closeWindow();  //Getter for introWindow. 
         static void openRuleWindow(Font font); 
-        void finalMessage(); 
+        static void finalMessage(); 
         static void playIntroMusic(); 
 
 }; 

@@ -9,7 +9,6 @@ Each animal that a player controls holds a unique attack rule:
 + Only Dog can attack and eliminate Mice
 + 2 animals of the same type cannot attack each other.
 
-
 Each turn, a player needs to move 1 animal in his team, the animal can only move 1
 square forward, backward, to the left or to the right. It is illegal to move diagonally.
 
@@ -20,3 +19,8 @@ Each side has 3 soldiers who are protecting their fortress. When an animal
 attacks the fortress, both the fortress and the animal are eliminated. This is also the only
 way to kill the opponent’s soldiers. In this game, soldiers cannot move, their only
 mission is protecting the fortress.
+
+Help button: While playing, you can press 'H' on your keyboard any time to pause the game 
+and get the instruction or quit the game.
+
+Quit game: you can quit game without save any time by closing the game window.
