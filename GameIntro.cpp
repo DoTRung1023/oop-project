@@ -154,7 +154,6 @@ GameIntro:: GameIntro(){
                 }
                 else if(ruleInstructionButton.getButtonStates() == BTN_ACTIVE){
                     introMusic.stop();
-                    introWindow.close(); 
                     openRuleWindow(font); 
                 }
                 else if(quitButton.getButtonStates() == BTN_ACTIVE){

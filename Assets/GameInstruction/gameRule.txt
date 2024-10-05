@@ -12,12 +12,12 @@ Each animal that a player controls holds a unique attack rule:
 Each turn, a player needs to move 1 animal in his team, the animal can only move 1
 square forward, backward, to the left or to the right. It is illegal to move diagonally.
 
-Animals can only attack enemy’s animals which are in the square that is next to it, after
+Animals can only attack enemy's animals which are in the square that is next to it, after
 an offensive movement, that animal cannot continue moving.
 
 Each side has 3 soldiers who are protecting their fortress. When an animal
 attacks the fortress, both the fortress and the animal are eliminated. This is also the only
-way to kill the opponent’s soldiers. In this game, soldiers cannot move, their only
+way to kill the opponent's soldiers. In this game, soldiers cannot move, their only
 mission is protecting the fortress.
 
 Help button: While playing, you can press 'H' on your keyboard any time to pause the game 
