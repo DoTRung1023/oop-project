@@ -118,12 +118,12 @@ GameIntro:: GameIntro(){
         Event event;
         while (introWindow.pollEvent(event)) {
             if (event.type == Event::Closed){
-                introMusic.stop();
+                // introMusic.stop();
                 introWindow.close();
             }
             else if(event.type == sf::Event::MouseButtonPressed){
                 if(startGameButton.getButtonStates() == BTN_ACTIVE){
-                    introMusic.stop();
+                    // introMusic.stop();
                     introWindow.close();
                     Board::makeNewBoard();
                     Board::loadIndex();
@@ -134,7 +134,7 @@ GameIntro:: GameIntro(){
                 }
                 else if(loadGameButton.getButtonStates() == BTN_ACTIVE){
                     if(Board::checkEmpty() == true){
-                        introMusic.stop();
+                        // introMusic.stop();
                         introWindow.close();
                         Board::makeNewBoard();
                         Board::loadIndex();
@@ -144,7 +144,7 @@ GameIntro:: GameIntro(){
                         newgame.run(); 
                     }
                     else{
-                        introMusic.stop();
+                        // introMusic.stop();
                         introWindow.close();
                         Board::loadIndex();
                         GameMove::loadTurn();
@@ -153,11 +153,11 @@ GameIntro:: GameIntro(){
                     }
                 }
                 else if(ruleInstructionButton.getButtonStates() == BTN_ACTIVE){
-                    introMusic.stop();
+                    // introMusic.stop();
                     openRuleWindow(font); 
                 }
                 else if(quitButton.getButtonStates() == BTN_ACTIVE){
-                    introMusic.stop();
+                    // introMusic.stop();
                     introWindow.close(); 
                     Board::clearIndex();
                     finalMessage(); 

@@ -516,7 +516,7 @@ void GameProperty::showWinner(){
         Event winnerEvent;
         while(winnerWin.pollEvent(winnerEvent)){
             if(winnerEvent.type == Event::Closed){
-                sounds[4].stop();
+                // sounds[4].stop();
                 winnerWin.close();
                 break;
             }
