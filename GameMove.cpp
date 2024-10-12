@@ -100,7 +100,8 @@ bool GameMove::playMove(Move newMove, Character* aimPiece, Character* choosePiec
 }
 
 void GameMove::killMessage(Character* killPiece){//Display the window with announcement of "SUCCESSFULL KILL" enemy piece if the attack if valid
-    RenderWindow killWin(sf::VideoMode(410, 80), "SUCCESSFULL KILL");
+    string message = killPiece->getName() + "SUCCESSFULL KILL";
+    RenderWindow killWin(sf::VideoMode(410, 80), message); //to do 
     while(killWin.isOpen()){//Main Loop
         Event killEvent;
         while(killWin.pollEvent(killEvent)){

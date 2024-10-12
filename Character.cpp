@@ -1,5 +1,4 @@
 // the implementation of "Character.h"
-
 #include <SFML/System.hpp>
 #include <SFML/Window.hpp>
 #include <SFML/Audio.hpp>
