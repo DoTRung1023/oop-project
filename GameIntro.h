@@ -15,6 +15,7 @@ class GameIntro{
         RenderWindow introWindow; //Object for the intro window
         Font font; //Object for the Font of text
     public:
+        static bool showInstruction;
         GameIntro(); //Constructor for the Intro. 
         void closeWindow();  //Getter for introWindow. 
         static void openRuleWindow(Font font); 

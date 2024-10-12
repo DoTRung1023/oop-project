@@ -66,7 +66,9 @@ private:
     bool warningWindowOpen; // Add this line
     // variable for winner, if this is " ", the game still continues.
     string winner = " ";
+    static bool showWarning;
 public:
+    static bool showWrongMove;
     // constructor
     GameProperty(int width, int height, const char* imageFile[8], string gameName);
     // music and sound effects while launching game
@@ -93,8 +95,12 @@ public:
     string checkWinner();
     // make window to show winner and reason when the game ends
     void showWinner();
+    // show warning message when selecting wrong animals
+    void warning();
     // make help window when press 'H' on the keyboard when playing
     void helpWindow();
+    // show message when choosing invalid move
+    void wrongMoveMessage();
     // function to start a new game
     void callNewGame(); 
     // destructor

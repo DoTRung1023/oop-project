@@ -25,7 +25,6 @@ public:
     bool getTurn();
     //Display a message indicates that a piece is killed
     void killMessage(Character* killPiece);
-
     //Save the turn when user quit the game
     static void saveTurn();
     //Load the turn when user load the game

@@ -94,6 +94,7 @@ bool GameMove::playMove(Move newMove, Character* aimPiece, Character* choosePiec
         }
     }
     // wrong move 
+    GameProperty::showWrongMove = true;
     disappear = false;
     return false;
 }

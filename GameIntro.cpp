@@ -8,6 +8,8 @@
 
 using namespace sf; 
 using namespace std; 
+// define static variable to stop multiple pop-up error
+bool GameIntro::showInstruction = false;
 
 //Game name
 //Start button 
@@ -102,21 +104,14 @@ GameIntro:: GameIntro(){
     Button ruleInstructionButton(windowSize.x/2 - 100, windowSize.y/2 + 100 , 200.0, 50.0, "Instruction", &font,sf::Color(102,178,255,170), sf::Color(102,178,255,170), Color:: Blue); 
     Button quitButton(windowSize.x/2 - 100, windowSize.y/2 + 200, 200.0, 50.0, "Quit", &font,sf::Color(102,178,255,170), sf::Color(102,178,255,170), Color:: Blue); 
 
-
     // Main loop
     while (introWindow.isOpen()) {
-
         Vector2f mousePos = introWindow.mapPixelToCoords(sf::Mouse::getPosition(introWindow));
-
         // Update the button state based on mouse position
         startGameButton.update(mousePos);
-        
         loadGameButton.update(mousePos);
-
         ruleInstructionButton.update(mousePos);
-
         quitButton.update(mousePos);
-
         //When user click on a button or quit the game intro Menu
         Event event;
         while (introWindow.pollEvent(event)) {
@@ -155,7 +150,7 @@ GameIntro:: GameIntro(){
                 }
                 //open the rule window if user click on the instruction button     
                 else if(ruleInstructionButton.getButtonStates() == BTN_ACTIVE){                
-                    openRuleWindow(font); 
+                    showInstruction = true;
                 }
                 //Quit the game if user click on the quit button.
                 else if(quitButton.getButtonStates() == BTN_ACTIVE){         
@@ -164,25 +159,30 @@ GameIntro:: GameIntro(){
                 }
             }
         }
-        // Clear the window
-        introWindow.clear(sf::Color::Black);
+        if(showInstruction){
+            openRuleWindow(font); 
+        }
+        if(!showInstruction){
+            // Clear the window
+            introWindow.clear(sf::Color::Black);
 
-        // Draw the IntroImage
-        introWindow.draw(introImageSprite);
+            // Draw the IntroImage
+            introWindow.draw(introImageSprite);
 
-        //Draw the button
-        startGameButton.render(&introWindow);
-        loadGameButton.render(&introWindow); 
-        ruleInstructionButton.render(&introWindow);
-        quitButton.render(&introWindow);
-        
+            //Draw the button
+            startGameButton.render(&introWindow);
+            loadGameButton.render(&introWindow); 
+            ruleInstructionButton.render(&introWindow);
+            quitButton.render(&introWindow);
+            
 
-        //Draw the rectangle and the title
-        introWindow.draw(rectangle);
-        introWindow.draw(title);
+            //Draw the rectangle and the title
+            introWindow.draw(rectangle);
+            introWindow.draw(title);
 
-        // Display the contents of the window
-        introWindow.display();
+            // Display the contents of the window
+            introWindow.display();
+        }
     }
 
 }
@@ -274,8 +274,10 @@ void GameIntro:: openRuleWindow(Font font){//Window opened when user click on "I
 
         Event event;
         while (ruleWindow.pollEvent(event)) {
-            if (event.type == Event::Closed)
+            if (event.type == Event::Closed){
                 ruleWindow.close();
+                showInstruction = false;
+            }
         }
         // Clear the window
         ruleWindow.clear(sf::Color::Black);

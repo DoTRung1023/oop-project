@@ -25,18 +25,10 @@
 using namespace std;
 using namespace sf;
 
-// // make array to store paths of 8 images
-// const char* imageFile[8] = {"./Assets/Pieces/rpoodle.png",
-//                             "./Assets/Pieces/rrat.png",
-//                             "./Assets/Pieces/rafrican.png",
-//                             "./Assets/Pieces/bpoodle.png",
-//                             "./Assets/Pieces/brat.png",
-//                             "./Assets/Pieces/bafrican.png",
-//                             "./Assets/Pieces/soldier.png",
-//                             "./Assets/Pieces/fortress.png"};
-
 // initialise static variable
 sf::Music GameProperty::sounds[7]; // move - capture - up - down - start - end - boom
+bool GameProperty::showWarning = false;
+bool GameProperty::showWrongMove = false;
 
 // constructor to define necessary elements in the game
 GameProperty::GameProperty(int width, int height, const char* imageFile[18], string gameName){
@@ -337,6 +329,10 @@ void GameProperty::run(){
                                 (Board::index[square_X][square_Y] >= 8 && 
                                 Board::index[square_X][square_Y] <= 15 &&
                                 turn == false))){
+                                    showWarning = true;
+                                while(showWarning){
+                                    warning();
+                                }
                             }
                             // store selected square axes
                             else{
@@ -427,13 +423,21 @@ void GameProperty::run(){
                 }
             }
         }
-        // update the elements on the board
-        win.clear();
-        drawSquares();
-        drawImage();
-        displayTurn();
-        // show the main window
-        win.display();
+        if(!showWarning && !showWrongMove){
+            // update the elements on the board
+            win.clear();
+            drawSquares();
+            drawImage();
+            displayTurn();
+            // show the main window
+            win.display();
+        }
+        else if(showWarning){
+            warning();
+        }
+        else if(showWrongMove){
+            wrongMoveMessage();
+        }
     }
 }
 void GameProperty::displayTurn(){
@@ -459,6 +463,39 @@ void GameProperty::displayTurn(){
     float yPosition = (win.getSize().y / 2) - (textBounds.height / 2);
     info.setPosition(xPosition, yPosition);
     win.draw(info);
+}
+
+// message for wrong move
+void GameProperty::wrongMoveMessage(){
+    GameProperty::sounds[2].play();
+    RenderWindow wrongWin(sf::VideoMode(380, 80), "WRONG MOVE");
+    while(wrongWin.isOpen()){
+        Event wrongEvent;
+        while(wrongWin.pollEvent(wrongEvent)){
+            if(wrongEvent.type == Event::Closed){
+                wrongWin.close();
+                showWrongMove = false;
+                break;
+            }
+        }
+        Font font;
+        Text text;
+        wrongWin.clear(Color::White);
+        string msg = "Choose a valid move!";
+        text.setString(msg);
+        font.loadFromFile("./Assets/Font/Times New Normal Regular.ttf");
+        text.setFont(font);
+        text.setFillColor(Color::Black);
+        text.setCharacterSize(30);
+        // Center the text in warning
+        FloatRect textBounds = text.getLocalBounds();
+        text.setOrigin(textBounds.left + textBounds.width / 2.0f,  // Horizontal center
+                        textBounds.top + textBounds.height / 2.0f); // Vertical center
+        text.setPosition(wrongWin.getSize().x / 2.0f,  // Center horizontally
+                        wrongWin.getSize().y / 2.0f); // Center vertically
+        wrongWin.draw(text);
+        wrongWin.display();
+    }
 }
 
 string GameProperty::checkWinner(){
@@ -599,7 +636,6 @@ void GameProperty::helpWindow(){
     Button ruleInstructionButton(windowSize.x/2 - 100, windowSize.y/2 - 40, 200.0, 50.0, "Instruction", &font,sf::Color(0,0,0,0), sf::Color(0,0,0,0), Color:: Blue);
     Button saveGameButton(windowSize.x/2 - 100, windowSize.y/2 + 40, 200.0, 50.0, "Save & Quit", &font,sf::Color(0,0,0,0), sf::Color(0,0,0,0), Color:: Blue); //Quit and Save
     Button quitButton(windowSize.x/2 - 100, windowSize.y/2 + 120, 200.0, 50.0, "Quit without save", &font,sf::Color(0,0,0,0), sf::Color(0,0,0,0), Color:: Blue); //Quit without Save
-    
     // Main loop to keep the window open
     while (helpWin.isOpen()) {
         Vector2f mousePos = helpWin.mapPixelToCoords(sf::Mouse::getPosition(helpWin));
@@ -618,12 +654,7 @@ void GameProperty::helpWindow(){
             else if(event.type == sf::Event::MouseButtonPressed){
                 // instruction button
                 if(ruleInstructionButton.getButtonStates() == BTN_ACTIVE){
-                    Font textFont; 
-                    if (!textFont.loadFromFile("Assets/Font/Times New Normal Regular.ttf")) { // Make sure to specify the correct path
-                        cout << "Error loading font!" << endl;
-                        return;
-                    }
-                    GameIntro::openRuleWindow(textFont); 
+                    GameIntro::showInstruction = true;
                 }
                 // Quit & Save game button
                 else if(saveGameButton.getButtonStates() == BTN_ACTIVE){
@@ -649,22 +680,65 @@ void GameProperty::helpWindow(){
                 }
             }
         }
-        // Clear the window
-        helpWin.clear(sf::Color(255, 178, 102, 255));
+        if(GameIntro::showInstruction){
+            Font textFont; 
+            if (!textFont.loadFromFile("Assets/Font/Times New Normal Regular.ttf")) { // Make sure to specify the correct path
+                cout << "Error loading font!" << endl;
+                return;
+            }
+            GameIntro::openRuleWindow(textFont); 
+        }
+        else{
+            // Clear the window
+            helpWin.clear(sf::Color(255, 178, 102, 255));
 
-        //Draw the button
-        menuButton.render(&helpWin); 
-        ruleInstructionButton.render(&helpWin);
-        saveGameButton.render(&helpWin); 
-        quitButton.render(&helpWin);
-        
+            //Draw the button
+            menuButton.render(&helpWin); 
+            ruleInstructionButton.render(&helpWin);
+            saveGameButton.render(&helpWin); 
+            quitButton.render(&helpWin);
+            
 
-        //Draw the rectangle and the title
-        helpWin.draw(rectangle);
-        helpWin.draw(title);
+            //Draw the rectangle and the title
+            helpWin.draw(rectangle);
+            helpWin.draw(title);
 
-        // Display the contents of the window
-        helpWin.display();
+            // Display the contents of the window
+            helpWin.display();
+        }
+    }
+}
+
+void GameProperty::warning(){
+    RenderWindow warningWin(sf::VideoMode(380, 80), "WARNING");
+    sounds[2].play();
+    while(warningWin.isOpen()){
+        Event warningEvent;
+        while(warningWin.pollEvent(warningEvent)){
+            if(warningEvent.type == Event::Closed){
+                warningWin.close();
+                showWarning = false;
+                break;
+            }
+        }
+        Font font;
+        Text text;
+        warningWin.clear(Color::White);
+        string warning;
+        warning = "Chose a valid animal!";
+        text.setString(warning);
+        font.loadFromFile("./Assets/Font/Times New Normal Regular.ttf");
+        text.setFont(font);
+        text.setFillColor(Color::Black);
+        text.setCharacterSize(30);
+        // Center the text in warning
+        FloatRect textBounds = text.getLocalBounds();
+        text.setOrigin(textBounds.left + textBounds.width / 2.0f,  // Horizontal center
+                        textBounds.top + textBounds.height / 2.0f); // Vertical center
+        text.setPosition(warningWin.getSize().x / 2.0f,  // Center horizontally
+                        warningWin.getSize().y / 2.0f); // Center vertically
+        warningWin.draw(text);
+        warningWin.display();
     }
 }
 
