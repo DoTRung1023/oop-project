@@ -666,8 +666,7 @@ void GameProperty::helpWindow(){
                     GameMove::saveTurn();
                     helpWin.close(); 
                     win.close(); 
-                    GameIntro newGame; 
-
+                    GameIntro newGame;
                 }
             }
         }

@@ -18,13 +18,13 @@ bool GameIntro::showInstruction = false;
 
 //Pointer to the image file of 8 animal in the game
 const char* GameIntro:: imageFile[8] = {"./Assets/Pieces/rpoodle.png",
-                            "./Assets/Pieces/rrat.png",
-                            "./Assets/Pieces/rafrican.png",
-                            "./Assets/Pieces/bpoodle.png",
-                            "./Assets/Pieces/brat.png",
-                            "./Assets/Pieces/bafrican.png",
-                            "./Assets/Pieces/soldier.png",
-                            "./Assets/Pieces/fortress.png"};
+                                        "./Assets/Pieces/rrat.png",
+                                        "./Assets/Pieces/rafrican.png",
+                                        "./Assets/Pieces/bpoodle.png",
+                                        "./Assets/Pieces/brat.png",
+                                        "./Assets/Pieces/bafrican.png",
+                                        "./Assets/Pieces/soldier.png",
+                                        "./Assets/Pieces/fortress.png"};
 
 //float x, float y, float width, float height, string text, Font* font, Color idleColor, Color hoverColor, Color activeColor
 GameIntro:: GameIntro(){
@@ -157,7 +157,6 @@ GameIntro:: GameIntro(){
                     introWindow.close();     
                     Board::clearIndex();
                     finalMessage(); 
-
                 }
             }
         }

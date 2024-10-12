@@ -82,13 +82,19 @@ void Board::saveIndex(){
 }
 
 void Board::makeNewBoard(){
-
+    int tempIndex[7][9]={{5, -1, 0, -1, -1, -1, 8, -1, 13},
+                         {-1, 6, -1, -1, -1, -1, -1, 14, -1},
+                         {16, -1, 3, -1, -1, -1, 11, -1, 19},
+                         {22, 17, -1, -1, -1, -1, -1, 20, 23},
+                         {18, -1, 1, -1, -1, -1, 9, -1, 21},
+                         {-1, 7, -1, -1, -1, -1, -1, 15, -1},
+                         {2, -1, 4, -1, -1, -1, 12, -1, 10}};
     // Create a 2D vector to represent the matrix
     std::vector<std::vector<int>> matrix;
     for(int i = 0; i<7; i++){
         std::vector<int> row;
         for(int j = 0; j<9; j++){
-            row.push_back(index[i][j]);
+            row.push_back(tempIndex[i][j]);
         }
         matrix.push_back(row);
     }
