@@ -1,10 +1,11 @@
+//Implementation of Mice.h
 #include "iostream"
 #include "Mice.h"
 using namespace std; 
 
 Mice:: Mice():Animal("mice"){}
 
-bool Mice::attack(Character* piece){
+bool Mice::attack(Character* piece){//Return true if the target is elephant, fortress or soldier. Else return false
     if(piece != nullptr && piece->color != color &&
        (piece->getName() == "elephant" ||
         piece->getName() == "fortress" ||
@@ -14,6 +15,4 @@ bool Mice::attack(Character* piece){
     return false;
 }
 
-Mice::~Mice(){
-    
-}
+Mice::~Mice(){} 

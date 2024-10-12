@@ -1,3 +1,4 @@
+//Implementation of Player.h
 #include "Player.h"
 #include "Animal.h"
 #include "Fortress.h"
@@ -9,7 +10,7 @@
 Player::Player(){
     //AnimalList:
     animalList = new Animal*[8];
-    for(int i = 0; i<8 ; i++){//Tempt fix for dynamic allocation error in createPlayer():
+    for(int i = 0; i<8 ; i++){
         animalList[i] = nullptr; 
     }
     // make 3 types of animal
@@ -33,18 +34,17 @@ Player::Player(){
         soldierList[i] = new Soldier();
     }
 }
-Animal** Player::getAnimalList(){
+Animal** Player::getAnimalList(){ //Return the list of animal in the game
     return animalList;
 }
-Fortress* Player::getFortress(){
+Fortress* Player::getFortress(){ //Return the fortress 
     return fortress;
 }
-Soldier** Player::getSoldierList(){
+Soldier** Player::getSoldierList(){ //Return the list of Soldier in the game. 
     return soldierList;
 }
 
-Player:: ~Player(){
-    delete[] animalList; 
+Player:: ~Player(){ //Delete the memory allocated to the list of animal, list of soldier and the fortress     delete[] animalList; 
     delete[] soldierList;
     delete fortress;
 }

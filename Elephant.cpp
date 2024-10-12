@@ -1,10 +1,11 @@
+//Implementation of Elephant.h
 #include <iostream>
 #include "Elephant.h"
 using namespace std; 
 
 Elephant:: Elephant():Animal("elephant"){}
 
-bool Elephant::attack(Character* piece){
+bool Elephant::attack(Character* piece){//Return true if the target is dog, fortress or soldier. Else return false
     if(piece != nullptr && piece->color != color &&
        (piece->getName() == "dog" ||
         piece->getName() == "fortress" ||
@@ -14,7 +15,5 @@ bool Elephant::attack(Character* piece){
     return false;
 }
 
-Elephant::~Elephant(){
-    
-}
+Elephant::~Elephant(){}
 

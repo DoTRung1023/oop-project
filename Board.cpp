@@ -1,3 +1,4 @@
+//Implementation of Board.h
 #include <iostream>
 #include <string>
 #include <fstream>
@@ -7,6 +8,10 @@
 
 using namespace std;
 
+//Create a board object which represent the index of each piece
+//If  index is -1: No piece in that position
+//                      Piece of red team               Piece of blue team
+//
 int Board::index[7][9]={{5, -1, 0, -1, -1, -1, 8, -1, 13},
                         {-1, 6, -1, -1, -1, -1, -1, 14, -1},
                         {16, -1, 3, -1, -1, -1, 11, -1, 19},

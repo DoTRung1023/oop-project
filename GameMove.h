@@ -1,3 +1,5 @@
+//Class define the main part of the game include: Drawing a chess board, check who is the winner, 
+//Calculate all legal move and allow user to move a piece
 #ifndef __GAMEMOVE_H__
 #define __GAMEMOVE_H__
 
@@ -21,10 +23,18 @@ public:
     vector<Move> getLegalMoves(Board currentBoard, bool turn);
     // getter
     bool getTurn();
+    //Display a message indicates that a piece is killed
     void killMessage(Character* killPiece);
+
+    //Display a message when a user make an invalid move
     void wrongMoveMessage();
+
+    //Save the turn when user quit the game
     static void saveTurn();
+    //Load the turn when user load the game
     static void loadTurn();
+
+    //Reset turn to red team if user resets the game
     static void resetTurn();
 };
 

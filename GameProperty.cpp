@@ -1,3 +1,5 @@
+// implementation of "GameProperty.h"
+
 #include <iostream>
 #include <fstream>
 #include <string>
@@ -23,20 +25,22 @@
 using namespace std;
 using namespace sf;
 
+// initialise static variable
 sf::Music GameProperty::sounds[7]; // move - capture - up - down - start - end - boom
 
+// constructor to define necessary elements in the game
 GameProperty::GameProperty(int width, int height, const char* imageFile[18], string gameName){
     // colorsNeed for board
-    colorsNeed[0].r = 181; // wood color
+    colorsNeed[0].r = 181;  // wood color
     colorsNeed[0].g = 123; 
     colorsNeed[0].b = 66;
-    colorsNeed[1].r = 0; // black
+    colorsNeed[1].r = 0;    // black
     colorsNeed[1].g = 0;
     colorsNeed[1].b = 0;
-    colorsNeed[2].r = 255; // olive green
+    colorsNeed[2].r = 255;  // olive green
     colorsNeed[2].g = 252;
     colorsNeed[2].b = 135;
-    // fill colour for square
+    // fill colour for squares
     for(int i = 0; i<7; i++){
         for(int j = 0; j<9; j++){
             squares[i][j].setFillColor(colorsNeed[0]);
@@ -50,10 +54,15 @@ GameProperty::GameProperty(int width, int height, const char* imageFile[18], str
     holder.height = height;
     this->width = width;
     this->height = height;
+    // set position for 63 squares in the board 
     setHolders();
+    // create 2 players
     createPlayers();
+    // initialise 63 pieces 
     createPiece(imageFile);
+    // map 63 pieces to the correct positions
     mapPieces();
+    // create main window for the game
     win.create(VideoMode(width, height), gameName);
     // move sound
     sounds[0].openFromFile("./Assets/Sounds/Default/move.wav");
@@ -100,41 +109,45 @@ void GameProperty::createPlayers(){
     blueSoldiers = players2->getSoldierList();
 }
 void GameProperty::createPiece(const char* imageFile[8]){
-    // load image to texture
-    // IntRect blank;
+    // load 8 different images to texture 
     for(int i = 0; i<8; i++){
-        // pieceTexture[i].loadFromFile(imageFile[i], blank);
         pieceTexture[i].loadFromFile(imageFile[i]);
     }
-    // set texture to piece
-    int index = 0;
+    // set 63 pieces
+    int index = 0; 
     for(int i = 0; i<7; i++){
         for(int j = 0; j<9; j++){
             // get piece ID 
             pieces[index].pieceID = Board::index[i][j];
+            // get pieces position
             pieces[index].x = i;
             pieces[index].y = j;
             // assign character to piece
             if(pieces[index].pieceID != -1){
-                int insert = -1;
+                int insert = -1; // to know the position of file paths among 8 file names
+                // red animals
                 if(pieces[index].pieceID < 8){
                     pieces[index].character = redAnimals[pieces[index].pieceID];
                     pieces[index].character->color = "red";
                 }
+                // blue animals
                 else if(pieces[index].pieceID < 16){
                     pieces[index].character = blueAnimals[pieces[index].pieceID-8];
                     pieces[index].character->color = "blue";
                 }
+                // red fortress
                 else if(pieces[index].pieceID == 22){
                     pieces[index].character = redFortress;
                     pieces[index].character->color = "red";
                     insert = 7;
                 }
+                // blue fortress
                 else if(pieces[index].pieceID == 23){
                     pieces[index].character = blueFortress;
                     pieces[index].character->color = "blue";
                     insert = 7;
                 }
+                // red soldiers
                 else if(pieces[index].pieceID == 16){
                     pieces[index].character = redSoldiers[0];
                     pieces[index].character->color = "red";
@@ -150,6 +163,7 @@ void GameProperty::createPiece(const char* imageFile[8]){
                     pieces[index].character->color = "red";
                     insert = 6;
                 }
+                // blue soldiers
                 else if(pieces[index].pieceID == 19){
                     pieces[index].character = blueSoldiers[0];
                     pieces[index].character->color = "blue";
@@ -165,6 +179,7 @@ void GameProperty::createPiece(const char* imageFile[8]){
                     pieces[index].character->color = "blue";
                     insert = 6;
                 }
+                // set insert variables for different kinds of animals
                 if(insert == -1){
                     if(pieces[index].character->getName() == "dog"){
                         insert = 0;
@@ -175,14 +190,17 @@ void GameProperty::createPiece(const char* imageFile[8]){
                     else if(pieces[index].character->getName() == "elephant"){
                         insert = 2;
                     }
+                    // increment the variable by 3 to make it blue
                     if(pieces[index].character->color == "blue"){
                         insert += 3;
                     }
                 }
+                // import the images to the pices
                 pieces[index].image.setTexture(pieceTexture[insert], true);  
                 pieces[index].draw = 1;
             }
             else {
+                // if there are no character, assign the variable to nullptr
                 pieces[index].character = nullptr;
             }
             index++;
@@ -191,6 +209,7 @@ void GameProperty::createPiece(const char* imageFile[8]){
 }
 
 void GameProperty::drawSquares(){
+    // nested for-loop to draw 63 squares
     for(int i = 0; i<7; i++){
         for(int j = 0; j<9; j++){
             win.draw(squares[i][j]);
@@ -199,6 +218,7 @@ void GameProperty::drawSquares(){
 }
 
 void GameProperty::drawImage(){
+    // draw images on the board
     for(int i = 0; i<63; i++){
         if(pieces[i].draw == 1){
             win.draw(pieces[i].image);
@@ -206,6 +226,7 @@ void GameProperty::drawImage(){
     }
 }
 void GameProperty::setHolders(){
+    // nested for-loop to set the position of 63 squares
     for(int i = 0; i<7; i++){
         for(int j = 0; j<9; j++){
             squares[i][j].setPosition(Vector2f(holder.left + (i * holder.width / 7), holder.top + (j * holder.height / 9)));
@@ -216,6 +237,7 @@ void GameProperty::setHolders(){
 }
 
 void GameProperty::mapPieces(){
+    // set position of images on the board
     for(int i = 0; i<63; i++){
         if(pieces[i].draw == 1){
             pieces[i].image.setPosition(sf::Vector2f(holder.left + (pieces[i].x * holder.width / 7), holder.top + (pieces[i].y * holder.height / 9)));
@@ -226,6 +248,7 @@ void GameProperty::mapPieces(){
 
 void GameProperty::mapPieces(Move moving){
     ChessPiece *current;
+    // for-loop to search old and new pieces and change the necessary variables
     for (int i = 0; i < 63; ++i){
         if (pieces[i].draw == 1){
             if (pieces[i].x == moving.old_X && pieces[i].y == moving.old_Y){
@@ -236,27 +259,33 @@ void GameProperty::mapPieces(Move moving){
             }
         }
     }
+    // change the position of the moving piece to new position
     current->x = moving.new_X;
     current->y = moving.new_Y;
+    // set position of new pieces
     current->image.setPosition(sf::Vector2f(holder.left + (current->x * holder.width / 7), holder.top + (current->y * holder.height / 9)));
     current->image.setScale(holder.width / 1470.f, holder.height / 1890.f);
 }
 
 
 void GameProperty::run(){
-    sounds[3].play();
+    // sound when start the game window
+    sounds[3].play(); 
+    // while loop to keep the main window open
     while(win.isOpen()){
         Event event;
-        while(win.pollEvent(event)){
-            // close main window
+        while(win.pollEvent(event)){ // while loop to get the eligible event while running game
+            // close main window -> end game
             if(event.type == Event::Closed){
                 win.close();
                 break;
             }
-            // resize window
+            // resize window -> resize the board to the correct ratio
             else if(event.type == Event::Resized){
+                // get new size of new window
                 width = win.getSize().x;
                 height = win.getSize().y;
+                // set current active view for rendering
                 win.setView(View(FloatRect(0, 0, width, height)));
                 // calculate to keep game window ratio
                 if(width > height){
@@ -271,12 +300,14 @@ void GameProperty::run(){
                     holder.top = (height-width)/2;
                     holder.left = 0;
                 }
+                // set the position of 63 squares
                 setHolders();
+                // set position of images on the board
                 mapPieces();
             }
             // mouse click event
             else if(event.type == Event::MouseButtonPressed){
-                if (event.mouseButton.button == sf::Mouse::Button::Left){
+                if (event.mouseButton.button == sf::Mouse::Button::Left){ // left mouse 
                     // get click position
                     int click_X, click_Y;
                     click_X = event.mouseButton.x;
@@ -287,7 +318,7 @@ void GameProperty::run(){
                     square_Y = ((click_Y - holder.top) - ((click_Y - holder.top) % (holder.height / 9))) / (holder.height / 9);
                     // not select -> highlight the selected square
                     bool turn  = moveAnimal.getTurn();
-                    if (select == 0){
+                    if (select == 0){ // no square is selected
                         if (click_X >= holder.left && click_X <= holder.left + holder.width && 
                             click_Y > holder.top && click_Y < holder.top + holder.height){
                             // currentBoard = moveAnimal.getBoard();
@@ -304,7 +335,7 @@ void GameProperty::run(){
                             else{
                                 selectAxis[0] = square_X;
                                 selectAxis[1] = square_Y;
-                                // highlight
+                                // highlight the selected square
                                 squares[selectAxis[0]][selectAxis[1]].setFillColor(colorsNeed[2]);
                                 squares[selectAxis[0]][selectAxis[1]].setOutlineColor(colorsNeed[1]);
                                 select = 1;
@@ -322,7 +353,7 @@ void GameProperty::run(){
                         // move the chess to new position
                         else{
                             Move newMove(selectAxis[0], selectAxis[1], square_X, square_Y);
-                            // if move is valid -> move
+                            // use for-loop to get the aimPiece and choosePiece to check valid attack
                             Character* aimPiece;
                             Character* choosePiece;
                             int aimID;
@@ -337,25 +368,32 @@ void GameProperty::run(){
                                     chooseID = i;
                                 }
                             }
+                            // if move is valid -> move
                             if(moveAnimal.playMove(newMove, aimPiece, choosePiece)){
-                                mapPieces(newMove);
-                                GameMove::nextTurn();
-                                if(moveAnimal.disappear == true){
+                                mapPieces(newMove); // move the pieces to new position
+                                GameMove::nextTurn(); // change turn showed on the board
+                                if(moveAnimal.disappear == true){ // if the attack valid -> delete the aimPiece
                                     pieces[aimID].draw = 0;
                                     pieces[chooseID].draw = 0;
                                 }
-                                if(checkWinner() != winner){
-                                    winner = checkWinner();
+                                if(checkWinner() != winner){ //  if winner is found 
+                                    winner = checkWinner(); // get winner
+                                    // set the selected square to original color
                                     squares[selectAxis[0]][selectAxis[1]].setFillColor(colorsNeed[0]);
                                     squares[selectAxis[0]][selectAxis[1]].setOutlineColor(colorsNeed[1]);
                                     select = 0;
+                                    // draw the window again to update to move
                                     win.clear();
                                     drawSquares();
                                     drawImage();
                                     win.display();
+                                    // the game end -> clear the stored board in the text
                                     Board::clearIndex();
+                                    // show winner 
                                     showWinner();
+                                    // close the game window when the winner window is closed
                                     win.close();
+                                    // show final message
                                     GameIntro::finalMessage();
                                     break;
                                 }
@@ -367,7 +405,9 @@ void GameProperty::run(){
                         }
                     }
                 }
+                // right mouse click -> unselect the piece
                 else if (event.mouseButton.button == sf::Mouse::Button::Right){
+                    // set the selected square to the original color
                     squares[selectAxis[0]][selectAxis[1]].setFillColor(colorsNeed[0]);
                     squares[selectAxis[0]][selectAxis[1]].setOutlineColor(colorsNeed[1]);
                     select = 0;
@@ -380,25 +420,30 @@ void GameProperty::run(){
                 }
             }
         }
+        // update the elements on the board
         win.clear();
         drawSquares();
         drawImage();
         displayTurn();
+        // show the main window
         win.display();
     }
 }
 void GameProperty::displayTurn(){
+    // get current turn
     bool turn  = moveAnimal.getTurn();
+    // define text
     std::string msg = "BLUE";
     if(turn == true){
         msg = "RED";
     }
+    // format font, size and color for text 
     Text info;
     Font font;
     font.loadFromFile("./Assets/Font/Times New Normal Regular.ttf");
     info.setFont(font);
     info.setString(msg);
-    info.setCharacterSize(100);
+    info.setCharacterSize(100); 
     info.setFillColor(sf::Color(255, 255, 255, 100));
     // Get the bounds of the text to center it
     sf::FloatRect textBounds = info.getGlobalBounds();
@@ -410,16 +455,19 @@ void GameProperty::displayTurn(){
 }
 
 void GameProperty::warning(){
+    // define new window
     RenderWindow warningWin(sf::VideoMode(380, 80), "WARNING");
-    sounds[2].play();
+    sounds[2].play(); // play sound when the window pops up
     while(warningWin.isOpen()){
         Event warningEvent;
         while(warningWin.pollEvent(warningEvent)){
+            // if the window close -> close
             if(warningEvent.type == Event::Closed){
                 warningWin.close();
                 break;
             }
         }
+        // format font, size and color for text 
         Font font;
         Text text;
         warningWin.clear(Color::White);
@@ -472,6 +520,7 @@ string GameProperty::checkWinner(){
             }
         }
     }
+    // set reason 
     if(countBlue == 0 && countRed == 0){
         reason = 3;
         return "draw";
@@ -510,17 +559,19 @@ void GameProperty::showWinner(){
     }
     // Close the file when done
     file.close();
+    // make new window
     RenderWindow winnerWin(sf::VideoMode(730, 80), "WINNER");
-    sounds[4].play();
+    sounds[4].play(); // play sound when the window pops up
     while(winnerWin.isOpen()){
         Event winnerEvent;
         while(winnerWin.pollEvent(winnerEvent)){
+            // close window -> close
             if(winnerEvent.type == Event::Closed){
-                // sounds[4].stop();
                 winnerWin.close();
                 break;
             }
         }
+        // format font, size and color for text 
         Font font;
         Text text;
         winnerWin.clear(Color::White);
@@ -542,15 +593,15 @@ void GameProperty::showWinner(){
 }
 
 void GameProperty::helpWindow(){
-    sounds[2].play();
+    // make new window
     RenderWindow helpWin(sf::VideoMode(300, 400), "HELP");
+    sounds[2].play(); // play sound when new window pops up
     Font font;
     //Load the font;
     if (!font.loadFromFile("Assets/Font/Times New Normal Regular.ttf")) { // Make sure to specify the correct path
         cout << "Error loading font!" << endl;
         return;
     }
-
     //Create the title of the game:
     RectangleShape rectangle(Vector2f(400.0f, 100.0f)); // Width x Height
     rectangle.setFillColor(sf::Color(0,0,0,0)); // Set rectangle color
@@ -569,7 +620,6 @@ void GameProperty::helpWindow(){
     title.setOrigin(textRect.width / 2, textRect.height / 2); // Set origin to center of text
     title.setPosition(rectangle.getPosition().x + rectangle.getSize().x / 2, 
                       rectangle.getPosition().y + rectangle.getSize().y / 2); // Center the text in the rectangle
-    
     sf::Vector2u windowSize = helpWin.getSize();
 
     //Define 4 button in the intro menu: 
@@ -577,27 +627,23 @@ void GameProperty::helpWindow(){
     Button saveGameButton(windowSize.x/2 - 100, windowSize.y/2, 200.0, 50.0, "Save & Quit", &font,sf::Color(0,0,0,0), sf::Color(0,0,0,0), Color:: Blue); //Quit and Save
     Button quitButton(windowSize.x/2 - 100, windowSize.y/2 + 80, 200.0, 50.0, "Quit without save", &font,sf::Color(0,0,0,0), sf::Color(0,0,0,0), Color:: Blue); //Quit without Save
 
-    // Main loop
+    // Main loop to keep the window open
     while (helpWin.isOpen()) {
-
         Vector2f mousePos = helpWin.mapPixelToCoords(sf::Mouse::getPosition(helpWin));
-
         // Update the button state based on mouse position
-        
         ruleInstructionButton.update(mousePos);
-
         saveGameButton.update(mousePos);
-
         quitButton.update(mousePos);
-
         Event event;
         while (helpWin.pollEvent(event)) {
+            // close window -> close
             if (event.type == Event::Closed){
                 helpWin.close();
             }
+            // click button
             else if(event.type == sf::Event::MouseButtonPressed){
+                // instruction button
                 if(ruleInstructionButton.getButtonStates() == BTN_ACTIVE){
-                    //To do
                     Font textFont; 
                     if (!textFont.loadFromFile("Assets/Font/Times New Normal Regular.ttf")) { // Make sure to specify the correct path
                         cout << "Error loading font!" << endl;
@@ -605,13 +651,14 @@ void GameProperty::helpWindow(){
                     }
                     GameIntro::openRuleWindow(textFont); 
                 }
+                // Quit & Save game button
                 else if(saveGameButton.getButtonStates() == BTN_ACTIVE){
-                    //to do: 
                     Board::saveIndex(); 
                     GameMove::saveTurn();
                     helpWin.close(); 
                     win.close(); 
                 }
+                // Quit game button
                 else if(quitButton.getButtonStates() == BTN_ACTIVE){
                     helpWin.close();
                     Board::clearIndex();
@@ -637,6 +684,22 @@ void GameProperty::helpWindow(){
     }
 }
 
+void GameProperty:: callNewGame(){
+    // make array to store paths of 8 images
+    const char* imageFile[8] = {"./Assets/Pieces/rpoodle.png",
+                                "./Assets/Pieces/rrat.png",
+                                "./Assets/Pieces/rafrican.png",
+                                "./Assets/Pieces/bpoodle.png",
+                                "./Assets/Pieces/brat.png",
+                                "./Assets/Pieces/bafrican.png",
+                                "./Assets/Pieces/soldier.png",
+                                "./Assets/Pieces/fortress.png"};
+    win.close(); 
+    // run new game
+    GameProperty newgame(700, 900,imageFile, "Animal Chess");
+    newgame.run(); 
+}
+
 GameProperty:: ~GameProperty(){
     //Delete animal:
     for(int i = 0; i<8; i++){
@@ -655,20 +718,4 @@ GameProperty:: ~GameProperty(){
     delete[] redSoldiers; 
     delete blueFortress; 
     delete redFortress; 
-
-}
-
-void GameProperty:: callNewGame(){
-    const char* imageFile[8] = {"./Assets/Pieces/rpoodle.png",
-                            "./Assets/Pieces/rrat.png",
-                            "./Assets/Pieces/rafrican.png",
-                            "./Assets/Pieces/bpoodle.png",
-                            "./Assets/Pieces/brat.png",
-                            "./Assets/Pieces/bafrican.png",
-                            "./Assets/Pieces/soldier.png",
-                            "./Assets/Pieces/fortress.png"};
-
-    win.close(); 
-    GameProperty newgame(700, 900,imageFile, "Animal Chess");
-    newgame.run(); 
 }

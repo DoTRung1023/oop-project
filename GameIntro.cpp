@@ -1,3 +1,4 @@
+//The implementation of 
 #include <iostream>
 #include <fstream> 
 #include "GameMove.h"
@@ -13,6 +14,7 @@ using namespace std;
 //Instruction button 
 //Quit button
 
+//Pointer to the image file of 8 animal in the game
 const char* imageFile[8] = {"./Assets/Pieces/rpoodle.png",
                             "./Assets/Pieces/rrat.png",
                             "./Assets/Pieces/rafrican.png",
@@ -27,6 +29,7 @@ GameIntro:: GameIntro(){
     //Create an Music object:
     Music introMusic; 
 
+    //If the music is not avaiable then exit
     if(!introMusic.openFromFile("Assets/Sounds/Default/introMusic.wav")){
         cout << "Error" << endl;
         cout << "Error, can not open introMusic.wav" << endl; 
@@ -42,8 +45,7 @@ GameIntro:: GameIntro(){
     //Create the window for the menu
     introWindow.create(VideoMode(700, 900), "Animal Chess"); 
 
-    //Load the font;
-    
+    //Load the font
     if (!font.loadFromFile("Assets/Font/Times New Normal Regular.ttf")) { // Make sure to specify the correct path
         cout << "Error loading font!" << endl;
         return;
@@ -115,50 +117,46 @@ GameIntro:: GameIntro(){
 
         quitButton.update(mousePos);
 
+        //When user click on a button or quit the game intro Menu
         Event event;
         while (introWindow.pollEvent(event)) {
             if (event.type == Event::Closed){
-                // introMusic.stop();
                 introWindow.close();
             }
             else if(event.type == sf::Event::MouseButtonPressed){
+                //If user click on the Start game button then make a new board, reset the whole game
                 if(startGameButton.getButtonStates() == BTN_ACTIVE){
-                    // introMusic.stop();
-                    introWindow.close();
-                    Board::makeNewBoard();
-                    Board::loadIndex();
-                    GameMove::resetTurn();
-                    GameMove::loadTurn();
-                    GameProperty newgame(700, 900, imageFile, "Animal Chess");
-                    newgame.run(); 
+                    introWindow.close(); //Close the intro window
+                    Board::makeNewBoard();//Create a new board
+                    Board::loadIndex(); //Load default index into the board
+                    GameMove::resetTurn(); //Rest the turn to red
+                    GameMove::loadTurn();  //Load the turn 
+                    GameProperty newgame(700, 900, imageFile, "Animal Chess"); //Create an object of GameProperty
+                    newgame.run(); //Run the game. 
                 }
+                //If user click on load game button then load the saved game data from the txt file
                 else if(loadGameButton.getButtonStates() == BTN_ACTIVE){
-                    if(Board::checkEmpty() == true){
-                        // introMusic.stop();
-                        introWindow.close();
-                        Board::makeNewBoard();
-                        Board::loadIndex();
-                        GameMove::resetTurn();
-                        GameMove::loadTurn();
-                        GameProperty newgame(700, 900, imageFile, "Animal Chess");
-                        newgame.run(); 
+                    if(Board::checkEmpty() == true){//If the text file is empty then create a new game 
+                        introWindow.close(); //Close the intro window
+                        Board::makeNewBoard(); //Make a new board
+                        Board::loadIndex(); //Load default index of piece into the board
+                        GameMove::resetTurn();//Reset turn to red
+                        GameMove::loadTurn(); //Load the turn 
+                        GameProperty newgame(700, 900, imageFile, "Animal Chess"); //Create an object of GameProperty
+                        newgame.run(); //Run the game
                     }
-                    else{
-                        // introMusic.stop();
-                        introWindow.close();
-                        Board::loadIndex();
-                        GameMove::loadTurn();
-                        GameProperty newgame(700, 900, imageFile, "Animal Chess");
-                        newgame.run(); 
+                    else{//If there is data in txt file then load that data into the game
+                        introWindow.close(); //Close the introWindow
+                        Board::loadIndex();//Load saved index into the board
+                        GameMove::loadTurn(); //Load last saved turn
+                        GameProperty newgame(700, 900, imageFile, "Animal Chess"); //Create an object of GameProperty
+                        newgame.run(); //Run the game
                     }
                 }
-                else if(ruleInstructionButton.getButtonStates() == BTN_ACTIVE){
-                    // introMusic.stop();
-                    openRuleWindow(font); 
+                else if(ruleInstructionButton.getButtonStates() == BTN_ACTIVE){//open the rule window if user click on the instruction button                     openRuleWindow(font); 
                 }
                 else if(quitButton.getButtonStates() == BTN_ACTIVE){
-                    // introMusic.stop();
-                    introWindow.close(); 
+//Quit the game if user click on the quit button.                     introWindow.close(); 
                     Board::clearIndex();
                     finalMessage(); 
                 }
@@ -187,11 +185,11 @@ GameIntro:: GameIntro(){
 
 }
 
-void GameIntro:: closeWindow(){
+void GameIntro:: closeWindow(){//Close the gameIntroWindow
     introWindow.close(); 
 }
 
-void GameIntro:: openRuleWindow(Font font){
+void GameIntro:: openRuleWindow(Font font){//Window opened when user click on "Instruction" on intro menu
     //Create the window for the menu
     RenderWindow ruleWindow; 
     ruleWindow.create(VideoMode(1000, 850), "Animal Chess Rule"); 
@@ -204,6 +202,7 @@ void GameIntro:: openRuleWindow(Font font){
         exit(-1);  
     }
 
+    //Create a variable for the rule and tempt variable to read the text into it 
     string rule; 
     string tempt; 
     while(!input.eof()){ // if not end of file then continue to read
@@ -291,13 +290,18 @@ void GameIntro:: openRuleWindow(Font font){
     }
 }
 
-void GameIntro:: finalMessage(){
+void GameIntro:: finalMessage(){ //Message pop up when user quit the intro menu
+    //Play sound: 
     GameProperty::sounds[6].play();
+
+    //Create the window for end game message
     RenderWindow finalWin(sf::VideoMode(560, 100), "END GAME");
+
+    //Main loop
     while(finalWin.isOpen()){
         Event finalEvent;
         while(finalWin.pollEvent(finalEvent)){
-            if(finalEvent.type == Event::Closed){
+            if(finalEvent.type == Event::Closed){ //If click on the "x" button then close the window
                 finalWin.close();
                 break;
             }
@@ -309,7 +313,7 @@ void GameIntro:: finalMessage(){
         final = "Thank You for Playing Animal Chess!!!";
         text.setString(final);
         font.loadFromFile("./Assets/Font/Times New Normal Regular.ttf");
-        text.setFont(font);
+        text.setFont(font); //Set the font to the font in font variable
         text.setFillColor(Color::Black);
         text.setCharacterSize(30);
         // Center the text in warning
@@ -318,7 +322,7 @@ void GameIntro:: finalMessage(){
                         textBounds.top + textBounds.height / 2.0f); // Vertical center
         text.setPosition(finalWin.getSize().x / 2.0f,  // Center horizontally
                         finalWin.getSize().y / 2.0f); // Center vertically
-        finalWin.draw(text);
-        finalWin.display();
+        finalWin.draw(text); //Draw the text into the window
+        finalWin.display(); //Display the text in the window
     }
 }

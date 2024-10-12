@@ -1,3 +1,4 @@
+//Main file has main() which calls the Default Constructor of GameIntro to open the intro menu. 
 #include <SFML/System.hpp>
 #include <SFML/Window.hpp>
 #include <SFML/Audio.hpp>
@@ -9,9 +10,8 @@
 #include "GameMove.h"
 #include "GameIntro.h"
 
-int main(){
-    GameIntro game; 
-
+int main(){//Main function of the game
+    GameIntro game; //Create an object of GameIntro to start the game
     return 0;
 }
 

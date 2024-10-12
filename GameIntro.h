@@ -13,17 +13,13 @@ using namespace std;
 class GameIntro{
     private:
         RenderWindow introWindow; //Object for the intro window
-        // Texture introImageTexture; // Load the intro image into GPU 
-        // Sprite introImageSprite; //An object for displaying the logo image
-        // Vector2f windowSize; //Get the intro window size
-        // Vector2f logoSize; //Get the intro logo size
-        Font font; 
+        Font font; //Object for the Font of text
     public:
         GameIntro(); //Constructor for the Intro. 
         void closeWindow();  //Getter for introWindow. 
         static void openRuleWindow(Font font); 
-        static void finalMessage(); 
-        static void playIntroMusic(); 
+        static void finalMessage(); //Display the window with final message if the user quit the gagme
+        static void playIntroMusic(); //Play music when the intro window pops up. 
 
 }; 
 

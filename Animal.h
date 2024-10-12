@@ -1,3 +1,4 @@
+// abstract class animal which contains animals in the game, derived from Character class.
 #ifndef ANIMAL_H
 #define ANIMAL_H
 #include <SFML/System.hpp>
@@ -15,9 +16,13 @@ using namespace sf;
 class Animal:public Character
 {
 public:
+    // constructor
     Animal(string name); 
+    // default constructor
     Animal(); 
+    // pure virtual function to make abstract class animal
     bool attack(Character* piece) = 0; 
+    // destructor
     ~Animal(); 
 };
 

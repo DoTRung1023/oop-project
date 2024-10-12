@@ -1,10 +1,11 @@
+//Implementation of Dog.h
 #include<iostream>
 #include "Dog.h"
 using namespace std; 
 
 Dog:: Dog(): Animal("dog"){
 }
-bool Dog::attack(Character* piece){
+bool Dog::attack(Character* piece){//Return true if the target is mice, fortress or soldier. Else return false
     if(piece != nullptr && piece->color != color &&
        (piece->getName() == "mice" ||
         piece->getName() == "fortress" ||
@@ -14,6 +15,4 @@ bool Dog::attack(Character* piece){
     return false;
 }
 
-Dog::~Dog(){
-    
-}
+Dog::~Dog(){} 

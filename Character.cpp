@@ -1,3 +1,5 @@
+// the implementation of "Character.h"
+
 #include <SFML/System.hpp>
 #include <SFML/Window.hpp>
 #include <SFML/Audio.hpp>
@@ -9,18 +11,28 @@
 using namespace std;
 using namespace sf;
 
+// default constructor, assign empty string to name 
 Character::Character():Character(""){}
+
+// constructor, with input name
 Character::Character(string name):name(name){}
 
+// getter
 string Character::getName(){
     return name;
 }
+
+// setter
 void Character::setName(string name){
     this->name = name;
 }
-bool Character::attack(Character* piece){
+
+// the function is overriden by the derived classes
+// by default, this function return false
+bool Character::attack(Character* aimPiece){
     return false;
 }
-Character::~Character(){
 
+// destructor
+Character::~Character(){
 }
