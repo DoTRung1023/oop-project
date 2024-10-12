@@ -63,6 +63,7 @@ private:
                      // == 1: a fortress is occupied
                      // == 2: all animals in of a side are killed
                      // == 3: no animal on the board -> tied game
+    bool warningWindowOpen; // Add this line
 
 public:
     // constructor

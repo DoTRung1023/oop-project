@@ -25,6 +25,16 @@
 using namespace std;
 using namespace sf;
 
+// // make array to store paths of 8 images
+// const char* imageFile[8] = {"./Assets/Pieces/rpoodle.png",
+//                             "./Assets/Pieces/rrat.png",
+//                             "./Assets/Pieces/rafrican.png",
+//                             "./Assets/Pieces/bpoodle.png",
+//                             "./Assets/Pieces/brat.png",
+//                             "./Assets/Pieces/bafrican.png",
+//                             "./Assets/Pieces/soldier.png",
+//                             "./Assets/Pieces/fortress.png"};
+
 // initialise static variable
 sf::Music GameProperty::sounds[7]; // move - capture - up - down - start - end - boom
 
@@ -59,7 +69,7 @@ GameProperty::GameProperty(int width, int height, const char* imageFile[18], str
     // create 2 players
     createPlayers();
     // initialise 63 pieces 
-    createPiece(imageFile);
+    createPiece(GameIntro:: imageFile);
     // map 63 pieces to the correct positions
     mapPieces();
     // create main window for the game
@@ -111,7 +121,7 @@ void GameProperty::createPlayers(){
 void GameProperty::createPiece(const char* imageFile[8]){
     // load 8 different images to texture 
     for(int i = 0; i<8; i++){
-        pieceTexture[i].loadFromFile(imageFile[i]);
+        pieceTexture[i].loadFromFile(GameIntro:: imageFile[i]);
     }
     // set 63 pieces
     int index = 0; 
@@ -594,7 +604,7 @@ void GameProperty::showWinner(){
 
 void GameProperty::helpWindow(){
     // make new window
-    RenderWindow helpWin(sf::VideoMode(300, 400), "HELP");
+    RenderWindow helpWin(sf::VideoMode(300, 500), "HELP");
     sounds[2].play(); // play sound when new window pops up
     Font font;
     //Load the font;
@@ -623,14 +633,16 @@ void GameProperty::helpWindow(){
     sf::Vector2u windowSize = helpWin.getSize();
 
     //Define 4 button in the intro menu: 
+    Button menuButton(windowSize.x/2 - 100, windowSize.y/2 - 160, 200.0, 50.0, "Main Menu", &font,sf::Color(0,0,0,0), sf::Color(0,0,0,0), Color:: Blue); 
     Button ruleInstructionButton(windowSize.x/2 - 100, windowSize.y/2 - 80, 200.0, 50.0, "Instruction", &font,sf::Color(0,0,0,0), sf::Color(0,0,0,0), Color:: Blue);
     Button saveGameButton(windowSize.x/2 - 100, windowSize.y/2, 200.0, 50.0, "Save & Quit", &font,sf::Color(0,0,0,0), sf::Color(0,0,0,0), Color:: Blue); //Quit and Save
     Button quitButton(windowSize.x/2 - 100, windowSize.y/2 + 80, 200.0, 50.0, "Quit without save", &font,sf::Color(0,0,0,0), sf::Color(0,0,0,0), Color:: Blue); //Quit without Save
-
+    
     // Main loop to keep the window open
     while (helpWin.isOpen()) {
         Vector2f mousePos = helpWin.mapPixelToCoords(sf::Mouse::getPosition(helpWin));
         // Update the button state based on mouse position
+        menuButton.update(mousePos); 
         ruleInstructionButton.update(mousePos);
         saveGameButton.update(mousePos);
         quitButton.update(mousePos);
@@ -664,12 +676,22 @@ void GameProperty::helpWindow(){
                     Board::clearIndex();
                     win.close(); 
                 }
+                //Back to main menu button
+                else if(menuButton.getButtonStates()== BTN_ACTIVE){
+                    Board::saveIndex(); 
+                    GameMove::saveTurn();
+                    helpWin.close(); 
+                    win.close(); 
+                    GameIntro newGame; 
+
+                }
             }
         }
         // Clear the window
         helpWin.clear(sf::Color(255, 178, 102, 255));
 
         //Draw the button
+        menuButton.render(&helpWin); 
         ruleInstructionButton.render(&helpWin);
         saveGameButton.render(&helpWin); 
         quitButton.render(&helpWin);
@@ -685,18 +707,10 @@ void GameProperty::helpWindow(){
 }
 
 void GameProperty:: callNewGame(){
-    // make array to store paths of 8 images
-    const char* imageFile[8] = {"./Assets/Pieces/rpoodle.png",
-                                "./Assets/Pieces/rrat.png",
-                                "./Assets/Pieces/rafrican.png",
-                                "./Assets/Pieces/bpoodle.png",
-                                "./Assets/Pieces/brat.png",
-                                "./Assets/Pieces/bafrican.png",
-                                "./Assets/Pieces/soldier.png",
-                                "./Assets/Pieces/fortress.png"};
+
     win.close(); 
     // run new game
-    GameProperty newgame(700, 900,imageFile, "Animal Chess");
+    GameProperty newgame(700, 900,GameIntro:: imageFile, "Animal Chess");
     newgame.run(); 
 }
 

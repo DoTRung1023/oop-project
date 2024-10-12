@@ -15,7 +15,7 @@ using namespace std;
 //Quit button
 
 //Pointer to the image file of 8 animal in the game
-const char* imageFile[8] = {"./Assets/Pieces/rpoodle.png",
+const char* GameIntro:: imageFile[8] = {"./Assets/Pieces/rpoodle.png",
                             "./Assets/Pieces/rrat.png",
                             "./Assets/Pieces/rafrican.png",
                             "./Assets/Pieces/bpoodle.png",
