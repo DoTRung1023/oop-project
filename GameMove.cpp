@@ -62,7 +62,7 @@ bool GameMove::playMove(Move newMove, Character* aimPiece, Character* choosePiec
         // if the move matches a possible move -> move
         if (temp.old_X == newMove.old_X && temp.old_Y == newMove.old_Y && temp.new_X == newMove.new_X && temp.new_Y == newMove.new_Y){
             // check if it is a attack
-            if(choosePiece->attack(aimPiece) && choosePiece->color != aimPiece->color){ // attack
+            if(choosePiece->attack(aimPiece) && choosePiece->getColor() != aimPiece->getColor()){ // attack
                 killMessage(aimPiece); // show message when attacking
                 // if the captured pieace is a fortress or soldier
                 if(aimPiece->getName() == "fortress" || aimPiece->getName() == "soldier"){
@@ -94,7 +94,6 @@ bool GameMove::playMove(Move newMove, Character* aimPiece, Character* choosePiec
         }
     }
     // wrong move 
-    // wrongMoveMessage();
     disappear = false;
     return false;
 }
@@ -114,7 +113,7 @@ void GameMove::killMessage(Character* killPiece){//Display the window with annou
         Text text;
         killWin.clear(Color::White);// Clear the window with white color
         string kill;
-        kill = killPiece->color + " " + killPiece->getName() + " is killed!"; //Content of the text in the window
+        kill = killPiece->getColor() + " " + killPiece->getName() + " is killed!"; //Content of the text in the window
         text.setString(kill);
         font.loadFromFile("./Assets/Font/Times New Normal Regular.ttf");//Load the font into the Font object 
         text.setFont(font); //Set the Font of the text, 
@@ -130,38 +129,6 @@ void GameMove::killMessage(Character* killPiece){//Display the window with annou
         killWin.display();//Display the text
     }
 }
-// message for wrong move
-void GameMove::wrongMoveMessage(){
-    GameProperty::sounds[2].play();
-    RenderWindow wrongWin(sf::VideoMode(380, 80), "WRONG MOVE");
-    while(wrongWin.isOpen()){
-        Event wrongEvent;
-        while(wrongWin.pollEvent(wrongEvent)){
-            if(wrongEvent.type == Event::Closed){
-                wrongWin.close();
-                break;
-            }
-        }
-        Font font;
-        Text text;
-        wrongWin.clear(Color::White);
-        string msg = "Choose a valid move!";
-        text.setString(msg);
-        font.loadFromFile("./Assets/Font/Times New Normal Regular.ttf");
-        text.setFont(font);
-        text.setFillColor(Color::Black);
-        text.setCharacterSize(30);
-        // Center the text in warning
-        FloatRect textBounds = text.getLocalBounds();
-        text.setOrigin(textBounds.left + textBounds.width / 2.0f,  // Horizontal center
-                        textBounds.top + textBounds.height / 2.0f); // Vertical center
-        text.setPosition(wrongWin.getSize().x / 2.0f,  // Center horizontally
-                        wrongWin.getSize().y / 2.0f); // Center vertically
-        wrongWin.draw(text);
-        wrongWin.display();
-    }
-}
-
 // switch turn
 bool GameMove::nextTurn(){
     turn = !turn;

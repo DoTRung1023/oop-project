@@ -64,14 +64,13 @@ private:
                      // == 2: all animals in of a side are killed
                      // == 3: no animal on the board -> tied game
     bool warningWindowOpen; // Add this line
-
+    // variable for winner, if this is " ", the game still continues.
+    string winner = " ";
 public:
     // constructor
     GameProperty(int width, int height, const char* imageFile[8], string gameName);
     // music and sound effects while launching game
     static Music sounds[7]; // move - capture - up - start - end - boom - cheer
-    // variable for winner, if this is " ", the game still continues.
-    string winner = " ";
     // get arrays of characters for 2 players
     void createPlayers();
     // create images and other necessary elements for 63 pieces 
@@ -90,8 +89,6 @@ public:
     void run();
     // display red or blue turn on the screen to let players know whose turn is
     void displayTurn();
-    // make warning window when choosing wrong pieces on the board to move
-    void warning();
     // check whether the game ends
     string checkWinner();
     // make window to show winner and reason when the game ends

@@ -138,55 +138,55 @@ void GameProperty::createPiece(const char* imageFile[8]){
                 // red animals
                 if(pieces[index].pieceID < 8){
                     pieces[index].character = redAnimals[pieces[index].pieceID];
-                    pieces[index].character->color = "red";
+                    pieces[index].character->setColor("red");
                 }
                 // blue animals
                 else if(pieces[index].pieceID < 16){
                     pieces[index].character = blueAnimals[pieces[index].pieceID-8];
-                    pieces[index].character->color = "blue";
+                    pieces[index].character->setColor("blue");
                 }
                 // red fortress
                 else if(pieces[index].pieceID == 22){
                     pieces[index].character = redFortress;
-                    pieces[index].character->color = "red";
+                    pieces[index].character->setColor("red");
                     insert = 7;
                 }
                 // blue fortress
                 else if(pieces[index].pieceID == 23){
                     pieces[index].character = blueFortress;
-                    pieces[index].character->color = "blue";
+                    pieces[index].character->setColor("blue");
                     insert = 7;
                 }
                 // red soldiers
                 else if(pieces[index].pieceID == 16){
                     pieces[index].character = redSoldiers[0];
-                    pieces[index].character->color = "red";
+                    pieces[index].character->setColor("red");
                     insert = 6;
                 }
                 else if(pieces[index].pieceID == 17){
                     pieces[index].character = redSoldiers[1];
-                    pieces[index].character->color = "red";
+                    pieces[index].character->setColor("red");
                     insert = 6;
                 }
                 else if(pieces[index].pieceID == 18){
                     pieces[index].character = redSoldiers[2];
-                    pieces[index].character->color = "red";
+                    pieces[index].character->setColor("red");
                     insert = 6;
                 }
                 // blue soldiers
                 else if(pieces[index].pieceID == 19){
                     pieces[index].character = blueSoldiers[0];
-                    pieces[index].character->color = "blue";
+                    pieces[index].character->setColor("blue");
                     insert = 6;
                 }
                 else if(pieces[index].pieceID == 20){
                     pieces[index].character = blueSoldiers[1];
-                    pieces[index].character->color = "blue";
+                    pieces[index].character->setColor("blue");
                     insert = 6;
                 }
                 else if(pieces[index].pieceID == 21){
                     pieces[index].character = blueSoldiers[2];
-                    pieces[index].character->color = "blue";
+                    pieces[index].character->setColor("blue");
                     insert = 6;
                 }
                 // set insert variables for different kinds of animals
@@ -201,7 +201,7 @@ void GameProperty::createPiece(const char* imageFile[8]){
                         insert = 2;
                     }
                     // increment the variable by 3 to make it blue
-                    if(pieces[index].character->color == "blue"){
+                    if(pieces[index].character->getColor() == "blue"){
                         insert += 3;
                     }
                 }
@@ -331,15 +331,12 @@ void GameProperty::run(){
                     if (select == 0){ // no square is selected
                         if (click_X >= holder.left && click_X <= holder.left + holder.width && 
                             click_Y > holder.top && click_Y < holder.top + holder.height){
-                            // currentBoard = moveAnimal.getBoard();
-                            // warning if choose a wrong square
                             if(!((Board::index[square_X][square_Y] >= 0 && 
                                 Board::index[square_X][square_Y] <= 7 &&
                                 turn == true) || 
                                 (Board::index[square_X][square_Y] >= 8 && 
                                 Board::index[square_X][square_Y] <= 15 &&
                                 turn == false))){
-                                    warning();
                             }
                             // store selected square axes
                             else{
@@ -464,41 +461,6 @@ void GameProperty::displayTurn(){
     win.draw(info);
 }
 
-void GameProperty::warning(){
-    // define new window
-    RenderWindow warningWin(sf::VideoMode(380, 80), "WARNING");
-    sounds[2].play(); // play sound when the window pops up
-    while(warningWin.isOpen()){
-        Event warningEvent;
-        while(warningWin.pollEvent(warningEvent)){
-            // if the window close -> close
-            if(warningEvent.type == Event::Closed){
-                warningWin.close();
-                break;
-            }
-        }
-        // format font, size and color for text 
-        Font font;
-        Text text;
-        warningWin.clear(Color::White);
-        string warning;
-        warning = "Chose a valid animal!";
-        text.setString(warning);
-        font.loadFromFile("./Assets/Font/Times New Normal Regular.ttf");
-        text.setFont(font);
-        text.setFillColor(Color::Black);
-        text.setCharacterSize(30);
-        // Center the text in warning
-        FloatRect textBounds = text.getLocalBounds();
-        text.setOrigin(textBounds.left + textBounds.width / 2.0f,  // Horizontal center
-                        textBounds.top + textBounds.height / 2.0f); // Vertical center
-        text.setPosition(warningWin.getSize().x / 2.0f,  // Center horizontally
-                        warningWin.getSize().y / 2.0f); // Center vertically
-        warningWin.draw(text);
-        warningWin.display();
-    }
-}
-
 string GameProperty::checkWinner(){
     // check red fortress
     if(Board::index[3][0] != 22){
@@ -591,7 +553,7 @@ void GameProperty::showWinner(){
         text.setFont(font);
         text.setFillColor(Color::Black);
         text.setCharacterSize(30);
-        // Center the text in warning
+        // Center the text 
         FloatRect textBounds = text.getLocalBounds();
         text.setOrigin(textBounds.left + textBounds.width / 2.0f,  // Horizontal center
                         textBounds.top + textBounds.height / 2.0f); // Vertical center
@@ -633,10 +595,10 @@ void GameProperty::helpWindow(){
     sf::Vector2u windowSize = helpWin.getSize();
 
     //Define 4 button in the intro menu: 
-    Button menuButton(windowSize.x/2 - 100, windowSize.y/2 - 160, 200.0, 50.0, "Main Menu", &font,sf::Color(0,0,0,0), sf::Color(0,0,0,0), Color:: Blue); 
-    Button ruleInstructionButton(windowSize.x/2 - 100, windowSize.y/2 - 80, 200.0, 50.0, "Instruction", &font,sf::Color(0,0,0,0), sf::Color(0,0,0,0), Color:: Blue);
-    Button saveGameButton(windowSize.x/2 - 100, windowSize.y/2, 200.0, 50.0, "Save & Quit", &font,sf::Color(0,0,0,0), sf::Color(0,0,0,0), Color:: Blue); //Quit and Save
-    Button quitButton(windowSize.x/2 - 100, windowSize.y/2 + 80, 200.0, 50.0, "Quit without save", &font,sf::Color(0,0,0,0), sf::Color(0,0,0,0), Color:: Blue); //Quit without Save
+    Button menuButton(windowSize.x/2 - 100, windowSize.y/2 - 120, 200.0, 50.0, "Main Menu", &font,sf::Color(0,0,0,0), sf::Color(0,0,0,0), Color:: Blue); 
+    Button ruleInstructionButton(windowSize.x/2 - 100, windowSize.y/2 - 40, 200.0, 50.0, "Instruction", &font,sf::Color(0,0,0,0), sf::Color(0,0,0,0), Color:: Blue);
+    Button saveGameButton(windowSize.x/2 - 100, windowSize.y/2 + 40, 200.0, 50.0, "Save & Quit", &font,sf::Color(0,0,0,0), sf::Color(0,0,0,0), Color:: Blue); //Quit and Save
+    Button quitButton(windowSize.x/2 - 100, windowSize.y/2 + 120, 200.0, 50.0, "Quit without save", &font,sf::Color(0,0,0,0), sf::Color(0,0,0,0), Color:: Blue); //Quit without Save
     
     // Main loop to keep the window open
     while (helpWin.isOpen()) {

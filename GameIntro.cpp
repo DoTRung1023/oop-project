@@ -153,10 +153,12 @@ GameIntro:: GameIntro(){
                         newgame.run(); //Run the game
                     }
                 }
-                else if(ruleInstructionButton.getButtonStates() == BTN_ACTIVE){//open the rule window if user click on the instruction button                     openRuleWindow(font); 
+                //open the rule window if user click on the instruction button     
+                else if(ruleInstructionButton.getButtonStates() == BTN_ACTIVE){                
+                    openRuleWindow(font); 
                 }
-                else if(quitButton.getButtonStates() == BTN_ACTIVE){
-//Quit the game if user click on the quit button.                     introWindow.close(); 
+                //Quit the game if user click on the quit button.
+                else if(quitButton.getButtonStates() == BTN_ACTIVE){         
                     Board::clearIndex();
                     finalMessage(); 
                 }

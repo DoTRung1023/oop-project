@@ -26,9 +26,6 @@ public:
     //Display a message indicates that a piece is killed
     void killMessage(Character* killPiece);
 
-    //Display a message when a user make an invalid move
-    void wrongMoveMessage();
-
     //Save the turn when user quit the game
     static void saveTurn();
     //Load the turn when user load the game

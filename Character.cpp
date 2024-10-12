@@ -20,10 +20,15 @@ Character::Character(string name):name(name){}
 string Character::getName(){
     return name;
 }
-
+string Character::getColor(){
+    return color;
+}
 // setter
 void Character::setName(string name){
     this->name = name;
+}
+void Character::setColor(string color){
+    this->color = color;
 }
 
 // the function is overriden by the derived classes
