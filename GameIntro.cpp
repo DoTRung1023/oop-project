@@ -153,9 +153,11 @@ GameIntro:: GameIntro(){
                     showInstruction = true;
                 }
                 //Quit the game if user click on the quit button.
-                else if(quitButton.getButtonStates() == BTN_ACTIVE){         
+                else if(quitButton.getButtonStates() == BTN_ACTIVE){     
+                    introWindow.close();     
                     Board::clearIndex();
                     finalMessage(); 
+
                 }
             }
         }
@@ -296,7 +298,10 @@ void GameIntro:: openRuleWindow(Font font){//Window opened when user click on "I
 
 void GameIntro:: finalMessage(){ //Message pop up when user quit the intro menu
     //Play sound: 
-    GameProperty::sounds[6].play();
+    Music sound;
+    sound.openFromFile("./Assets/Sounds/Default/cheering.wav");
+    sound.setVolume(40.0f);
+    sound.play();
 
     //Create the window for end game message
     RenderWindow finalWin(sf::VideoMode(560, 100), "END GAME");

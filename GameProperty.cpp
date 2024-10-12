@@ -26,7 +26,7 @@ using namespace std;
 using namespace sf;
 
 // initialise static variable
-sf::Music GameProperty::sounds[7]; // move - capture - up - down - start - end - boom
+sf::Music GameProperty::sounds[6]; // move - capture - up - down - start - end - boom
 bool GameProperty::showWrongMove = false;
 
 // constructor to define necessary elements in the game
@@ -83,9 +83,6 @@ GameProperty::GameProperty(int width, int height, const char* imageFile[18], str
     // boom
     sounds[5].openFromFile("./Assets/Sounds/Default/boom.wav");
     sounds[5].setVolume(40.0f);
-    // cheering
-    sounds[6].openFromFile("./Assets/Sounds/Default/cheering.wav");
-    sounds[6].setVolume(40.0f);
 }
 
 void GameProperty::createPlayers(){

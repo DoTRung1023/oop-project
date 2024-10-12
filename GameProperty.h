@@ -71,7 +71,7 @@ public:
     // constructor
     GameProperty(int width, int height, const char* imageFile[8], string gameName);
     // music and sound effects while launching game
-    static Music sounds[7]; // move - capture - up - start - end - boom - cheer
+    static Music sounds[6]; // move - capture - up - start - end - boom
     // get arrays of characters for 2 players
     void createPlayers();
     // create images and other necessary elements for 63 pieces 
