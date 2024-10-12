@@ -1,4 +1,4 @@
-#include<iostream>
+#include <iostream>
 #include "TestFortress.h"
 #include "Character.h"
 #include "Fortress.h"

@@ -27,7 +27,6 @@ using namespace sf;
 
 // initialise static variable
 sf::Music GameProperty::sounds[7]; // move - capture - up - down - start - end - boom
-bool GameProperty::showWarning = false;
 bool GameProperty::showWrongMove = false;
 
 // constructor to define necessary elements in the game
@@ -329,10 +328,6 @@ void GameProperty::run(){
                                 (Board::index[square_X][square_Y] >= 8 && 
                                 Board::index[square_X][square_Y] <= 15 &&
                                 turn == false))){
-                                    showWarning = true;
-                                while(showWarning){
-                                    warning();
-                                }
                             }
                             // store selected square axes
                             else{
@@ -423,20 +418,19 @@ void GameProperty::run(){
                 }
             }
         }
-        if(!showWarning && !showWrongMove){
-            // update the elements on the board
+        if(!showWrongMove){
             win.clear();
+            // update the elements on the board
             drawSquares();
             drawImage();
             displayTurn();
             // show the main window
             win.display();
         }
-        else if(showWarning){
-            warning();
-        }
         else if(showWrongMove){
-            wrongMoveMessage();
+            while(showWrongMove){
+                wrongMoveMessage();
+            }
         }
     }
 }
@@ -467,8 +461,8 @@ void GameProperty::displayTurn(){
 
 // message for wrong move
 void GameProperty::wrongMoveMessage(){
-    GameProperty::sounds[2].play();
     RenderWindow wrongWin(sf::VideoMode(380, 80), "WRONG MOVE");
+    GameProperty::sounds[2].play();
     while(wrongWin.isOpen()){
         Event wrongEvent;
         while(wrongWin.pollEvent(wrongEvent)){
@@ -477,24 +471,24 @@ void GameProperty::wrongMoveMessage(){
                 showWrongMove = false;
                 break;
             }
+            Font font;
+            Text text;
+            wrongWin.clear(Color::White);
+            string msg = "Choose a valid move!";
+            text.setString(msg);
+            font.loadFromFile("./Assets/Font/Times New Normal Regular.ttf");
+            text.setFont(font);
+            text.setFillColor(Color::Black);
+            text.setCharacterSize(30);
+            // Center the text in warning
+            FloatRect textBounds = text.getLocalBounds();
+            text.setOrigin(textBounds.left + textBounds.width / 2.0f,  // Horizontal center
+                            textBounds.top + textBounds.height / 2.0f); // Vertical center
+            text.setPosition(wrongWin.getSize().x / 2.0f,  // Center horizontally
+                            wrongWin.getSize().y / 2.0f); // Center vertically
+            wrongWin.draw(text);
+            wrongWin.display();
         }
-        Font font;
-        Text text;
-        wrongWin.clear(Color::White);
-        string msg = "Choose a valid move!";
-        text.setString(msg);
-        font.loadFromFile("./Assets/Font/Times New Normal Regular.ttf");
-        text.setFont(font);
-        text.setFillColor(Color::Black);
-        text.setCharacterSize(30);
-        // Center the text in warning
-        FloatRect textBounds = text.getLocalBounds();
-        text.setOrigin(textBounds.left + textBounds.width / 2.0f,  // Horizontal center
-                        textBounds.top + textBounds.height / 2.0f); // Vertical center
-        text.setPosition(wrongWin.getSize().x / 2.0f,  // Center horizontally
-                        wrongWin.getSize().y / 2.0f); // Center vertically
-        wrongWin.draw(text);
-        wrongWin.display();
     }
 }
 
@@ -667,7 +661,7 @@ void GameProperty::helpWindow(){
                 else if(quitButton.getButtonStates() == BTN_ACTIVE){
                     helpWin.close();
                     Board::clearIndex();
-                    win.close(); 
+                    win.close();
                 }
                 //Back to main menu button
                 else if(menuButton.getButtonStates()== BTN_ACTIVE){
@@ -706,39 +700,6 @@ void GameProperty::helpWindow(){
             // Display the contents of the window
             helpWin.display();
         }
-    }
-}
-
-void GameProperty::warning(){
-    RenderWindow warningWin(sf::VideoMode(380, 80), "WARNING");
-    sounds[2].play();
-    while(warningWin.isOpen()){
-        Event warningEvent;
-        while(warningWin.pollEvent(warningEvent)){
-            if(warningEvent.type == Event::Closed){
-                warningWin.close();
-                showWarning = false;
-                break;
-            }
-        }
-        Font font;
-        Text text;
-        warningWin.clear(Color::White);
-        string warning;
-        warning = "Chose a valid animal!";
-        text.setString(warning);
-        font.loadFromFile("./Assets/Font/Times New Normal Regular.ttf");
-        text.setFont(font);
-        text.setFillColor(Color::Black);
-        text.setCharacterSize(30);
-        // Center the text in warning
-        FloatRect textBounds = text.getLocalBounds();
-        text.setOrigin(textBounds.left + textBounds.width / 2.0f,  // Horizontal center
-                        textBounds.top + textBounds.height / 2.0f); // Vertical center
-        text.setPosition(warningWin.getSize().x / 2.0f,  // Center horizontally
-                        warningWin.getSize().y / 2.0f); // Center vertically
-        warningWin.draw(text);
-        warningWin.display();
     }
 }
 
