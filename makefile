@@ -3,6 +3,6 @@ main: main.cpp Animal.cpp Character.cpp Fortress.cpp GameProperty.cpp Player.cpp
 	@./main
 	
 clear: 
-	@rm -f main debug
+	@rm -f main
 
 
