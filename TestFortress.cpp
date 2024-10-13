@@ -51,5 +51,30 @@ void TestFortress:: testAttack(){
     delete targetMice; 
 }
 void TestFortress:: testDestructor(){
+    //Nothing to test as there is nothing in the implemetation of ~Fortress()
+}
 
+void TestFortress::testColor(){
+    Fortress f3;
+    // test default color
+    if(f3.getColor() == ""){
+        cout << "getColor() passed" << endl;
+    }
+    else{
+        cout << "getColor() failed" << endl;
+    }
+    f3.setColor("red");
+    if(f3.getColor() == "red"){
+        cout << "getColor() passed" << endl;
+    }
+    else{
+        cout << "getColor() failed" << endl;
+    }
+    f3.setColor("blue");
+    if(f3.getColor() == "blue"){
+        cout << "getColor() passed" << endl;
+    }
+    else{
+        cout << "getColor() failed" << endl;
+    }
 }

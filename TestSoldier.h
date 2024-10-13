@@ -3,16 +3,18 @@
 
 
 class TestSoldier{
-    public: 
-        void runTestSoldier(){
-            TestConstructor(); 
-            testAttack();
-            testDestructor(); 
-        }
-    private:
-        void TestConstructor(); 
-        void testAttack(); 
-        void testDestructor(); 
+public: 
+    void runTestSoldier(){
+        TestConstructor(); 
+        testAttack();
+        testDestructor(); 
+        testColor();
+    }
+private:
+    void TestConstructor(); 
+    void testAttack(); 
+    void testDestructor(); 
+    void testColor();
 };
 
 #endif

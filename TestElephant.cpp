@@ -49,6 +49,30 @@ void TestElephant:: testAttack(){
     delete targetMice; 
 }
 void TestElephant:: testDestructor(){
-    //Nothing to test as there is nothing in the implemetation of ~Dog()
+    //Nothing to test as there is nothing in the implemetation of ~Elephant()
 }
 
+void TestElephant::testColor(){
+    Elephant e3;
+    // test default color
+    if(e3.getColor() == ""){
+        cout << "getColor() passed" << endl;
+    }
+    else{
+        cout << "getColor() failed" << endl;
+    }
+    e3.setColor("red");
+    if(e3.getColor() == "red"){
+        cout << "getColor() passed" << endl;
+    }
+    else{
+        cout << "getColor() failed" << endl;
+    }
+    e3.setColor("blue");
+    if(e3.getColor() == "blue"){
+        cout << "getColor() passed" << endl;
+    }
+    else{
+        cout << "getColor() failed" << endl;
+    }
+}

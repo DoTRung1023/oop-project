@@ -11,11 +11,13 @@ class TestMice{
             TestConstructor(); 
             testAttack();
             testDestructor(); 
+            testColor();
         }
     private:
         void TestConstructor(); 
         void testAttack(); 
         void testDestructor(); 
+        void testColor();
 };
 
 #endif
