@@ -16,7 +16,7 @@ class Character
 {
 protected:
     string name; // name of the character
-    string color = ""; // color of the character to know the side it is
+    string color = " "; // color of the character to know the side it is
 public:
     Character(); // default constructor
     Character(string name); // constructor
