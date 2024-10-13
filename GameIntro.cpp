@@ -222,7 +222,7 @@ void GameIntro:: openRuleWindow(Font font){//Window opened when user click on "I
     content.setFont(font);
     content.setString(rule); // Set the title text
 
-    content.setCharacterSize(22); // Set text size
+    content.setCharacterSize(20); // Set text size
     content.setFillColor(Color::Black); // Set text color
 
 

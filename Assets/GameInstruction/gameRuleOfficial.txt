@@ -1,5 +1,5 @@
 ####################################################################################################
---------------------------------------------------------------------------Animal-Chess-Instruction---------------------------------------------------------------
+--------------------------------------------------------------------------Animal-Chess-Instruction--------------------------------------------------------------------------
 ####################################################################################################
 1. Main menu instruction: 
     - New Game: Start a new game 
@@ -12,22 +12,23 @@
     - Save & Quit: Save the game (i.e the position of pieces in the game) and then quit
     - Quit without save: Quit the game without save 
 3. Game board description: 
-    - There is 2 Player in the game denoted "Blue" side in the lower part of the board and "Red" side in the upper part of the board. 
-    - The text in the middle of the board denoted the corresponding turn to play (i.e "RED" is red side's turn, "BLUE" is blue side turn) 
-    - Each side has 7 animals which are 2 dogs, 2 mice and 2 elephants.
-    - In the central area of each side is their fortress which is guarded by 3 soldiers. 
+    - There are 2 Players in the game denoted "Blue" in the lower part and "Red" in the upper part of the board. 
+    - The text in the middle of the board denotes the corresponding turn to play (i.e "RED" is red turn, "BLUE" is blue turn) 
+    - Each side has 8 animals which are 3 dogs, 3 mice and 2 elephants.
+    - In the central area of each side is a fortress which is guarded by 3 soldiers. 
 4. Class description: 
     - Dogs: Can only attack Mice
     - Elephants: Can only attack Dogs
     - Mice: Can only attack Elephants
-    - 2 animals of the same class can not attack each other. 
+    - Animals of the same class can not attack each other. 
     - Soldiers: Can not move or attack 
     - Fortress: Can not move or attack
 5. Game Rule: 
-    - Red side move first, each turn the text in the middle of the board denotes the corresponding side to move.
-    - To move a piece, player need to click on the piece they want to move and click on the square they want their piece to move to. 
-    - A piece can only move vertically, horizontally one square
-    - A piece can attack and capture enemy's piece if only enemy piece is on the destination square of a piece to which player plays a move
-    - When an animal attack a soldier, both the animal and soldier are eliminateed and removed from the game. 
-    - A player win the game when either they capture all ememy's pieces or occupying enemy's fortress. 
+    - When the game starts, Red moves first.
+    - Each turn the text in the middle of the board shows the corresponding side to move.
+    - To move a piece, a player needs to click on the piece they want to move and click on the square they want their piece to move to. 
+    - A piece can only move or attack vertically, horizontally one square
+    - A turn ends when a player play an eligible move or attack, then the turn switches.
+    - When an animal attacks a soldier, both the animal and soldier are eliminateed and removed from the game. 
+    - A player wins the game when either they capture all ememy's pieces or occupy the enemy's fortress. 
     - If both side has only 1 piece left, then the game is declared a draw. 
