@@ -521,7 +521,7 @@ string GameProperty::checkWinner(){
         }
     }
     // set reason 
-    if(countBlue == 0 && countRed == 0){
+    if(countBlue == 1 && countRed == 1){
         reason = 3;
         return "draw";
     }
