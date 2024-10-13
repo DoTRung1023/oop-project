@@ -195,10 +195,10 @@ void GameIntro:: closeWindow(){//Close the gameIntroWindow
 void GameIntro:: openRuleWindow(Font font){//Window opened when user click on "Instruction" on intro menu
     //Create the window for the menu
     RenderWindow ruleWindow; 
-    ruleWindow.create(VideoMode(1000, 850), "Animal Chess Rule"); 
+    ruleWindow.create(VideoMode(1350, 900), "Animal Chess Rule"); 
 
     //Load text from txtFile: 
-    ifstream input("Assets/GameInstruction/gameRule.txt"); 
+    ifstream input("Assets/GameInstruction/gameRuleOfficial.txt"); 
 
     if(!input.is_open()){//Check if can open the txt file or not 
         cout << "Can not open File. Exit"; 
@@ -222,7 +222,7 @@ void GameIntro:: openRuleWindow(Font font){//Window opened when user click on "I
     content.setFont(font);
     content.setString(rule); // Set the title text
 
-    content.setCharacterSize(26); // Set text size
+    content.setCharacterSize(22); // Set text size
     content.setFillColor(Color::Black); // Set text color
 
 
