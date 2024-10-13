@@ -11,9 +11,9 @@ clear:
 
 #For Unit test: 
 
-testAnimal: TestSoldier.cpp TestFortress.cpp TestElephant.cpp TestMice.cpp TestDog.cpp Animal.cpp Character.cpp  Dog.cpp Mice.cpp Elephant.cpp Fortress.cpp Soldier.cpp mainTestAnimal.cpp
-	@g++ -std=c++17 -Wall -Wextra -fsanitize=address TestSoldier.cpp TestFortress.cpp TestElephant.cpp TestMice.cpp TestDog.cpp Animal.cpp Character.cpp  Dog.cpp Mice.cpp Elephant.cpp Fortress.cpp Soldier.cpp mainTestAnimal.cpp  -I/opt/homebrew/Cellar/sfml/2.6.1/include/ -o testAnimal -L/opt/homebrew/Cellar/sfml/2.6.1/lib -lsfml-graphics -lsfml-window -lsfml-system -lsfml-audio -lsfml-network
-	@./testAnimal
+mainTestAnimal: TestSoldier.cpp TestFortress.cpp TestElephant.cpp TestMice.cpp TestDog.cpp Animal.cpp Character.cpp  Dog.cpp Mice.cpp Elephant.cpp Fortress.cpp Soldier.cpp mainTestAnimal.cpp
+	@g++ -std=c++17 TestSoldier.cpp TestFortress.cpp TestElephant.cpp TestMice.cpp TestDog.cpp Animal.cpp Character.cpp  Dog.cpp Mice.cpp Elephant.cpp Fortress.cpp Soldier.cpp mainTestAnimal.cpp  -I/opt/homebrew/Cellar/sfml/2.6.1/include/ -o mainTestAnimal -L/opt/homebrew/Cellar/sfml/2.6.1/lib -lsfml-graphics -lsfml-window -lsfml-system -lsfml-audio -lsfml-network
+	@./mainTestAnimal
 
 testPlayer: Animal.cpp Dog.cpp Mice.cpp Elephant.cpp Character.cpp Player.cpp TestPlayer.cpp mainTestPlayer.cpp
-	@g++ -std=c++17 -Wall -Wextra -fsanitize=address  Animal.cpp Dog.cpp Mice.cpp Elephant.cpp Character.cpp Player.cpp TestPlayer.cpp mainTestPlayer.cpp  -I/opt/homebrew/Cellar/sfml/2.6.1/include/ -o testAnimal -L/opt/homebrew/Cellar/sfml/2.6.1/lib -lsfml-graphics -lsfml-window -lsfml-system -lsfml-audio -lsfml-network
+	@g++ -std=c++17 Animal.cpp Dog.cpp Mice.cpp Elephant.cpp Character.cpp Player.cpp TestPlayer.cpp mainTestPlayer.cpp  -I/opt/homebrew/Cellar/sfml/2.6.1/include/ -o testAnimal -L/opt/homebrew/Cellar/sfml/2.6.1/lib -lsfml-graphics -lsfml-window -lsfml-system -lsfml-audio -lsfml-network

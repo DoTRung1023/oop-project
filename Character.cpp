@@ -11,7 +11,7 @@ using namespace std;
 using namespace sf;
 
 // default constructor, assign empty string to name 
-Character::Character():Character(""){}
+Character::Character():Character(" "){}
 
 // constructor, with input name
 Character::Character(string name):name(name){}

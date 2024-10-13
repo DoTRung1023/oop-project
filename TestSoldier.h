@@ -9,12 +9,14 @@ public:
         testAttack();
         testDestructor(); 
         testColor();
+        testName();
     }
 private:
     void TestConstructor(); 
     void testAttack(); 
     void testDestructor(); 
     void testColor();
+    void testName();
 };
 
 #endif

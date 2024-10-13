@@ -1,29 +1,42 @@
 #include <iostream>
-using namespace std; 
 #include "TestElephant.h"
 #include "Character.h"
 #include "Dog.h"
 #include "Mice.h"
 #include "Elephant.h"
+#include "Soldier.h"
+#include "Fortress.h"
+
+using namespace std; 
 
 void TestElephant:: TestConstructor(){
-    Elephant e1; 
-    if(e1.getName().compare("elephant")){
+    cout << "Test constructor" << endl;
+    Elephant e0; 
+    if(!e0.getName().compare("elephant")){
         cout << "getName() passed" << endl; 
     }
     else{
         cout << "getName() failed" << endl; 
     }
-    //Test setName(); 
+    if(e0.getName().compare(" ")){
+        cout << "getName() passed" << endl; 
+    }
+    else{
+        cout << "getName() failed" << endl; 
+    }
+}
+void TestElephant::testName(){
+    Elephant e1; 
+    cout << "Test setName() and getName()" << endl;
     e1.setName(" "); 
-    if(e1.getName().compare(" ")){
+    if(!e1.getName().compare(" ")){
         cout << "setName() passed" << endl; 
     }
     else{
         cout << "setName() failed" << endl; 
     }
     e1.setName("mice"); 
-    if(e1.getName().compare("mice")){
+    if(!e1.getName().compare("mice")){
         cout << "setName() passed" << endl; 
     }
     else{
@@ -31,83 +44,84 @@ void TestElephant:: TestConstructor(){
     }
 }
 void TestElephant:: testAttack(){
-    Dog d2; 
+    Elephant e2; 
     // test different team
-    d2.setColor("red");
+    e2.setColor("red");
     Character* targetDog = new Dog();
     targetDog->setColor("blue");
     Character* targetMice = new Mice();
-    targetDog->setColor("blue");
+    targetMice->setColor("blue");
     Character* targetElephant = new Elephant();
-    targetDog->setColor("blue");
+    targetElephant->setColor("blue");
     Character* targetSoldier = new Soldier();
-    targetDog->setColor("blue");
+    targetSoldier->setColor("blue");
     Character* targetFortress = new Fortress();
-    targetDog->setColor("blue");
-
-    if(d2.attack(targetDog) == false){
+    targetFortress->setColor("blue");
+    cout << "Test attack" << endl;
+    cout << "Test different color" << endl;
+    if(e2.attack(targetDog) == true){
         cout << "attack to targetDog test Passed" << endl; 
     }
     else{
         cout << "attack to targetDog test Failed"<< endl; 
     }
-    if(d2.attack(targetElephant) == false){
+    if(e2.attack(targetElephant) == false){
         cout << "attack to targetElephant test Passed"<< endl; 
     }
     else{
         cout << "attack to targetElephant test Failed"<< endl; 
     }
-    if(d2.attack(targetMice) == true){
+    if(e2.attack(targetMice) == false){
         cout << "attack to targetMice test Passed"<< endl; 
     }
     else{
         cout << "attack to targetMice test Passed"<< endl; 
     }
-    if(d2.attack(targetSoldier) == true){
+    if(e2.attack(targetSoldier) == true){
         cout << "attack to targetSoldier test Passed"<< endl; 
     }
     else{
         cout << "attack to targetSoldier test Passed"<< endl; 
     }
-    if(d2.attack(targetFortress) == true){
+    if(e2.attack(targetFortress) == true){
         cout << "attack to targetFortress test Passed"<< endl; 
     }
     else{
         cout << "attack to targetFortress test Passed"<< endl; 
     }
     // test same team
-    d2.setColor("red");
+    e2.setColor("red");
     targetDog->setColor("red");
-    targetDog->setColor("red");
-    targetDog->setColor("red");
-    targetDog->setColor("red");
-    targetDog->setColor("red");
-
-    if(d2.attack(targetDog) == false){
+    targetMice->setColor("red");
+    targetElephant->setColor("red");
+    targetFortress->setColor("red");
+    targetSoldier->setColor("red");
+    cout << "Test same color" << endl;
+    if(e2.attack(targetDog) == false){
         cout << "attack to targetDog test Passed" << endl; 
     }
     else{
         cout << "attack to targetDog test Failed"<< endl; 
     }
-    if(d2.attack(targetElephant) == false){
+    if(e2.attack(targetElephant) == false){
         cout << "attack to targetElephant test Passed"<< endl; 
     }
     else{
         cout << "attack to targetElephant test Failed"<< endl; 
     }
-    if(d2.attack(targetMice) == false){
+    if(e2.attack(targetMice) == false){
         cout << "attack to targetMice test Passed"<< endl; 
     }
     else{
         cout << "attack to targetMice test Passed"<< endl; 
     }
-    if(d2.attack(targetSoldier) == false){
+    if(e2.attack(targetSoldier) == false){
         cout << "attack to targetSoldier test Passed"<< endl; 
     }
     else{
         cout << "attack to targetSoldier test Passed"<< endl; 
     }
-    if(d2.attack(targetFortress) == false){
+    if(e2.attack(targetFortress) == false){
         cout << "attack to targetFortress test Passed"<< endl; 
     }
     else{
@@ -124,6 +138,7 @@ void TestElephant:: testDestructor(){
 }
 
 void TestElephant::testColor(){
+    cout << "Test color" << endl;
     Elephant e3;
     // test default color
     if(e3.getColor() == ""){

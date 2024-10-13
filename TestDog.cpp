@@ -4,23 +4,33 @@
 #include "Soldier.h"
 
 void TestDog:: TestConstructor(){
-    Dog d1; 
-    if(d1.getName().compare("dog")){
+    cout << "Test constructor" << endl;
+    Dog d0; 
+    if(!d0.getName().compare("dog")){
         cout << "getName() passed" << endl; 
     }
     else{
         cout << "getName() failed" << endl; 
     }
-    //Test setName(); 
+    if(d0.getName().compare(" ")){
+        cout << "getName() passed" << endl; 
+    }
+    else{
+        cout << "getName() failed" << endl; 
+    }
+}
+void TestDog::testName(){
+    Dog d1; 
+    cout << "Test setName() and getName()" << endl;
     d1.setName("aaa"); 
-    if(d1.getName().compare("aaa")){
+    if(!d1.getName().compare("aaa")){
         cout << "setName() passed" << endl; 
     }
     else{
         cout << "setName() failed" << endl; 
     }
     d1.setName(" "); 
-    if(d1.getName().compare(" ")){
+    if(!d1.getName().compare(" ")){
         cout << "setName() passed" << endl; 
     }
     else{
@@ -34,14 +44,15 @@ void TestDog:: testAttack(){
     Character* targetDog = new Dog();
     targetDog->setColor("blue");
     Character* targetMice = new Mice();
-    targetDog->setColor("blue");
+    targetMice->setColor("blue");
     Character* targetElephant = new Elephant();
-    targetDog->setColor("blue");
+    targetElephant->setColor("blue");
     Character* targetSoldier = new Soldier();
-    targetDog->setColor("blue");
+    targetSoldier->setColor("blue");
     Character* targetFortress = new Fortress();
-    targetDog->setColor("blue");
-
+    targetFortress->setColor("blue");
+    cout << "Test attack" << endl;
+    cout << "Test different color" << endl;
     if(d2.attack(targetDog) == false){
         cout << "attack to targetDog test Passed" << endl; 
     }
@@ -75,11 +86,11 @@ void TestDog:: testAttack(){
     // test same team
     d2.setColor("red");
     targetDog->setColor("red");
-    targetDog->setColor("red");
-    targetDog->setColor("red");
-    targetDog->setColor("red");
-    targetDog->setColor("red");
-
+    targetMice->setColor("red");
+    targetElephant->setColor("red");
+    targetFortress->setColor("red");
+    targetSoldier->setColor("red");
+    cout << "Test same color" << endl;
     if(d2.attack(targetDog) == false){
         cout << "attack to targetDog test Passed" << endl; 
     }
@@ -120,6 +131,7 @@ void TestDog:: testDestructor(){
     //Nothing to test as there is nothing in the implemetation of ~Dog()
 }
 void TestDog::testColor(){
+    cout << "Test color" << endl;
     Dog d3;
     // test default color
     if(d3.getColor() == ""){

@@ -8,7 +8,7 @@ using namespace std;
 Animal::Animal(string name):Character(name){}
 
 Animal:: Animal(){
-    this->name = ""; 
+    this->name = " "; 
 }//Default Constructor
 
 Animal:: ~Animal(){}

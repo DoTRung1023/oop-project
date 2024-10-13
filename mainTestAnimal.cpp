@@ -5,7 +5,6 @@
 #include "TestFortress.h"
 #include "TestSoldier.h"
 
-
 int main(){
     //Test Dog class: 
     cout << "Test Dog Class" << endl ;
