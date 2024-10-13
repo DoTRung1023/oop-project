@@ -6,4 +6,5 @@ int main(){
     TestPlayer t1; 
     t1.runTestPlayer(); 
 
+    return 0;
 }

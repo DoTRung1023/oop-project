@@ -4,7 +4,7 @@
 #include "Character.h"
 using namespace std; 
 
-//Optional Constructor
+//parameterized  Constructor
 Animal::Animal(string name):Character(name){}
 
 Animal:: Animal(){

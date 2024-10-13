@@ -23,6 +23,14 @@ mainTestBoard: Board.cpp TestBoard.cpp
 	@g++ -std=c++17 Board.cpp TestBoard.cpp mainTestBoard.cpp -I/opt/homebrew/Cellar/sfml/2.6.1/include/ -o mainTestBoard -L/opt/homebrew/Cellar/sfml/2.6.1/lib -lsfml-graphics -lsfml-window -lsfml-system -lsfml-audio -lsfml-network
 	@./mainTestBoard
 
+mainTestCharacter: Character.cpp TestCharacter.cpp mainTestCharacter.cpp 
+	@g++ -std=c++17 Character.cpp TestCharacter.cpp mainTestCharacter.cpp -I/opt/homebrew/Cellar/sfml/2.6.1/include/ -o mainTestCharacter -L/opt/homebrew/Cellar/sfml/2.6.1/lib -lsfml-graphics -lsfml-window -lsfml-system -lsfml-audio -lsfml-network
+	@./mainTestCharacter
+
+mainTestMove: TestMove.cpp Move.cpp mainTestMove.cpp
+	@g++ -std=c++17 TestMove.cpp Move.cpp mainTestMove.cpp -I/opt/homebrew/Cellar/sfml/2.6.1/include/ -o mainTestMove -L/opt/homebrew/Cellar/sfml/2.6.1/lib -lsfml-graphics -lsfml-window -lsfml-system -lsfml-audio -lsfml-network
+	@./mainTestMove
+
 clearTest: 
-	@rm -f mainTestAnimal mainTestPlayer mainTestBoard
+	@rm -f mainTestAnimal mainTestPlayer mainTestBoard mainTestMove mainTestCharacter
 
