@@ -1,15 +1,18 @@
 #include<iostream>
 #include "TestPlayer.h"
-#include "Animal.h"
 #include "Player.h"
+#include "Character.h"
+#include
+
 
 
 void TestPlayer::  TestConstructor(){
     Player player1; 
-    Aninal* animalList[8] = player1.getAnimalList(); 
-
-
-
+    Animal** animalList = player1.getAnimalList();
+    for(int i = 0; i<8; i++){
+        cout << animalList[i]->getColor(); 
+        cout << animalList[i]->getName(); 
+    }
 
 }
 void TestPlayer:: TestGetAnimalList(){
