@@ -1,8 +1,6 @@
 #include "TestPlayer.h"
-#include "Player.h"
-#include "Character.h"
-#include "Dog.h"
 #include <iostream>
+using namespace std; 
 
 int main(){
     TestPlayer t1; 
