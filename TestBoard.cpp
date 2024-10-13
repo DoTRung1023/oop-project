@@ -23,6 +23,7 @@ void TestBoard::testEmpty(){
     else{
         cout << "test failed" << endl;
     }
+    Board:: clearIndex(); 
 }
 
 void TestBoard::testNewBoard(){
@@ -44,6 +45,7 @@ void TestBoard::testNewBoard(){
         }
     }
     cout << "Test passed, the matrix is reset and loaded" << endl;
+    Board:: clearIndex(); 
 }
 
 void TestBoard::testSaveIndex(){
@@ -82,4 +84,5 @@ void TestBoard::testSaveIndex(){
         }
     }
     cout << "Test passed, the matrix is saved and loaded" << endl;
+    Board:: clearIndex(); 
 }

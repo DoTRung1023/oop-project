@@ -594,7 +594,7 @@ void GameProperty::showWinner(){
 
 void GameProperty::helpWindow(){
     // make new window
-    RenderWindow helpWin(sf::VideoMode(300, 500), "HELP");
+    RenderWindow helpWin(sf::VideoMode(700, 900), "HELP");
     sounds[2].play(); // play sound when new window pops up
     Font font;
     //Load the font;
