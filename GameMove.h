@@ -29,7 +29,6 @@ public:
     static void saveTurn();
     //Load the turn when user load the game
     static void loadTurn();
-
     //Reset turn to red team if user resets the game
     static void resetTurn();
 };

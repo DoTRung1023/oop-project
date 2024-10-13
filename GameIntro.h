@@ -15,14 +15,13 @@ class GameIntro{
         RenderWindow introWindow; //Object for the intro window
         Font font; //Object for the Font of text
     public:
-        static bool showInstruction;
         GameIntro(); //Constructor for the Intro. 
         void closeWindow();  //Getter for introWindow. 
+        static bool showInstruction;
         static void openRuleWindow(Font font); 
         static void finalMessage(); //Display the window with final message if the user quit the gagme
         static void playIntroMusic(); //Play music when the intro window pops up. 
-        static const char* imageFile[8]; 
-
+        static const char* imageFile[8]; // file paths to images of animals, fortresses and soldiers
 }; 
 
 #endif
