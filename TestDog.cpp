@@ -17,14 +17,14 @@ void TestDog:: TestConstructor(){
         cout << "setName() passed" << endl; 
     }
     else{
-        cout << "getName() failed" << endl; 
+        cout << "setName() failed" << endl; 
     }
     d1.setName(" "); 
     if(d1.getName().compare(" ")){
         cout << "setName() passed" << endl; 
     }
     else{
-        cout << "getName() failed" << endl; 
+        cout << "setName() failed" << endl; 
     }
 }
 void TestDog:: testAttack(){
