@@ -200,6 +200,7 @@ void GameIntro:: openRuleWindow(Font font){//Window opened when user click on "I
     //Load text from txtFile: 
     ifstream input("Assets/GameInstruction/gameRuleOfficial.txt"); 
 
+
     if(!input.is_open()){//Check if can open the txt file or not 
         cout << "Can not open File. Exit"; 
         exit(-1);  

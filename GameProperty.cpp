@@ -506,7 +506,7 @@ string GameProperty::checkWinner(){
         for(int j = 0; j<9; j++){
             if(Board::index[i][j] > -1 && Board::index[i][j] < 8){
                 countRed++;
-                break;
+                // break;
             }
         }
     }
@@ -516,14 +516,14 @@ string GameProperty::checkWinner(){
         for(int j = 0; j<9; j++){
             if(Board::index[i][j] >= 8 && Board::index[i][j] <= 15){
                 countBlue++;
-                break;
+                // break;
             }
         }
     }
     // set reason 
     if(countBlue == 1 && countRed == 1){
         reason = 3;
-        return "draw";
+        return "";
     }
     else if(countBlue == 0){
         reason = 2;
@@ -560,7 +560,7 @@ void GameProperty::showWinner(){
     // Close the file when done
     file.close();
     // make new window
-    RenderWindow winnerWin(sf::VideoMode(730, 80), "WINNER");
+    RenderWindow winnerWin(sf::VideoMode(1000, 200), "WINNER");
     sounds[4].play(); // play sound when the window pops up
     while(winnerWin.isOpen()){
         Event winnerEvent;
